@@ -45,6 +45,7 @@ Plugin.install = function(Vue, options) {
   Object.defineProperties(Vue.prototype, {
     axios: {
       get() {
+        options.get;//Todo 获取数据操作
         return _axios;
       }
     },
