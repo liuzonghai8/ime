@@ -45,7 +45,7 @@ export default {
 
     }),
     methods:{
-        LiginClickif() { 
+        LiginClick() { 
             if(!this.username || !this.password) {
         this.dialog = true;
         return false;
