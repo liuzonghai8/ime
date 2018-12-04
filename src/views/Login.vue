@@ -51,7 +51,7 @@ export default {
         return false;
       }
      // console.log(this.username + " ... " + this.password);
-      this.$router.push("/home");
+      this.$router.push("/");
     }
     }
     
