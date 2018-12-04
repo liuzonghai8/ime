@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import meuns from './menu';
+import routes from './route';
 
 Vue.use(Router)
 
 export default new Router({
-  routes: meuns
+  routes: routes
 })
