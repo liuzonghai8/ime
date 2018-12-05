@@ -11,14 +11,21 @@
               </v-toolbar>
               <v-card-text>
                 <v-form>
-                  <v-text-field prepend-icon="person" v-model="username" label="用户名" type="text"></v-text-field>
+                  <v-text-field
+                    prepend-icon="person"
+                    v-model="username"
+                    :rules="nameRules"
+                    label="用户名"
+                    type="text"
+                  ></v-text-field>
                   <v-text-field
                     id="password"
                     prepend-icon="lock"
                     v-model="password"
+                    :rules="passwordRules"
                     label="密码"
                     :append-icon="e1 ? 'visibility' : 'visibility_off'"
-                    :append-icon-cb="() => (e1 = !e1)"
+                    @click:append="() => (e1 = !e1)"
                     :type="e1 ? 'text' : 'password'"
                   ></v-text-field>
                 </v-form>
@@ -52,23 +59,21 @@
 export default {
   data: () => ({
     username: "",
+    nameRules: [
+      v => !!v || "用户名不能为空",
+      v => v.length <= 10 || "用户名太长"
+    ],
     password: "",
+    passwordRules: [
+      v => !!v || "密码不能为空",
+      v => v.length >= 6 || "密码长度必须大于6"
+    ],
     dialog: false,
     e1: false,
     message: "用户名和密码不能为空"
   }),
   methods: {
     handleLogin() {
-      // if (!this.username) {
-      //   this.message = "用户名不能为空！";
-      //   this.dialog = true;
-      //   return false;
-      // }
-      // if (!this.password) {
-      //   this.message = "密码不能为空！";
-      //   this.dialog = true;
-      //   return false;
-      // }
       this.$router.push("/");
       //Todo 从后台获取判断
       if (this.username === "admin" && this.password === "123456") {

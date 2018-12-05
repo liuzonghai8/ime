@@ -6,7 +6,7 @@ const menus = [
        items: [{ title: "首页", path: "/dashboard" }]
     },
     {
-      action: "apps",
+      action: "settings",
       title: "系统管理",
       path:"/sys",
       items: [
