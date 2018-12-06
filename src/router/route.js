@@ -16,10 +16,10 @@ import Index from '../views/Index'
             path: '/index/dashboard',component: Index
           },
           {
-            path: '/sys/user',component: ()=>import('../views/sys/User')
+            path: '/sys/user',component: ()=>import('../views/sys/user/User')
           },
           {
-            path: '/sys/role',component: ()=>import('../views/sys/Role')
+            path: '/sys/role',component: ()=>import('../views/sys/role/Role')
           }
         ]
        

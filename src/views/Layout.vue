@@ -30,7 +30,7 @@
           </v-list-tile>
         </v-list>
       </v-toolbar>
-
+  <v-divider/>
       <!-- 菜单 -->
       <v-list class="pt-0" dense>
         <v-list-group
@@ -80,6 +80,7 @@
         <v-icon>account_box</v-icon>
       </v-btn>
     </v-toolbar>
+   
     <!-- 内容区 -->
     <v-content>
       <v-breadcrumbs>
