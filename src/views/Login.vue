@@ -32,13 +32,13 @@
               </v-card-text>
               <v-card-actions>
                 <!-- <v-spacer></v-spacer> -->
-                <v-spacer/>
+                <!-- <v-spacer/> -->
                 <v-btn
-                  style="width:100%;margin-bottom:30px;"
+                  style="width:100%;"
                   color="primary"
                   @click="handleLogin"
                 >登录</v-btn>
-                <v-spacer/>
+                <!-- <v-spacer/> -->
               </v-card-actions>
             </v-card>
           </v-flex>

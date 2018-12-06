@@ -1,5 +1,5 @@
 <template>
-  <a-app :dark="dark">
+  <v-app :dark="dark">
     <!-- 导航栏 -->
     <v-navigation-drawer
       :dark="dark"
@@ -98,7 +98,7 @@
         <strong>GX-POST</strong>
       </v-flex>
     </v-footer>
-  </a-app>
+  </v-app>
 </template>
 <script>
 import menus from "../router/meus.js";

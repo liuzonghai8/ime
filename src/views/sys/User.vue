@@ -2,7 +2,7 @@
   <v-card>
       <!-- 搜索条 -->
     <v-card-title>
-    <v-btn slot="activator" color="primary" dark class="mb-2">New Item</v-btn>
+    <!-- <v-btn slot="activator" color="primary" dark class="mb-2">New Item</v-btn> -->
       <v-spacer></v-spacer>
       <v-text-field v-model="search" append-icon="search" label="搜索" single-line hide-details></v-text-field>
     </v-card-title>
@@ -10,13 +10,13 @@
     <!-- 数据表格 -->
     <v-data-table
       :headers="headers"
-      :items="desserts"
+      :items="users"
       :pagination.sync="pagination"
-      :total-items="totalDesserts"
+      :total-items="totalUsers"
       :loading="loading"
       class="elevation-1"
     >
-      <template slot="items" slot-scope="props">
+      <template  slot="items" slot-scope="props">
         <td>{{ props.item.name }}</td>
         <td class="text-xs-right">{{ props.item.calories }}</td>
         <td class="text-xs-right">{{ props.item.fat }}</td>
@@ -25,51 +25,15 @@
         <td class="text-xs-right">{{ props.item.iron }}</td>
       </template>
     </v-data-table>
-
     <!-- 新增列表 -->
-    <v-dialog v-model="dialog" max-width="500px">
-        <v-card>
-          <v-card-title>
-            <span class="headline">xin</span>
-          </v-card-title>
-
-          <v-card-text>
-            <v-container grid-list-md>
-              <v-layout wrap>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedItem.name" label="Dessert name"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedItem.calories" label="Calories"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedItem.fat" label="Fat (g)"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedItem.carbs" label="Carbs (g)"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedItem.protein" label="Protein (g)"></v-text-field>
-                </v-flex>
-              </v-layout>
-            </v-container>
-          </v-card-text>
-
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" flat @click="close">Cancel</v-btn>
-            <v-btn color="blue darken-1" flat @click="save">Save</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
   </v-card>
 </template>
 <script>
 export default {
   data() {
     return {
-      totalDesserts: 0, //总条数
-      desserts: [], //数据
+      totalUsers: 0, //总条数
+      users: [], //数据
       loading: true, //加载进度条
       pagination: {}, //监听变化
       search: '',//搜索内容
