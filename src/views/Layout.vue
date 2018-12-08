@@ -10,7 +10,7 @@
       width="200"
       app
     >
-      <v-toolbar flat class="transition">
+      <v-toolbar flat class="transparent">
         <v-list class="pa-0" dense>
           <v-list-tile avatar>
             <v-list-tile-avatar>
