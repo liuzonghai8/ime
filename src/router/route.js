@@ -20,6 +20,9 @@ import Index from '../views/Index'
           },
           {
             path: '/sys/role',component: ()=>import('../views/sys/role')
+          },
+          {
+            path: '/sys/dept',component: ()=>import('../views/sys/dept')
           }
         ]
        

@@ -2,7 +2,7 @@
   <v-card>
     <!-- 搜索条 -->
     <v-card-title>
-      <v-btn  small  :color="dark ? 'secondary' : 'primary'" @click="addUser">新增用户</v-btn>
+      <v-btn small :color="dark ? 'secondary' : 'primary'" @click="addUser">新增用户</v-btn>
       <v-btn small color="error" @click="deleteUser">批量删除</v-btn>
       <v-spacer/>
       <v-flex xs5>
@@ -33,27 +33,32 @@
           </v-btn>
         </td>-->
         <td class="text-xs-center">
-          <v-btn icon @click="editUser">
+          <v-btn icon @click="editUser(props.item)">
             <v-icon color="teal darken-1">edit</v-icon>
           </v-btn>
-          <v-btn icon @click="deleteItemUser">
+          <v-btn icon @click="deleteItemUser(props.item)">
             <v-icon color="deep-orange accent-4">delete</v-icon>
           </v-btn>
         </td>
       </template>
-    </v-data-table>
+     </v-data-table>
     <!-- 新增列表 弹框模式 -->
+    <v-dialog v-model="dialogShow" max-width="600px" persistent scrollable>
+      <UserFrom :isEdit2="isEdit" :user="oldUser" v-on:show="handleDialogShow"/>
+    </v-dialog>
   </v-card>
 </template>
 <script>
+import UserFrom from "./UserFrom";
 export default {
-  props:{
+  props: {
     dark: Boolean
   },
   data() {
     return {
       totalUsers: 20, //总条数
       users: [], //数据
+      oldUser: {},//修改的用户
       loading: true, //加载进度条
       pagination: {}, //监听变化
       search: "", //搜索内容
@@ -64,8 +69,13 @@ export default {
         { text: "手机号码", align: "center", sortable: false, value: "phone" },
         { text: "状态", align: "center", value: "status" },
         { text: "操作", align: "center", value: "name", sortable: false }
-      ]
+      ],
+      dialogShow: false, //显示对话框
+      isEdit: false
     };
+  },
+  components: {
+    UserFrom
   },
   watch: {
     pagination: {
@@ -85,15 +95,27 @@ export default {
     });
   },
   methods: {
-    editUser() {
-      return null;
+    handleDialogShow() {
+      this.dialogShow = false;
     },
-    deleteItemUser() {
-      return 
+    addUser() {
+      this.oldUser={},
+      this.dialogShow = true;
+    },
+    editUser(user) {
+      this.oldUser = user
+      this.isEdit = true;
+       this.dialogShow = true;
+    },
+    deleteUser() {},//批量删除用户
+    deleteItemUser(user) {
+      this.users.splice(user,1) //前端模拟删除
+      //Todo 编写后端异步删除一个用户
     },
     getDataFromApi() {
       this.loading = true;
       return new Promise((resolve, reject) => {
+        reject;
         const { sortBy, descending, page, rowsPerPage } = this.pagination;
 
         let items = this.getDesserts();
@@ -137,7 +159,7 @@ export default {
           phone: "1388888888",
           status: "启动"
         },
-          {
+        {
           name: "周杰伦",
           sex: "男",
           phone: "1388888888",

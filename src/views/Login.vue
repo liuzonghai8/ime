@@ -5,28 +5,31 @@
         <v-layout align-center justify-center>
           <v-flex xs12 sm8 md4>
             <v-card class="elevation-12">
-              <v-toolbar color="primary">
-                <v-toolbar-title>系统登录</v-toolbar-title>
-                <v-spacer></v-spacer>
+              <v-toolbar color="primary" >
+                <span/>
+                <v-toolbar-title >系统登录</v-toolbar-title>
+               
               </v-toolbar>
               <v-card-text>
-                <v-form>
+                <v-form >
                   <v-text-field
                     prepend-icon="person"
-                    v-model="username"
+                    v-model.trim="username"
                     :rules="nameRules"
                     label="用户名"
                     type="text"
+                    placeholder='admin'
                   ></v-text-field>
                   <v-text-field
                     id="password"
                     prepend-icon="lock"
-                    v-model="password"
+                    v-model.trim="password"
                     :rules="passwordRules"
                     label="密码"
                     :append-icon="e1 ? 'visibility' : 'visibility_off'"
                     @click:append="() => (e1 = !e1)"
                     :type="e1 ? 'text' : 'password'"
+                    placeholder='123456'
                   ></v-text-field>
                 </v-form>
               </v-card-text>

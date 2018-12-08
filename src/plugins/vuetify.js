@@ -8,7 +8,9 @@ import '../assets/1.css'
 // 选择导入的主题
 
 Vue.use(Vuetify, {
- iconfont: 'md' || 'mdi' || 'fa' || 'fa4',
+ iconfont: 'md',
+ 
+ //'md' || 'mdi' || 'fa' || 'fa4',
  // iconfont: 'mdi',
   //// 'md' || 'mdi' || 'fa' || 'fa4'
   // 设置具体的颜色
