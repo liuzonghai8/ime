@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <!-- 搜索条 -->
-    <v-card-title>
+    <v-card-title class="py-1">
       <v-btn small :color="dark ? 'secondary' : 'primary'" @click="addUser">新增用户</v-btn>
       <v-btn small color="error" @click="deleteUser">批量删除</v-btn>
       <v-spacer/>
