@@ -34,10 +34,10 @@
         </td>-->
         <td class="text-xs-center">
           <v-btn icon @click="editUser(props.item)">
-            <v-icon color="teal darken-1">edit</v-icon>
+            <v-icon color="teal darken-1">fas fa-edit</v-icon>
           </v-btn>
           <v-btn icon @click="deleteItemUser(props.item)">
-            <v-icon color="deep-orange accent-4">delete</v-icon>
+            <v-icon color="deep-orange accent-4">fas fa-user-minus</v-icon>
           </v-btn>
         </td>
       </template>

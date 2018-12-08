@@ -19,11 +19,17 @@ import Index from '../views/Index'
             path: '/sys/user',component: ()=>import('../views/sys/user')
           },
           {
+            path: '/sys/auth',component: ()=>import('../views/sys/auth')
+          },
+          {
             path: '/sys/role',component: ()=>import('../views/sys/role')
           },
           {
             path: '/sys/dept',component: ()=>import('../views/sys/dept')
-          }
+          },
+          {
+            path: '/trade/test',component: ()=>import('../views/test')
+          },
         ]
        
       }

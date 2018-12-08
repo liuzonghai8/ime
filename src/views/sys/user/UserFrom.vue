@@ -44,10 +44,10 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="teal darken-1" flat @click="handleclose">
-          <v-icon>close</v-icon>放弃
+          <v-icon>fas fa-user-times</v-icon>放弃
         </v-btn>
         <v-btn color="teal darken-1" flat @click="handleclose">
-          <v-icon>update</v-icon>提交
+          <v-icon>fas fa-user-check</v-icon>提交
         </v-btn>
       </v-card-actions>
     <!-- </v-form> -->

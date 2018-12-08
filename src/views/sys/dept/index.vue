@@ -47,6 +47,7 @@
         <td class="text-xs-right">{{ props.item.iron }}</td>
       </tr>
     </template>
+    <i class="fas fa-stroopwafel"></i>
   </v-data-table>
 </template>
 <script>
