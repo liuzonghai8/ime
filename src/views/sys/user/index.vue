@@ -137,6 +137,12 @@ export default {
           phone: "1388888888",
           status: "启动"
         },
+          {
+          name: "周杰伦",
+          sex: "男",
+          phone: "1388888888",
+          status: "禁用"
+        },
         {
           name: "Yogurt",
           sex: "女",
