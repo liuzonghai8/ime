@@ -2,7 +2,7 @@
   <v-card>
     <!-- 搜索条 -->
     <v-card-title>
-      <v-btn  dark small color="primary" @click="addUser">新增用户</v-btn>
+      <v-btn  small  :color="dark ? 'secondary' : 'primary'" @click="addUser">新增用户</v-btn>
       <v-btn small color="error" @click="deleteUser">批量删除</v-btn>
       <v-spacer/>
       <v-flex xs5>
@@ -42,11 +42,14 @@
         </td>
       </template>
     </v-data-table>
-    <!-- 新增列表 -->
+    <!-- 新增列表 弹框模式 -->
   </v-card>
 </template>
 <script>
 export default {
+  props:{
+    dark: Boolean
+  },
   data() {
     return {
       totalUsers: 20, //总条数
