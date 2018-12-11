@@ -9,7 +9,8 @@ import Index from '../views/Index'
       },
     {
         path: '/',
-        component: ()=>import('../views/Layout'),
+        component: ()=>import('../views/layout'),
+        //component: ()=>import('../views/Layout1'),
         redirect: "/index/dashboard",
         children: [
           {

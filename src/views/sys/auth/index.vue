@@ -22,7 +22,7 @@
       <span>提示内容</span>
     </v-tooltip>
 
-     <v-btn icon @click="dd">
+     <v-btn icon >
             <i class="fas fa-stroopwafel"></i> 
              
            
