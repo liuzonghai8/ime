@@ -17,6 +17,7 @@
     <v-breadcrumbs>
       <v-icon slot="divider">chevron_right</v-icon>
       <v-breadcrumbs-item>{{subMenu[1]}}</v-breadcrumbs-item>
+
       <v-breadcrumbs-item small>{{subMenu[2]}}</v-breadcrumbs-item>
     </v-breadcrumbs>
 

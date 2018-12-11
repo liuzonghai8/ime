@@ -25,7 +25,7 @@ Vue.use(Vuetify, {
   // //另一种颜色
   theme:{
     primary: '#009688',//'#1976D2',
-    secondary: '#424242',
+    secondary: '#524242',  //'#424242',
     accent: '#82B1FF',
     error: '#FF5252',
     info: '#2196F3',

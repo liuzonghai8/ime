@@ -1,5 +1,5 @@
 <template>
-  <v-footer app>
+  <v-footer :color="dark ? 'secondary' : 'primary'">
     <v-flex text-xs-center xs12>
       &copy;{{ new Date().getFullYear() }}
       <strong>SEA</strong>
@@ -8,7 +8,9 @@
 </template>
 <script>
 export default {
-    
+    props:{
+      dark: Boolean
+    }
 }
 </script>
 

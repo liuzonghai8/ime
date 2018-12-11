@@ -9,7 +9,7 @@
       width="200"
       app
     >
-      <v-toolbar flat class="transparent">
+      <v-toolbar flat class="transparent"  :color="dark ? 'secondary' : 'primary'">
         <v-list class="pa-0" dense>
           <v-list-tile avatar>
             <v-list-tile-avatar>

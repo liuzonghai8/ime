@@ -3,7 +3,7 @@
     <Sider :dark="dark" :drawer="drawer" :navMenus="muenusItems"></Sider>
     <Header :dark="dark"  :drawer="drawer"  v-on:changeDrawer="changeDrawer" v-on:changeTheme="changeTheme"></Header>
     <Content></Content>
-    <Footer></Footer>
+    <Footer :dark="dark" ></Footer>
   </v-app>
 </template>
 <script>
