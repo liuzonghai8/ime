@@ -5,20 +5,19 @@
         <v-layout align-center justify-center>
           <v-flex xs12 sm8 md4>
             <v-card class="elevation-12">
-              <v-toolbar color="primary" >
+              <v-toolbar color="primary">
                 <span/>
-                <v-toolbar-title >系统登录</v-toolbar-title>
-               
+                <v-toolbar-title>系统登录</v-toolbar-title>
               </v-toolbar>
               <v-card-text>
-                <v-form >
+                <v-form>
                   <v-text-field
                     prepend-icon="person"
                     v-model.trim="username"
                     :rules="nameRules"
                     label="用户名"
                     type="text"
-                    placeholder='admin'
+                    placeholder="admin"
                   ></v-text-field>
                   <v-text-field
                     id="password"
@@ -29,18 +28,14 @@
                     :append-icon="e1 ? 'visibility' : 'visibility_off'"
                     @click:append="() => (e1 = !e1)"
                     :type="e1 ? 'text' : 'password'"
-                    placeholder='123456'
+                    placeholder="123456"
                   ></v-text-field>
                 </v-form>
               </v-card-text>
               <v-card-actions>
                 <!-- <v-spacer></v-spacer> -->
                 <!-- <v-spacer/> -->
-                <v-btn
-                  style="width:100%;"
-                  color="primary"
-                  @click="handleLogin"
-                >登录</v-btn>
+                <v-btn style="width:100%;" color="primary" @click="handleLogin">登录</v-btn>
                 <!-- <v-spacer/> -->
               </v-card-actions>
             </v-card>
@@ -77,15 +72,24 @@ export default {
   }),
   methods: {
     handleLogin() {
-      this.$router.push("/");
-      //Todo 从后台获取判断
-      if (this.username === "admin" && this.password === "123456") {
-        this.$router.push("/");
-      } else {
-        this.message = "用户名或密码错误";
-        this.dialog = true;
-        return false;
-      }
+      this.$store
+        .dispatch("LoginByUsername", this.username,this.password)
+        .then(() => {
+          this.$router.push({ path: "/" }); //登录成功之后重定向到首页
+        })
+        .catch(err => {
+          this.$message.error(err); //登录失败提示错误
+        });
+
+      // this.$router.push("/");
+      // //Todo 从后台获取判断
+      // if (this.username === "admin" && this.password === "123456") {
+      //   this.$router.push("/");
+      // } else {
+      //   this.message = "用户名或密码错误";
+      //   this.dialog = true;
+      //   return false;
+      // }
     }
   }
 };

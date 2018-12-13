@@ -11,7 +11,7 @@ import Sider from "./Sider";
 import Header from "./Header";
 import Footer from "./Footer";
 import Content from "./Content";
-import menus from "../../router/meus.js";
+import menus from "@/router/meus.js";
 export default {
   data() {
     return {

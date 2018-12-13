@@ -1,5 +1,5 @@
-import Login from '../views/login/Login'
-import Index from '../views/Index'
+import Login from '@/views/login/Login'
+import Index from '@/views/Index'
 
  const routes = [
     {
@@ -9,7 +9,7 @@ import Index from '../views/Index'
       },
     {
         path: '/',
-        component: ()=>import('../views/layout'),
+        component: ()=>import('@/views/layout'),
         //component: ()=>import('../views/Layout1'),
         redirect: "/index/dashboard",
         children: [

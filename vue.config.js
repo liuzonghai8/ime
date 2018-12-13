@@ -1,4 +1,5 @@
 module.exports = {
+    //默认 @ 指向src目录
     devServer: {
         host: '127.0.0.1',
         port: '3030',
@@ -17,6 +18,8 @@ module.exports = {
             }
         }
     }
+
+
 }
 
 

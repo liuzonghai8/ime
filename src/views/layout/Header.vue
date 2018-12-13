@@ -5,7 +5,7 @@
     "drawer?'fas fa-arrow-to-left':'fas fa-angle-double-right'"
     -->
     <v-tooltip bottom>
-      <v-btn slot="activator" icon @click.stop="handleChangeDrawer">
+      <v-btn scoped slot="activator" icon @click.stop="handleChangeDrawer">
         <v-icon
           v-text="drawer?'fas fa-outdent':'fas fa-indent'"
           :color="dark ? 'secondary' : 'primary'"
@@ -55,7 +55,7 @@
   </v-toolbar>
 </template>
 <script>
-import { fullscreenToggel } from "../../util/util";
+import { fullscreenToggel } from "@/util/util";
 export default {
   props: {
     drawer: Boolean,
@@ -66,6 +66,8 @@ export default {
       screen: false, // 是否全屏
       menuMap: {}
     };
+  },
+  componentes:{
   },
   computed: {
     subMenu() {
