@@ -1,7 +1,7 @@
 const menus = [
     {
       action: "home",
-      title: "首页",
+      title: "主要",
       path:"/index",
        items: [{ title: "首页", path: "/dashboard" }]
     },

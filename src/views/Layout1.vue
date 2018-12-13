@@ -1,18 +1,17 @@
 <template>
   <v-app :dark="dark">
-    <!-- 导航栏 -->
+    <!-- 导航栏 fixed  permanent-->
     <v-navigation-drawer
       :dark="dark"
       :mini-variant.sync="miniNav"
       v-model="drawer"
       enable-resize-watcher
       fixed
-      hide-overlay
-      stateless
+      width="200"
       app
     >
       <v-toolbar flat class="transparent">
-        <v-list class="pa-0">
+        <v-list class="pa-0" dense>
           <v-list-tile avatar>
             <v-list-tile-avatar>
               <!-- 公司LOGO -->
@@ -30,9 +29,9 @@
           </v-list-tile>
         </v-list>
       </v-toolbar>
-  <v-divider/>
+      <v-divider/>
       <!-- 菜单 -->
-      <v-list class="pt-0" dense>
+      <v-list class="pa-0 ma-0" dense>
         <v-list-group
           v-model="item.active"
           v-for="item in items"
@@ -63,14 +62,36 @@
       </v-list>
     </v-navigation-drawer>
     <!-- 顶部工具条 -->
-    <v-toolbar app dark :color="dark ? 'secondary' : 'primary'">
+    <v-toolbar app>
       <!-- 隐藏左侧菜单的按钮-->
       <v-toolbar-side-icon @click.stop="drawer=!drawer "/>
+      <!-- 面包肖 -->
+      <v-breadcrumbs>
+        <v-icon slot="divider">chevron_right</v-icon>
+        <v-breadcrumbs-item>{{item1}}</v-breadcrumbs-item>
+        <v-breadcrumbs-item small>{{item2}}</v-breadcrumbs-item>
+      </v-breadcrumbs>
+
+      <!-- <v-breadcrumbs :items="items">
+        <template slot="item" slot-scope="props">
+          <a
+            :href="props.item.path"
+            :class="[props.item.disabled && 'disabled']"
+          >{{ props.item.title }}</a>
+        </template>
+      </v-breadcrumbs>-->
       <v-spacer/>
       <!-- 搜索 -->
       <v-btn icon>
         <v-icon>search</v-icon>
       </v-btn>
+      <!-- 全屏按钮 -->
+      <v-tooltip bottom>
+        <v-btn slot="activator" icon @click="handleScreen(screen)">
+          <v-icon v-text="screen?'fas fa-asterisk':'fas fa-expand'"></v-icon>
+        </v-btn>
+        <span v-text="screen?'退出全屏':'全屏'"></span>
+      </v-tooltip>
       <!-- 切换黑暗主题 -->
       <v-btn icon @click.stop="dark = !dark">
         <v-icon>invert_colors</v-icon>
@@ -80,14 +101,9 @@
         <v-icon>account_box</v-icon>
       </v-btn>
     </v-toolbar>
-   
+
     <!-- 内容区 -->
     <v-content>
-      <v-breadcrumbs>
-        <v-icon slot="divider">chevron_right</v-icon>
-        <v-breadcrumbs-item>{{item1}}</v-breadcrumbs-item>
-        <v-breadcrumbs-item>{{item2}}</v-breadcrumbs-item>
-      </v-breadcrumbs>
       <div>
         <router-view></router-view>
       </div>
@@ -103,6 +119,7 @@
 </template>
 <script>
 import menus from "../router/meus.js";
+import { fullscreenToggel } from "../util/util";
 export default {
   name: "app",
   data() {
@@ -111,7 +128,8 @@ export default {
       drawer: true, //左侧导航是否隐藏
       miniNav: false, // 左侧导航是否收起
       title: "后台管理系统",
-      menuMap: {}
+      menuMap: {},
+      screen: false
     };
   },
   computed: {
@@ -136,7 +154,17 @@ export default {
         this.menuMap[p1][i.path.slice(1)] = i.title;
       });
     });
+  },
+  methods: {
+    handleScreen(param) {
+      this.screen = !this.screen;
+      fullscreenToggel(param);
+    }
   }
+  // },
+  // mounted() {
+  //   listenfullscreen(this.setScreen);
+  // },
 };
 </script>
 

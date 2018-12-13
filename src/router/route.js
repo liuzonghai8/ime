@@ -1,4 +1,4 @@
-import Login from '../views/Login'
+import Login from '../views/login/Login'
 import Index from '../views/Index'
 
  const routes = [
@@ -9,23 +9,24 @@ import Index from '../views/Index'
       },
     {
         path: '/',
-        component: ()=>import('../views/Layout'),
+        component: ()=>import('../views/layout'),
+        //component: ()=>import('../views/Layout1'),
         redirect: "/index/dashboard",
         children: [
           {
             path: '/index/dashboard',component: Index
           },
           {
-            path: '/sys/user',component: ()=>import('../views/sys/user')
+            path: '/sys/user',component: ()=>import('../views/sys/user/User')
           },
           {
-            path: '/sys/auth',component: ()=>import('../views/sys/auth')
+            path: '/sys/auth',component: ()=>import('../views/sys/auth/Auth')
           },
           {
-            path: '/sys/role',component: ()=>import('../views/sys/role')
+            path: '/sys/role',component: ()=>import('../views/sys/role/Role')
           },
           {
-            path: '/sys/dept',component: ()=>import('../views/sys/dept')
+            path: '/sys/dept',component: ()=>import('../views/sys/dept/Dept')
           },
           {
             path: '/trade/test',component: ()=>import('../views/test')
