@@ -22,8 +22,8 @@
       rows-per-page-text="每页行数："
     >
       <template slot="items" slot-scope="props">
-        <td>
-          <v-checkbox align="center" v-model="props.selected" primary hide-details></v-checkbox>
+         <td class="text-xs-center"> <!--class="text-xs-center">align="center"  background-color="#0FF00"  > -->
+          <v-checkbox  v-model="props.selected"  ></v-checkbox>
         </td>
         <td class="text-xs-center">{{ props.item.name }}</td>
         <td class="text-xs-center">{{ props.item.sex }}</td>
@@ -31,10 +31,10 @@
         <td class="text-xs-center">{{ props.item.status }}</td>
         <td class="text-xs-center">
           <v-btn icon @click="handleeditUser(props.item)">
-            <v-icon color="teal darken-1">fas fa-edit</v-icon>
+            <v-icon color="teal darken-1">edit</v-icon>
           </v-btn>
           <v-btn icon @click="deleteUser(props.item)">
-            <v-icon color="deep-orange accent-4">fas fa-user-minus</v-icon>
+            <v-icon color="deep-orange accent-4">remove</v-icon>
           </v-btn>
         </td>
       </template>
@@ -52,6 +52,7 @@
 </template>
 <script>
 import UserEdit from "./UserEdit";
+import { mapState } from 'vuex'
 export default {
   props: {
     dark: Boolean
@@ -81,6 +82,13 @@ export default {
   components: {
     UserEdit
   },
+//计算属性：
+  computed: {
+    ...mapState({
+        users2: state => state.user.users
+    })
+  },
+
   watch: {
     //监听数据的变化，数据有变化时刷新列表
     pagination: {
@@ -129,7 +137,8 @@ export default {
       console.log("true 为修改" + this.isEdit);
       //Todo修改，根据ID修改内容
       //Todo新增 ，设置ID（或后台自增） 添加一条
-      this.dialogShow = false;
+      //this.dialogShow = false;
+      this.initData()
     },
     //批量删除用户
     batchDeleteUser() {},
@@ -292,145 +301,6 @@ const usersData = [
     phone: "1388888888",
     status: "启动"
   }
-  // },
-  // {
-  //   name: "周杰伦",
-  //   sex: "男",
-  //   phone: "1388888888",
-  //   status: "禁用"
-  // },
-  // {
-  //   name: "Yogurt",
-  //   sex: "女",
-  //   phone: "1388888888",
-  //   status: "启动"
-  // },
-  // {
-  //   name: "Frozen Yogurt",
-  //   sex: "男",
-  //   phone: "1388888888",
-  //   status: "启动"
-  // },
-  // {
-  //   name: "周杰伦",
-  //   sex: "男",
-  //   phone: "1388888888",
-  //   status: "禁用"
-  // },
-  // {
-  //   name: "Yogurt",
-  //   sex: "女",
-  //   phone: "1388888888",
-  //   status: "启动"
-  // },
-  // {
-  //   name: "Frozen Yogurt",
-  //   sex: "男",
-  //   phone: "1388888888",
-  //   status: "启动"
-  // },
-  // {
-  //   name: "周杰伦",
-  //   sex: "男",
-  //   phone: "1388888888",
-  //   status: "禁用"
-  // },
-  // {
-  //   name: "Yogurt",
-  //   sex: "女",
-  //   phone: "1388888888",
-  //   status: "启动"
-  // },
-  // {
-  //   name: "Frozen Yogurt",
-  //   sex: "男",
-  //   phone: "1388888888",
-  //   status: "启动"
-  // },
-  // {
-  //   name: "周杰伦",
-  //   sex: "男",
-  //   phone: "1388888888",
-  //   status: "禁用"
-  // },
-  // {
-  //   name: "Yogurt",
-  //   sex: "女",
-  //   phone: "1388888888",
-  //   status: "启动"
-  // },
-  // {
-  //   name: "Frozen Yogurt",
-  //   sex: "男",
-  //   phone: "1388888888",
-  //   status: "启动"
-  // },
-  // {
-  //   name: "周杰伦",
-  //   sex: "男",
-  //   phone: "1388888888",
-  //   status: "禁用"
-  // },
-  // {
-  //   name: "Yogurt",
-  //   sex: "女",
-  //   phone: "1388888888",
-  //   status: "启动"
-  // },
-  // {
-  //   name: "Frozen Yogurt",
-  //   sex: "男",
-  //   phone: "1388888888",
-  //   status: "启动"
-  // },
-  // {
-  //   name: "周杰伦",
-  //   sex: "男",
-  //   phone: "1388888888",
-  //   status: "禁用"
-  // },
-  // {
-  //   name: "Yogurt",
-  //   sex: "女",
-  //   phone: "1388888888",
-  //   status: "启动"
-  // },
-  // {
-  //   name: "Frozen Yogurt",
-  //   sex: "男",
-  //   phone: "1388888888",
-  //   status: "启动"
-  // },
-  // {
-  //   name: "周杰伦",
-  //   sex: "男",
-  //   phone: "1388888888",
-  //   status: "禁用"
-  // },
-  // {
-  //   name: "Yogurt",
-  //   sex: "女",
-  //   phone: "1388888888",
-  //   status: "启动"
-  // },
-  // {
-  //   name: "Frozen Yogurt",
-  //   sex: "男",
-  //   phone: "1388888888",
-  //   status: "启动"
-  // },
-  // {
-  //   name: "周杰伦",
-  //   sex: "男",
-  //   phone: "1388888888",
-  //   status: "禁用"
-  // },
-  // {
-  //   name: "Yogurt",
-  //   sex: "女",
-  //   phone: "1388888888",
-  //   status: "启动"
-  // }
 ];
 </script>
 

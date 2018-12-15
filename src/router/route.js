@@ -1,5 +1,5 @@
 import Login from '@/views/login/Login'
-import Index from '@/views/Index'
+import Index from '@/views/index'
 
  const routes = [
     {

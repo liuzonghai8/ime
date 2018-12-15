@@ -2,16 +2,15 @@ import Vue from 'vue'
 import Vuetify from 'vuetify/lib'
 import 'vuetify/src/stylus/app.styl'
 import '../assets/1.css'
-import '@fortawesome/fontawesome-free/css/all.css'
+//import '@fortawesome/fontawesome-free/css/all.css'
 //import colors from 'vuetify/es5/util/colors'
 //import 'vuetify/src/stylus/bootstrap.styl'
 
 // 选择导入的主题
 
 Vue.use(Vuetify, {
- iconfont: 'fa',
- 
- //'md' || 'mdi' || 'fa' || 'fa4',
+ iconfont: 'md',
+  //'md' || 'mdi' || 'fa' || 'fa4',
  // iconfont: 'mdi',
   //// 'md' || 'mdi' || 'fa' || 'fa4'
   // 设置具体的颜色
