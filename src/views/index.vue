@@ -1,6 +1,6 @@
 <template>
   <div>
-    首页
+    首页count={{count}} <v-btn small @click="handleInrement">+</v-btn><br>
     <!--  :color="dark ? 'secondary' : 'primary'" -->
    <v-btn small @click="handleaddUser">新增用户</v-btn>
     <v-btn small @click="handleaddUser2(testuser)">新增用户2</v-btn>
@@ -31,7 +31,7 @@
           <v-btn icon @click="removeuser1(props.item)">
             <v-icon color="deep-orange accent-4">close</v-icon>
           </v-btn>
-            <v-btn icon @click="removeuser1(props.item)">
+            <v-btn icon @click="removeUser(props.item)">
             <v-icon color="deep-orange accent-4">note_add</v-icon>
           </v-btn>
         </td>
@@ -68,7 +68,8 @@ export default {
       },
 
     ...mapState({
-      users: state => state.user.users
+      users: state => state.user.users,
+      count: state=> state.user.count
      })
   },
   methods:{
@@ -80,7 +81,9 @@ export default {
       console.log(param)
     this.removeUser(this.param)
     },
-
+handleInrement(){
+  this.$store.dispatch('incerement',15)
+},
     handleaddUser(){
       console.log("adduser"),
       this.$store.commit(
@@ -94,7 +97,7 @@ export default {
     handleaddUser3(){
       console.log("store.action"),
       this.$store.dispatch(
-         'addUser1',
+       'addUserAsync',
        { name: "周杰伦",
       sex: "男",
       phone: "1388888888",
@@ -110,8 +113,9 @@ export default {
       'removeUser'
     ]),
     ...mapActions([
-      'addUser1'
-    ])
+      'addUserAsync',
+      'incerement'
+      ])
   }
 };
 </script>
