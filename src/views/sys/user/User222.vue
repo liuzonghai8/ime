@@ -22,9 +22,8 @@
       rows-per-page-text="每页行数："
     >
       <template slot="items" slot-scope="props">
-        <td class="text-xs-center">
-          <!--class="text-xs-center">align="center"  background-color="#0FF00"  > -->
-          <v-checkbox v-model="props.selected"></v-checkbox>
+         <td class="text-xs-center"> <!--class="text-xs-center">align="center"  background-color="#0FF00"  > -->
+          <v-checkbox  v-model="props.selected"  ></v-checkbox>
         </td>
         <td class="text-xs-center">{{ props.item.name }}</td>
         <td class="text-xs-center">{{ props.item.sex }}</td>
@@ -53,20 +52,20 @@
 </template>
 <script>
 import UserEdit from "./UserEdit";
-import { mapState, mapMutations } from "vuex";
+import { mapState,mapMutations,mapActions } from 'vuex'
 export default {
   props: {
     dark: Boolean
   },
   data() {
     return {
-      search:'',//搜索关键字
       selected: [], //选择的条目
       totalUsers: 20, //总条数
-      users: [] ,//数据
+      users: [], //数据
       oldUser: {}, //修改的用户
       loading: true, //加载进度条
       pagination: {}, //监听变化
+      search: "", //搜索内容
       dialogShow: false, //显示对话框
       editMark: false,
       //数据表头,
@@ -83,30 +82,30 @@ export default {
   components: {
     UserEdit
   },
-  //计算属性：
+//计算属性：
   computed: {
-    // ...mapState({
-    //     users333: state => state.user.users
-    // })
+    ...mapState({
+        users2: state => state.user.users
+    })
   },
 
   watch: {
     //监听数据的变化，数据有变化时刷新列表
-   pagination: { // 监视pagination属性的变化
-        deep: true, // deep为true，会监视pagination的属性及属性中的对象属性变化
-        handler() {
-          // 变化后的回调函数，这里我们再次调用getDataFromServer即可
-          //this.getUserList();
-        }
+    pagination: {
+      handler() {
+        this.getDataFromApi().then(data => {
+          this.users = data.items;
+          this.totalUsers = data.total;
+        });
       },
-      search: { // 监视搜索字段
-        handler() {
-         // this.getUserList();
-        }
-      }
+      deep: true
+    }
   },
   mounted() {
-    this.getTest();
+    this.getDataFromApi().then(data => {
+      this.users = data.items;
+      this.totalUsers = data.total;
+    });
   },
   methods: {
     //数据初始化
@@ -139,7 +138,7 @@ export default {
       //Todo修改，根据ID修改内容
       //Todo新增 ，设置ID（或后台自增） 添加一条
       //this.dialogShow = false;
-      this.initData();
+      this.initData()
     },
     //批量删除用户
     batchDeleteUser() {},
@@ -148,146 +147,51 @@ export default {
       this.users.splice(user, 1); //前端模拟删除
       //Todo 编写后端异步删除一个用户
     },
-    //从后台获取数据
-    getUserList() {
-      // this.users=usersData;
-     // return usersData;
-       this. $axios.get("/api/22"
-       //, {
-          // params: {
-          //   key: this.search, // 搜索条件
-          //   page: this.pagination.page,// 当前页
-          //   rows: this.pagination.rowsPerPage,// 每页大小
-          //   sortBy: this.pagination.sortBy,// 排序字段
-          //   desc: this.pagination.descending// 是否降序
-          // }
-        //}
-        ).then(resp => { // 这里使用箭头函数
-        console.log(resp.data),
-          this.users = resp.data.items;
-          this.totalUsers = resp.data.total;
-          // 完成赋值后，把加载状态赋值为false
-          this.loading = false;
-        })
-    },
-    getTest(){
-      this. $axios2.get("http://127.0.0.1:8090/22").then(resp=>{console.log(resp)})
-    }
   }
-};
+//     getDataFromApi() {
+//       this.loading = true;
+//       return new Promise((resolve, reject) => {
+//         reject;
+//         const { sortBy, descending, page, rowsPerPage } = this.pagination;
 
-const usersData = [
-  {
-    name: "Frozen Yogurt",
-    sex: "男",
-    phone: "1388888888",
-    status: "启动"
-  },
+//         let items = this.getDesserts();
+//         const total = items.length;
 
-  {
-    name: "Yogurt",
-    sex: "女",
-    phone: "1388888888",
-    status: "启动"
-  },
-  {
-    name: "Frozen Yogurt",
-    sex: "男",
-    phone: "1388888888",
-    status: "启动"
-  },
-  {
-    name: "周杰伦",
-    sex: "男",
-    phone: "1388888888",
-    status: "禁用"
-  },
-  {
-    name: "Yogurt",
-    sex: "女",
-    phone: "1388888888",
-    status: "启动"
-  },
-  {
-    name: "Frozen Yogurt",
-    sex: "男",
-    phone: "1388888888",
-    status: "启动"
-  },
-  {
-    name: "周杰伦",
-    sex: "男",
-    phone: "1388888888",
-    status: "禁用"
-  },
-  {
-    name: "Yogurt",
-    sex: "女",
-    phone: "1388888888",
-    status: "启动"
-  },
-  {
-    name: "Frozen Yogurt",
-    sex: "男",
-    phone: "1388888888",
-    status: "启动"
-  },
-  {
-    name: "周杰伦",
-    sex: "男",
-    phone: "1388888888",
-    status: "禁用"
-  },
-  {
-    name: "Yogurt",
-    sex: "女",
-    phone: "1388888888",
-    status: "启动"
-  },
-  {
-    name: "Frozen Yogurt",
-    sex: "男",
-    phone: "1388888888",
-    status: "启动"
-  },
-  {
-    name: "周杰伦",
-    sex: "男",
-    phone: "1388888888",
-    status: "禁用"
-  },
-  {
-    name: "Yogurt",
-    sex: "女",
-    phone: "1388888888",
-    status: "启动"
-  },
-  {
-    name: "Frozen Yogurt",
-    sex: "男",
-    phone: "1388888888",
-    status: "启动"
-  },
-  {
-    name: "周杰伦",
-    sex: "男",
-    phone: "1388888888",
-    status: "禁用"
-  },
-  {
-    name: "Yogurt",
-    sex: "女",
-    phone: "1388888888",
-    status: "启动"
-  },
-  {
-    name: "Frozen Yogurt",
-    sex: "男",
-    phone: "1388888888",
-    status: "启动"
-  }
-];
+//         if (this.pagination.sortBy) {
+//           items = items.sort((a, b) => {
+//             const sortA = a[sortBy];
+//             const sortB = b[sortBy];
+
+//             if (descending) {
+//               if (sortA < sortB) return 1;
+//               if (sortA > sortB) return -1;
+//               return 0;
+//             } else {
+//               if (sortA < sortB) return -1;
+//               if (sortA > sortB) return 1;
+//               return 0;
+//             }
+//           });
+//         }
+
+//         if (rowsPerPage > 0) {
+//           items = items.slice((page - 1) * rowsPerPage, page * rowsPerPage);
+//         }
+
+//         setTimeout(() => {
+//           this.loading = false;
+//           resolve({
+//             items,
+//             total
+//           });
+//         }, 1000);
+//       });
+//     },
+//     getDesserts() {
+//       return usersData;
+//     }
+//   }
+// };
 </script>
-
 
 

@@ -33,10 +33,14 @@
             console.log(param),
             state.count += param,
             console.log(state.count)
+          },
+          getUsers(state,param){
+            
           }
       },
     actions: { 
-      addUserAsync({commit},user){
+      //基本写法
+      addUser({commit},user){
         console.log(user)
         setTimeout(() => {
           commit('addUser',user)
@@ -46,8 +50,17 @@
 
       incerement({commit},n){
         commit('incerement',n)
-      }
-
+      },
+      addUserPromise({commit},user){
+        console.log(user)
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            commit('addUser',user)
+            resolve(user)
+          }, 1000)
+          }
+        )
+      },
      },
     getters: { 
         }

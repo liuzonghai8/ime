@@ -5,6 +5,7 @@
    <v-btn small @click="handleaddUser">新增用户</v-btn>
     <v-btn small @click="handleaddUser2(testuser)">新增用户2</v-btn>
         <v-btn small @click="handleaddUser3">新增用户3</v-btn>
+        <v-btn small @click="handleaddUser4">新增用户4</v-btn>
       <!-- 数据表格 -->
     <v-data-table
       v-model="selected"
@@ -41,6 +42,7 @@
 </template>
 <script>
 import { mapState,mapMutations,mapActions } from "vuex";
+import Tree from '@/components/tree/Tree'
 export default {
  data(){
    return{
@@ -61,7 +63,9 @@ export default {
       ]
       }
  },
-
+ components:{
+   Tree
+ },
   computed: {
       totalUsers(){
         return this.users.length
@@ -97,8 +101,17 @@ handleInrement(){
     handleaddUser3(){
       console.log("store.action"),
       this.$store.dispatch(
-       'addUserAsync',
+       'addUser',
        { name: "周杰伦",
+      sex: "男",
+      phone: "1388888888",
+      status: "禁用"}
+      )
+    },
+    handleaddUser4(){
+      this.$store.dispatch(
+       'addUserPromise',
+       { name: "周杰伦000",
       sex: "男",
       phone: "1388888888",
       status: "禁用"}
@@ -113,8 +126,9 @@ handleInrement(){
       'removeUser'
     ]),
     ...mapActions([
-      'addUserAsync',
-      'incerement'
+      'addUser',
+      'incerement',
+      'addUserPromise'
       ])
   }
 };
