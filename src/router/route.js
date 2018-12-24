@@ -1,5 +1,5 @@
-import Login from '../views/login/Login'
-import Index from '../views/index'
+import Login from '@/views/login/Login'
+import Index from '@/views/index'
 
  const routes = [
     {
@@ -9,7 +9,7 @@ import Index from '../views/index'
       },
     {
         path: '/',
-        component: ()=>import('../views/layout'),
+        component: ()=>import('@/views/layout'),
         //component: ()=>import('../views/Layout1'),
         redirect: "/index/dashboard",
         children: [
@@ -27,6 +27,12 @@ import Index from '../views/index'
           },
           {
             path: '/sys/dept',component: ()=>import('../views/sys/dept/Dept')
+          },
+          {
+            path: '/knowledge/problem', component: () => import('../views/book/problem/Problem')
+          },
+          {
+            path: '/sys/dept', component: () => import('../views/sys/dept/Dept')
           },
           {
             path: '/trade/test',component: ()=>import('../views/test')

@@ -53,7 +53,6 @@
 </template>
 <script>
 import UserEdit from "./UserEdit";
-import { mapState, mapMutations } from "vuex";
 export default {
   props: {
     dark: Boolean
@@ -72,9 +71,9 @@ export default {
       //数据表头,
       headers: [
         { text: "选择框", align: "center", value: "name", sortable: false },
-        { text: "用户名", align: "center", value: "name" },
-        { text: "性别", align: "center", value: "sex" },
-        { text: "手机号码", align: "center", sortable: false, value: "phone" },
+        { text: "问题摘要", align: "center", value: "name" },
+        { text: "市/县", align: "center", value: "sex" },
+        { text: "所属机型", align: "center", sortable: false, value: "phone" },
         { text: "状态", align: "center", value: "status" },
         { text: "操作", align: "center", value: "name", sortable: false }
       ]
