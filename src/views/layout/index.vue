@@ -1,5 +1,5 @@
 <template>
-  <v-app :dark="dark">
+  <v-app :dark="dark" app>
     <Sider :dark="dark" :drawer="drawer" :navMenus="muenusItems"></Sider>
     <Header :dark="dark"  :drawer="drawer"  v-on:changeDrawer="changeDrawer" v-on:changeTheme="changeTheme"></Header>
     <Content></Content>

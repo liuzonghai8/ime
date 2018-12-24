@@ -16,6 +16,15 @@ const menus = [
         { title: "角色管理", path: "/role" }
       ]
     },
+  {
+    action: "book",
+    title: "问题管理",
+    path: "/knowledge",
+    items: [
+      { title: "问题列表", path: "/problem" },
+      { title: "会员管理", path: "/list" }
+    ]
+  },
     {
       action: "people",
       title: "会员管理",

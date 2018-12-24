@@ -1,13 +1,9 @@
 <template>
-  <v-toolbar app>
-    <!-- 隐藏左侧菜单的按钮-->
-    <!-- <v-toolbar-side-icon @click.stop="handleChangeDrawer "/> 
-    "drawer?'fas fa-arrow-to-left':'fas fa-angle-double-right'"
-    -->
+  <v-toolbar  app>
     <v-tooltip bottom>
       <v-btn scoped slot="activator" icon @click.stop="handleChangeDrawer">
-        <v-icon
-          v-text="drawer?'fas fa-outdent':'fas fa-indent'"
+        <v-icon large
+          v-text="drawer?'format_indent_decrease':'format_indent_increase'"
           :color="dark ? 'secondary' : 'primary'"
         ></v-icon>
       </v-btn>
@@ -37,8 +33,8 @@
     <!-- 全屏按钮  compress  expand-->
     <v-tooltip bottom>
       <v-btn slot="activator" icon @click="handleScreen(screen)">
-        <v-icon
-          v-text="screen?'fas fa-compress':'fas fa-expand-arrows-alt'"
+        <v-icon x-large
+          v-text="screen?'fullscreen_exit':'fullscreen'"
           :color="dark ? 'secondary' : 'primary'"
         ></v-icon>
       </v-btn>
@@ -46,12 +42,26 @@
     </v-tooltip>
     <!-- 切换黑暗主题 -->
     <v-btn icon @click.stop="handleChangeTheme">
-      <v-icon :color="dark ? 'secondary' : 'primary'">invert_colors</v-icon>
+      <v-icon large :color="dark ? 'secondary' : 'primary'">invert_colors</v-icon>
     </v-btn>
+    <!-- 消息按钮 -->
+      <v-badge  overlap>
+      <span slot="badge">10</span>
+      <v-avatar
+        color="purple red--after"
+      >
+        <v-icon dark>notifications</v-icon>
+      </v-avatar>
+    </v-badge>
     <!-- 头像 -->
-    <v-btn icon @click.stop>
-      <v-icon>account_box</v-icon>
-    </v-btn>
+     <v-avatar>
+      <img
+        src="https://cdn.vuetifyjs.com/images/john.jpg"
+        alt="John"
+      >
+    </v-avatar>
+
+  
   </v-toolbar>
 </template>
 <script>

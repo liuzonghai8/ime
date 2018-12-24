@@ -29,6 +29,12 @@ import Index from '@/views/index'
             path: '/sys/dept',component: ()=>import('../views/sys/dept/Dept')
           },
           {
+            path: '/knowledge/problem', component: () => import('../views/book/problem/Problem')
+          },
+          {
+            path: '/sys/dept', component: () => import('../views/sys/dept/Dept')
+          },
+          {
             path: '/trade/test',component: ()=>import('../views/test')
           },
         ]

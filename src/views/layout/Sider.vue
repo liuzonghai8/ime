@@ -1,10 +1,11 @@
 <template>
    <!-- 导航栏 fixed  permanent-->
+    <!-- enable-resize-watcher 自动调整是否关闭右侧栏 -->
     <v-navigation-drawer
       :dark="dark"
+      class="blue lighten-3"
       :mini-variant.sync="miniNav"
       v-model="drawer"
-      enable-resize-watcher
       fixed
       width="200"
       app
