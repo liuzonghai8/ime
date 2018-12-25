@@ -2,7 +2,7 @@
   <v-card>
     <!-- 搜索条 -->
     <v-card-title class="py-1">
-      <v-btn small :color="dark ? 'secondary' : 'primary'" @click="handleaddUser">新增用户</v-btn>
+      <v-btn small :color="dark ? 'secondary' : 'primary'" @click="handleaddUser">新增问题</v-btn>
       <v-btn small color="error" @click="batchDeleteUser">批量删除</v-btn>
       <v-spacer/>
       <v-flex xs5>
@@ -14,7 +14,7 @@
     <v-data-table
       v-model="selected"
       :headers="headers"
-      :items="users"
+      :items="problems"
       :pagination.sync="pagination"
       :total-items="totalUsers"
       :loading="loading"
@@ -22,8 +22,9 @@
       rows-per-page-text="每页行数："
     >
       <template slot="items" slot-scope="props">
-         <td class="text-xs-center"> <!--class="text-xs-center">align="center"  background-color="#0FF00"  > -->
-          <v-checkbox  v-model="props.selected"  ></v-checkbox>
+        <td class="text-xs-center">
+          <!--class="text-xs-center">align="center"  background-color="#0FF00"  > -->
+          <v-checkbox v-model="props.selected"></v-checkbox>
         </td>
         <td class="text-xs-center">{{ props.item.name }}</td>
         <td class="text-xs-center">{{ props.item.sex }}</td>
@@ -51,61 +52,60 @@
   </v-card>
 </template>
 <script>
-import UserEdit from "./UserEdit";
-import { mapState,mapMutations,mapActions } from 'vuex'
 export default {
   props: {
     dark: Boolean
   },
   data() {
     return {
+      search:'',//搜索关键字
       selected: [], //选择的条目
-      totalUsers: 20, //总条数
-      users: [], //数据
+      totalProblems: 20, //总条数
+      problems: [] ,//数据
       oldUser: {}, //修改的用户
       loading: true, //加载进度条
       pagination: {}, //监听变化
-      search: "", //搜索内容
       dialogShow: false, //显示对话框
       editMark: false,
       //数据表头,
       headers: [
-        { text: "选择框", align: "center", value: "name", sortable: false },
-        { text: "用户名", align: "center", value: "name" },
-        { text: "性别", align: "center", value: "sex" },
-        { text: "手机号码", align: "center", sortable: false, value: "phone" },
-        { text: "状态", align: "center", value: "status" },
+        { text: "故障问题描述", align: "center", value: "problemdeScription", sortable: false },
+        { text: "品牌机型", align: "center",sortable: false, value: "brandModel" },
+        { text: "系统平台", align: "center",sortable: false, value: "systemPlatform" },
+        { text: "咨询单位", align: "center", value: "consultingUnit" },
+        { text: "处理方法", align: "center",  value: "model" },
+        { text: "记录人", align: "center", value: "recorder" },
         { text: "操作", align: "center", value: "name", sortable: false }
       ]
     };
   },
   components: {
-    UserEdit
+    //UserEdit
   },
-//计算属性：
+  //计算属性：
   computed: {
-    ...mapState({
-        users2: state => state.user.users
-    })
+    // ...mapState({
+    //     users333: state => state.user.users
+    // })
   },
 
   watch: {
     //监听数据的变化，数据有变化时刷新列表
-    pagination: {
-      handler() {
-        this.getDataFromApi().then(data => {
-          this.users = data.items;
-          this.totalUsers = data.total;
-        });
+   pagination: { // 监视pagination属性的变化
+        deep: true, // deep为true，会监视pagination的属性及属性中的对象属性变化
+        handler() {
+          // 变化后的回调函数，这里我们再次调用getDataFromServer即可
+          //this.getUserList();
+        }
       },
-      deep: true
-    }
+      search: { // 监视搜索字段
+        handler() {
+         // this.getUserList();
+        }
+      }
   },
   mounted() {
-    this.getDataFromApi().then(data => {
-      this.users = data.items;
-      this.totalUsers = data.total;
-    });
+    this.getTest();
   },
   methods: {
     //数据初始化
@@ -138,7 +138,7 @@ export default {
       //Todo修改，根据ID修改内容
       //Todo新增 ，设置ID（或后台自增） 添加一条
       //this.dialogShow = false;
-      this.initData()
+      this.initData();
     },
     //批量删除用户
     batchDeleteUser() {},
@@ -147,51 +147,34 @@ export default {
       this.users.splice(user, 1); //前端模拟删除
       //Todo 编写后端异步删除一个用户
     },
+    //从后台获取数据
+    getUserList() {
+      // this.users=usersData;
+     // return usersData;
+       this. $axios.get("/api/22"
+       //, {
+          // params: {
+          //   key: this.search, // 搜索条件
+          //   page: this.pagination.page,// 当前页
+          //   rows: this.pagination.rowsPerPage,// 每页大小
+          //   sortBy: this.pagination.sortBy,// 排序字段
+          //   desc: this.pagination.descending// 是否降序
+          // }
+        //}
+        ).then(resp => { // 这里使用箭头函数
+        console.log(resp.data),
+          this.users = resp.data.items;
+          this.totalProblems = resp.data.total;
+          // 完成赋值后，把加载状态赋值为false
+          this.loading = false;
+        })
+    },
+    getTest(){
+      this. $axios2.get("http://127.0.0.1:8090/22").then(resp=>{console.log(resp)})
+    }
   }
-//     getDataFromApi() {
-//       this.loading = true;
-//       return new Promise((resolve, reject) => {
-//         reject;
-//         const { sortBy, descending, page, rowsPerPage } = this.pagination;
-
-//         let items = this.getDesserts();
-//         const total = items.length;
-
-//         if (this.pagination.sortBy) {
-//           items = items.sort((a, b) => {
-//             const sortA = a[sortBy];
-//             const sortB = b[sortBy];
-
-//             if (descending) {
-//               if (sortA < sortB) return 1;
-//               if (sortA > sortB) return -1;
-//               return 0;
-//             } else {
-//               if (sortA < sortB) return -1;
-//               if (sortA > sortB) return 1;
-//               return 0;
-//             }
-//           });
-//         }
-
-//         if (rowsPerPage > 0) {
-//           items = items.slice((page - 1) * rowsPerPage, page * rowsPerPage);
-//         }
-
-//         setTimeout(() => {
-//           this.loading = false;
-//           resolve({
-//             items,
-//             total
-//           });
-//         }, 1000);
-//       });
-//     },
-//     getDesserts() {
-//       return usersData;
-//     }
-//   }
-// };
+};
 </script>
+
 
 

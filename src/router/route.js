@@ -32,7 +32,7 @@ import Index from '@/views/index'
             path: '/knowledge/problem', component: () => import('../views/book/problem/Problem')
           },
           {
-            path: '/sys/dept', component: () => import('../views/sys/dept/Dept')
+            path: '/faultManagement/faultRecord', component: () => import('../views/fault/FaultRecord')
           },
           {
             path: '/trade/test',component: ()=>import('../views/test')

@@ -18,10 +18,11 @@ const menus = [
     },
   {
     action: "book",
-    title: "问题管理",
-    path: "/knowledge",
+    title: "故障管理",
+    path: "/faultManagement",
     items: [
-      { title: "问题列表", path: "/problem" },
+      { title: "故障记录表", path: "/faultRecord" },
+      { title: "问题列表2", path: "/problem2" },
       { title: "会员管理", path: "/list" }
     ]
   },

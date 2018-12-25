@@ -2,7 +2,7 @@
   <v-card>
     <!-- 搜索条 -->
     <v-card-title class="py-1">
-      <v-btn small :color="dark ? 'secondary' : 'primary'" @click="handleaddUser">新增用户</v-btn>
+      <v-btn small :color="dark ? 'secondary' : 'primary'" @click="handleaddUser">新增问题</v-btn>
       <v-btn small color="error" @click="batchDeleteUser">批量删除</v-btn>
       <v-spacer/>
       <v-flex xs5>
@@ -14,7 +14,7 @@
     <v-data-table
       v-model="selected"
       :headers="headers"
-      :items="users"
+      :items="problems"
       :pagination.sync="pagination"
       :total-items="totalUsers"
       :loading="loading"
@@ -61,8 +61,8 @@ export default {
     return {
       search:'',//搜索关键字
       selected: [], //选择的条目
-      totalUsers: 20, //总条数
-      users: [] ,//数据
+      totalProblems: 20, //总条数
+      problems: [] ,//数据
       oldUser: {}, //修改的用户
       loading: true, //加载进度条
       pagination: {}, //监听变化
@@ -71,10 +71,10 @@ export default {
       //数据表头,
       headers: [
         { text: "选择框", align: "center", value: "name", sortable: false },
-        { text: "问题摘要", align: "center", value: "name" },
-        { text: "市/县", align: "center", value: "sex" },
-        { text: "所属机型", align: "center", sortable: false, value: "phone" },
-        { text: "状态", align: "center", value: "status" },
+        { text: "问题摘要", align: "center",sortable: false, value: "problem" },
+        { text: "市/县", align: "center", value: "address" },
+        { text: "所属机型", align: "center",  value: "model" },
+        { text: "记录人", align: "center", value: "recorder" },
         { text: "操作", align: "center", value: "name", sortable: false }
       ]
     };
@@ -164,7 +164,7 @@ export default {
         ).then(resp => { // 这里使用箭头函数
         console.log(resp.data),
           this.users = resp.data.items;
-          this.totalUsers = resp.data.total;
+          this.totalProblems = resp.data.total;
           // 完成赋值后，把加载状态赋值为false
           this.loading = false;
         })
@@ -174,118 +174,6 @@ export default {
     }
   }
 };
-
-const usersData = [
-  {
-    name: "Frozen Yogurt",
-    sex: "男",
-    phone: "1388888888",
-    status: "启动"
-  },
-
-  {
-    name: "Yogurt",
-    sex: "女",
-    phone: "1388888888",
-    status: "启动"
-  },
-  {
-    name: "Frozen Yogurt",
-    sex: "男",
-    phone: "1388888888",
-    status: "启动"
-  },
-  {
-    name: "周杰伦",
-    sex: "男",
-    phone: "1388888888",
-    status: "禁用"
-  },
-  {
-    name: "Yogurt",
-    sex: "女",
-    phone: "1388888888",
-    status: "启动"
-  },
-  {
-    name: "Frozen Yogurt",
-    sex: "男",
-    phone: "1388888888",
-    status: "启动"
-  },
-  {
-    name: "周杰伦",
-    sex: "男",
-    phone: "1388888888",
-    status: "禁用"
-  },
-  {
-    name: "Yogurt",
-    sex: "女",
-    phone: "1388888888",
-    status: "启动"
-  },
-  {
-    name: "Frozen Yogurt",
-    sex: "男",
-    phone: "1388888888",
-    status: "启动"
-  },
-  {
-    name: "周杰伦",
-    sex: "男",
-    phone: "1388888888",
-    status: "禁用"
-  },
-  {
-    name: "Yogurt",
-    sex: "女",
-    phone: "1388888888",
-    status: "启动"
-  },
-  {
-    name: "Frozen Yogurt",
-    sex: "男",
-    phone: "1388888888",
-    status: "启动"
-  },
-  {
-    name: "周杰伦",
-    sex: "男",
-    phone: "1388888888",
-    status: "禁用"
-  },
-  {
-    name: "Yogurt",
-    sex: "女",
-    phone: "1388888888",
-    status: "启动"
-  },
-  {
-    name: "Frozen Yogurt",
-    sex: "男",
-    phone: "1388888888",
-    status: "启动"
-  },
-  {
-    name: "周杰伦",
-    sex: "男",
-    phone: "1388888888",
-    status: "禁用"
-  },
-  {
-    name: "Yogurt",
-    sex: "女",
-    phone: "1388888888",
-    status: "启动"
-  },
-  {
-    name: "Frozen Yogurt",
-    sex: "男",
-    phone: "1388888888",
-    status: "启动"
-  }
-];
 </script>
 
 
