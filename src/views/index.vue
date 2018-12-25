@@ -6,6 +6,7 @@
     <v-btn small @click="handleaddUser2(testuser)">新增用户2</v-btn>
         <v-btn small @click="handleaddUser3">新增用户3</v-btn>
         <v-btn small @click="handleaddUser4">新增用户4</v-btn>
+        
       <!-- 数据表格 -->
     <v-data-table
       v-model="selected"

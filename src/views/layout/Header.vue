@@ -2,7 +2,7 @@
   <v-toolbar  app>
     <v-tooltip bottom>
       <v-btn scoped slot="activator" icon @click.stop="handleChangeDrawer">
-        <v-icon large
+        <v-icon 
           v-text="drawer?'format_indent_decrease':'format_indent_increase'"
           :color="dark ? 'secondary' : 'primary'"
         ></v-icon>

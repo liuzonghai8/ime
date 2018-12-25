@@ -7,7 +7,7 @@
       :mini-variant.sync="miniNav"
       v-model="drawer"
       fixed
-      width="200"
+      width="250"
       app
     >
       <v-toolbar flat class="transparent"  :color="dark ? 'secondary' : 'primary'">
