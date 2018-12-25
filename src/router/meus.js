@@ -17,12 +17,12 @@ const menus = [
       ]
     },
   {
-    action: "book",
-    title: "故障管理",
-    path: "/faultManagement",
+    action: "note",
+    title: "咨询管理",
+    path: "/ConsultationManagement",
     items: [
-      { title: "故障记录表", path: "/faultRecord" },
-      { title: "问题列表2", path: "/problem2" },
+      { title: "咨询记录", path: "/ConsultationRecord" },
+      { title: "问题汇总", path: "/ProblemSummary" },
       { title: "会员管理", path: "/list" }
     ]
   },
