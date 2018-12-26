@@ -22,14 +22,15 @@
       rows-per-page-text="每页行数："
     >
       <template slot="items" slot-scope="props">
-        <td class="text-xs-center">
-          <!--class="text-xs-center">align="center"  background-color="#0FF00"  > -->
+        <!-- <td class="text-xs-center">
           <v-checkbox v-model="props.selected"></v-checkbox>
-        </td>
-        <td class="text-xs-center">{{ props.item.name }}</td>
-        <td class="text-xs-center">{{ props.item.sex }}</td>
-        <td class="text-xs-center">{{ props.item.phone }}</td>
-        <td class="text-xs-center">{{ props.item.status }}</td>
+        </td> -->
+        <td class="text-xs-center">{{ props.item.problemDescription }}</td>
+        <td class="text-xs-center">{{ props.item.brandModel }}</td>
+        <td class="text-xs-center">{{ props.item.systemPlatform }}</td>
+        <td class="text-xs-center">{{ props.item.consultDepartment }}</td>
+        <td class="text-xs-center">{{ props.item.processingMethod }}</td>
+        <td class="text-xs-center">{{ props.item.recorder }}</td>
         <td class="text-xs-center">
           <v-btn icon @click="handleeditUser(props.item)">
             <v-icon color="teal darken-1">edit</v-icon>
@@ -47,7 +48,7 @@
         :oldUser="oldUser"
         v-on:show="handleCloseDialog"
         v-on:addUser="addUserItem"
-      /> -->
+      />-->
     </v-dialog>
   </v-card>
 </template>
@@ -122,7 +123,7 @@ export default {
     }
   },
   mounted() {
-    this.getTest();
+    this.getUserList();
   },
   methods: {
     //数据初始化
@@ -140,7 +141,7 @@ export default {
     },
     //编辑用户按钮事件
     handleeditUser(user) {
-     // this.oldConsultationRecord = user;
+      // this.oldConsultationRecord = user;
       this.editMark = true;
       this.dialogShow = true;
     },
@@ -159,11 +160,11 @@ export default {
     },
     //批量删除用户
     batchDeleteUser() {
-      this.getTest();
+      //this.getTest();
     },
     //删除一个用户
     deleteUser(user) {
-     // this.users.splice(user, 1); //前端模拟删除
+      // this.users.splice(user, 1); //前端模拟删除
       //Todo 编写后端异步删除一个用户
     },
     //从后台获取数据
@@ -172,7 +173,7 @@ export default {
       // return usersData;
       this.$axios
         .get(
-          "/api/22"
+          "consult/consult/all"
           //, {
           // params: {
           //   key: this.search, // 搜索条件
@@ -185,14 +186,17 @@ export default {
         )
         .then(resp => {
           // 这里使用箭头函数
-          console.log(resp.data), (this.consultationRecords = resp.data.items);
+          console.log(resp.data);
+          this.consultationRecords = resp.data;
+          console.log("ddd")
+          console.log(this.consultationRecords)
           this.totalConsultationRecords = resp.data.total;
           // 完成赋值后，把加载状态赋值为false
           this.loading = false;
         });
     },
     getTest() {
-      this.$axios2.get("/api/consult/test").then(resp => {
+      this.$axios2.get("consult/consult/one").then(resp => {
         console.log(resp);
       });
     }
