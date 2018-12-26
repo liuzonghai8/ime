@@ -14,9 +14,9 @@
     <v-data-table
       v-model="selected"
       :headers="headers"
-      :items="consultationRecords"
+      :items="datas"
       :pagination.sync="pagination"
-      :total-items="totalConsultationRecords"
+      :total-items="total"
       :loading="loading"
       class="elevation-1"
       rows-per-page-text="每页行数："
@@ -58,17 +58,18 @@
     </template>
     </v-data-table>
     <!-- 新增列表 弹框模式 v-on:addUser="addUserItem(user)" -->
-    <v-dialog v-model="dialogShow" max-width="600px" persistent scrollable>
-      <!-- <UserEdit
+    <v-dialog v-model="dialogShow" max-width="800px" persistent scrollable>
+       <ConsultationRecordEdit
         :editMark="editMark"
-        :oldUser="oldUser"
+        :oldData="oldData"
         v-on:show="handleCloseDialog"
-        v-on:addUser="addUserItem"
-      />-->
+        v-on:addItem="addItem"
+      />
     </v-dialog>
   </v-card>
 </template>
 <script>
+import ConsultationRecordEdit from './ConsultationRecordEdit'
 export default {
   props: {
     dark: Boolean
@@ -77,13 +78,13 @@ export default {
     return {
       search: "", //搜索关键字
       selected: [], //选择的条目
-      totalConsultationRecords: 20, //总条数
-      consultationRecords: [], //数据
-      oldConsultationRecord: {}, //修改的用户
+      total: 20, //总条数
+      datas: [], //数据集合
+      oldData: {}, //旧的数据
       loading: true, //加载进度条
       pagination: {}, //监听变化
       dialogShow: false, //显示对话框
-      editMark: false,
+      editMark: false, //编辑标记
       //数据表头,
       headers: [
         {
@@ -111,37 +112,38 @@ export default {
         //   value: "brandModel"
         // },
         // { text: "记录人", align: "center", value: "recorder" },
-        // { text: "操作", align: "center", value: "name", sortable: false }
+        { text: "操作", align: "center", value: "name", sortable: false }
       ]
     };
   },
   components: {
-    //UserEdit
+    ConsultationRecordEdit
   },
   //计算属性：
   computed: {
   },
 
   watch: {
-    //监听数据的变化，数据有变化时刷新列表
+    //监听数据的变化，数据有变化时刷新列表 // 监视pagination属性的变化
     pagination: {
-      // 监视pagination属性的变化
       deep: true, // deep为true，会监视pagination的属性及属性中的对象属性变化
       handler() {
         // 变化后的回调函数，这里我们再次调用getDataFromServer即可
         this.getDataFromServer();
       }
     },
+    // 监视搜索字段
     search: {
-      // 监视搜索字段
       handler() {
          this.getDataFromServer();
       }
     }
   },
+  //页面加载是钩子函数
   mounted() {
     this.getDataFromServer();
   },
+
   methods: {
     //数据初始化
     initData() {
@@ -152,23 +154,22 @@ export default {
     handleCloseDialog() {
       this.initData();
     },
-    //添加用户按钮事件
+    //添加按钮事件
     handleadd() {
-       this.oldConsultationRecord = {},
+       this.oldData = {},
        this.dialogShow = true;
     },
     //编辑用户按钮事件
     handleEdit(params) {
-       this.oldConsultationRecord = params;
+       this.oldData = params;
       this.editMark = true;
       this.dialogShow = true;
     },
     //添加用户
-    addUserItem(user) {
-      console.log("add a user");
-      console.log(user);
+    addItem(params) {
+      console.log(params);
       //模拟添加
-      this.users.push(user);
+      //this.users.push(params);
       //Todo 先判断是修改还是新增
       console.log("true 为修改" + this.isEdit);
       //Todo修改，根据ID修改内容
@@ -177,11 +178,11 @@ export default {
       this.initData();
     },
     //批量删除用户
-    batchDeleteUser() {
+    deleteItems() {
       //this.getTest();
     },
     //删除一个用户
-    deleteUser(user) {
+    deleteItem(params) {
       // this.users.splice(user, 1); //前端模拟删除
       //Todo 编写后端异步删除一个用户
     },
@@ -202,19 +203,14 @@ export default {
         )
         .then(resp => {
           // 成功后获取处理
-          console.log(resp.data);
-          this.consultationRecords = resp.data;
-          console.log("ddd");
-          console.log(this.consultationRecords);
-          this.totalConsultationRecords = resp.data.total;
+         // console.log(resp.data);
+          this.datas = resp.data;
+          //console.log("ddd");
+         // console.log(this.consultationRecords);
+          this.total = resp.data.total;
           // 完成赋值后，把加载状态赋值为false
           this.loading = false;
         });
-    },
-    getTest() {
-      this.$axios2.get("consult/consult/one").then(resp => {
-        console.log(resp);
-      });
     }
   }
 };

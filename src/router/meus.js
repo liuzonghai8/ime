@@ -21,7 +21,7 @@ const menus = [
     title: "咨询管理",
     path: "/ConsultationManagement",
     items: [
-      { title: "咨询记录", path: "/ConsultationRecord" },
+      { title: "咨询记录", path: "/consultationRecord" },
       { title: "问题汇总", path: "/ProblemSummary" },
       { title: "会员管理", path: "/list" }
     ]
