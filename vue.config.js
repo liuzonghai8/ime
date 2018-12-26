@@ -1,22 +1,22 @@
 module.exports = {
     //默认 @ 指向src目录
     devServer: {
-        host: '127.0.0.1',
+        host: 'localhost',
         port: '3030',
         overlay: {
             warnings: false,
             errors: false
         },
-        proxy: {
-            '/api': {
-                target: 'http://127.0.0.1:8090',
-                ws: true,
-                changeOrigin: false,
-                pathRewrite: {
-                    '^api': ''
-                }
-            }
-        }
+        // proxy: {
+        //     '/api': {
+        //         target: 'http://127.0.0.1:8082',
+        //         ws: true,
+        //         changeOrigin: false,
+        //         pathRewrite: {
+        //             '^api': ''
+        //         }
+        //     }
+        // }
         
     }
 
