@@ -198,20 +198,10 @@ export default {
         // 将数据提交到后台
         // this.$http.post('/item/brand', this.$qs.stringify(params))
         this.consultrecord.recordDate = this.date;
+        this.consultrecord.recorder = "当前登录用户"
         console.log(this.consultrecord);
-        this.$axios({
-          method: this.isEdit ? "put" : "post",
-          url: "/consult/consult",
-          data: this.consultrecord //this.$qs.stringify(this.consultrecord)
-        })
-          .then(() => {
-            // 关闭窗口
-            this.$emit("show");
-            this.$message.success("保存成功！");
-          })
-          .catch(() => {
-            this.$message.error("保存失败！");
-          });
+        this.$emit("addItem",this.consultrecord)
+        //this.$emit("show");
       }
     }
   }

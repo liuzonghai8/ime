@@ -167,6 +167,7 @@ export default {
     },
     //添加用户
     addItem(params) {
+      console.log("页面传回来的数据是：")
       console.log(params);
       //模拟添加
       //this.users.push(params);
@@ -175,6 +176,20 @@ export default {
       //Todo修改，根据ID修改内容
       //Todo新增 ，设置ID（或后台自增） 添加一条
       //this.dialogShow = false;
+      this.$axios({
+          method: this.isEdit ? "put" : "post",
+          url: "/consult/consult",
+          data: params //this.$qs.stringify(this.consultrecord)
+        })
+          .then(() => {
+            // 关闭窗口
+            //this.$emit("show");
+            this.$message.success("保存成功！");
+          })
+          .catch(() => {
+            this.$message.error("保存失败！");
+          });
+
       this.initData();
     },
     //批量删除用户
