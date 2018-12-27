@@ -197,13 +197,26 @@ export default {
         //params.letter = letter.toUpperCase();
         // 将数据提交到后台
         // this.$http.post('/item/brand', this.$qs.stringify(params))
+        const {...params} = this.consultrecord;
         this.consultrecord.recordDate = this.date;
         this.consultrecord.recorder = "当前登录用户"
-        console.log(this.consultrecord);
-        this.$emit("addItem",this.consultrecord)
-        //this.$emit("show");
+        console.log(params);
+        this.$axios({
+          method: this.isEdit ? "put" : "post",
+          url: "/consult/consult",
+          data: params //this.$qs.stringify(this.consultrecord)
+        })
+          .then(() => {
+            // 关闭窗口
+            this.$emit("show");
+            this.$message.success("保存成功！");
+          })
+          .catch(() => {
+            this.$message.error("保存失败！");
+          });
       }
     }
+
   }
 };
 </script>
