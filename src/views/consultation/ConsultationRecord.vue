@@ -26,40 +26,41 @@
           <v-checkbox v-model="props.selected"></v-checkbox>
            <td class="text-xs-center">{{ props.item.processingMethod }}</td>
         </td>-->
-         <tr @click="props.expanded = !props.expanded">
-        <td >{{ props.item.problemDescription }}</td>
-        <td class="text-xs-center">{{ props.item.consultDepartment }}</td>
-        <!-- <td class="text-xs-center">{{ props.item.processingMethod }}</td>
+        <tr @click="props.expanded = !props.expanded">
+          <td>{{ props.item.problemDescription }}</td>
+          <td class="text-xs-center">{{ props.item.consultDepartment }}</td>
+          <!-- <td class="text-xs-center">{{ props.item.processingMethod }}</td>
         <td class="text-xs-center">{{ props.item.brandModel }}</td>
         <td class="text-xs-center">{{ props.item.systemPlatform }}</td>
         <td class="text-xs-center">{{ props.item.consultDepartment }}</td>
-        <td class="text-xs-center">{{ props.item.recorder }}</td> -->
-        <td class="text-xs-center">
-          <v-btn icon @click="handleEdit(props.item)">
-            <v-icon color="teal darken-1">edit</v-icon>
-          </v-btn>
-          <v-btn icon @click="deleteUser(props.item)">
-            <v-icon color="deep-orange accent-4">remove</v-icon>
-          </v-btn>
-        </td>
-         </tr>
+          <td class="text-xs-center">{{ props.item.recorder }}</td>-->
+          <td class="text-xs-center">
+            <v-btn icon @click="handleEdit(props.item)">
+              <v-icon color="teal darken-1">edit</v-icon>
+            </v-btn>
+            <v-btn icon @click="deleteItem(props.item)">
+              <v-icon color="deep-orange accent-4">remove</v-icon>
+            </v-btn>
+          </td>
+        </tr>
       </template>
-       <template slot="expand" slot-scope="props">
-      <v-card flat>
-        <tr>
-         <td>处理方法：</td><td class="text-xs-center">{{ props.item.processingMethod }}</td>
-        </tr>
-        <tr>
-        <td class="text-xs-center">{{ props.item.brandModel }}</td>
-        <td class="text-xs-center">{{ props.item.systemPlatform }}</td>
-        <td class="text-xs-center">{{ props.item.recorder }}</td>
-        </tr>
-      </v-card>
-    </template>
+      <template slot="expand" slot-scope="props">
+        <v-card flat>
+          <tr>
+            <td>处理方法：</td>
+            <td class="text-xs-center">{{ props.item.processingMethod }}</td>
+          </tr>
+          <tr>
+            <td class="text-xs-center">{{ props.item.brandModel }}</td>
+            <td class="text-xs-center">{{ props.item.systemPlatform }}</td>
+            <td class="text-xs-center">{{ props.item.recorder }}</td>
+          </tr>
+        </v-card>
+      </template>
     </v-data-table>
     <!-- 新增列表 弹框模式 v-on:addUser="addUserItem(user)" -->
     <v-dialog v-model="dialogShow" max-width="800px" persistent scrollable>
-       <ConsultationRecordEdit
+      <ConsultationRecordEdit
         :editMark="editMark"
         :oldData="oldData"
         v-on:show="handleCloseDialog"
@@ -68,7 +69,7 @@
   </v-card>
 </template>
 <script>
-import ConsultationRecordEdit from './ConsultationRecordEdit'
+import ConsultationRecordEdit from "./ConsultationRecordEdit";
 export default {
   props: {
     dark: Boolean
@@ -99,7 +100,7 @@ export default {
         //   sortable: false,
         //   value: "processingMethod"
         // },
-         { text: "咨询单位", align: "center", value: "consultDepartment" },
+        { text: "咨询单位", align: "center", value: "consultDepartment" },
         // {
         //   text: "系统平台",
         //   align: "center",
@@ -119,8 +120,7 @@ export default {
     ConsultationRecordEdit
   },
   //计算属性：
-  computed: {
-  },
+  computed: {},
 
   watch: {
     //监听数据的变化，数据有变化时刷新列表 // 监视pagination属性的变化
@@ -134,7 +134,7 @@ export default {
     // 监视搜索字段
     search: {
       handler() {
-         this.getDataFromServer();
+        this.getDataFromServer();
       }
     }
   },
@@ -148,6 +148,7 @@ export default {
     initData() {
       this.dialogShow = false;
       this.editMark = false;
+       this.getDataFromServer()
     },
     //关闭对话框
     handleCloseDialog() {
@@ -155,52 +156,63 @@ export default {
     },
     //添加按钮事件
     handleadd() {
-       this.oldData = {},
-       this.dialogShow = true;
+      (this.oldData = {}), (this.dialogShow = true);
     },
     //编辑用户按钮事件
     handleEdit(params) {
-       this.oldData = params;
+      this.oldData = params;
       this.editMark = true;
       this.dialogShow = true;
     },
-   
+
     //批量删除用户
     deleteItems() {
       //this.getTest();
     },
     //删除一个用户
     deleteItem(params) {
-      // this.users.splice(user, 1); //前端模拟删除
       //Todo 编写后端异步删除一个用户
+      // this.$message.confirm("?").then(() => {
+      //   console.log(params);
+      //   const id = params.id;
+      //   this.$axios
+      //     .delete("consult/consult" + id)
+      //     .then(console.log("删除成功"));
+      // });
+
+        const id = params.id;
+        console.log(id)
+        this.$axios
+          .delete("consult/consult/" + id)
+          .then(()=>{
+            console.log("删除成功")
+            this.getDataFromServer()
+          });
     },
     //从后台获取数据
     getDataFromServer() {
       this.$axios
-        .get(
-          "consult/consult/page"
-          , {
-           params: {
+        .get("consult/consult/page", {
+          params: {
             key: this.search, // 搜索条件
-             page: this.pagination.page,// 当前页
-             rows: this.pagination.rowsPerPage,// 每页大小
-             sortBy: this.pagination.sortBy,// 排序字段
-             desc: this.pagination.descending// 是否降序
-           }
+            page: this.pagination.page, // 当前页
+            rows: this.pagination.rowsPerPage, // 每页大小
+            sortBy: this.pagination.sortBy, // 排序字段
+            desc: this.pagination.descending // 是否降序
           }
-        )
+        })
         .then(resp => {
           // 成功后获取处理
-         // console.log(resp.data);
+          // console.log(resp.data);
           this.datas = resp.data;
           //console.log("ddd");
-         // console.log(this.consultationRecords);
+          // console.log(this.consultationRecords);
           this.total = resp.data.total;
           // 完成赋值后，把加载状态赋值为false
           this.loading = false;
         });
     }
-}
+  }
 };
 </script>
 

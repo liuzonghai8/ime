@@ -145,7 +145,8 @@ export default {
     oldData: {
       handler: function(val) {
         if (val) {
-          this.consultrecord = Object.deepCopy(val);
+        //  this.consultrecord = Object.//Object.deepCopy(val);
+          this.consultrecord = Object.assign(val)
           console.log(this.consultrecord);
         } else {
           this.consultrecord = {
@@ -197,22 +198,25 @@ export default {
         //params.letter = letter.toUpperCase();
         // 将数据提交到后台
         // this.$http.post('/item/brand', this.$qs.stringify(params))
-        const {...params} = this.consultrecord;
+        const cr = this.$qs.stringify(this.consultrecord);
         this.consultrecord.recordDate = this.date;
         this.consultrecord.recorder = "当前登录用户"
-        console.log(params);
+        console.log("参数CR 为：")
+        console.log(cr);
         this.$axios({
-          method: this.isEdit ? "put" : "post",
+          method: this.editMark ? "put" : "post",
           url: "/consult/consult",
-          data: params //this.$qs.stringify(this.consultrecord)
+          data: cr
         })
           .then(() => {
             // 关闭窗口
             this.$emit("show");
-            this.$message.success("保存成功！");
+           // this.$message.success("保存成功！");
+           console.log("保存成功")
           })
           .catch(() => {
-            this.$message.error("保存失败！");
+           // this.$message.error("保存失败！");
+           console.log("保存失败")
           });
       }
     }
