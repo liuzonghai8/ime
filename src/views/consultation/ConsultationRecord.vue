@@ -27,6 +27,7 @@
            <td class="text-xs-center">{{ props.item.processingMethod }}</td>
         </td>-->
         <tr @click="props.expanded = !props.expanded">
+            <td>{{ props.item.consultDate }}</td>
           <td>{{ props.item.problemDescription }}</td>
           <td class="text-xs-center">{{ props.item.consultDepartment }}</td>
           <!-- <td class="text-xs-center">{{ props.item.processingMethod }}</td>
@@ -87,11 +88,18 @@ export default {
       editMark: false, //编辑标记
       //数据表头,
       headers: [
+         {
+          text: "咨询日期",
+          align: "center",
+          value: "consult_date",
+          sortable: false
+          
+        },
         {
           text: "故障问题描述",
           align: "center",
-          value: "problemDescription",
-          sortable: false
+          value: "problem_description"
+          
         },
         // },
         // {
@@ -100,7 +108,7 @@ export default {
         //   sortable: false,
         //   value: "processingMethod"
         // },
-        { text: "咨询单位", align: "center", value: "consultDepartment" },
+        { text: "咨询单位", align: "center", value: "consultDepartment"},
         // {
         //   text: "系统平台",
         //   align: "center",

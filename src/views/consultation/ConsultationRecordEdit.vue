@@ -74,11 +74,11 @@
           </v-flex>
           <v-flex xs12 sm1/>
           <v-flex xs12 sm3>
-            <v-text-field label="记录日期*" :value="date" readonly></v-text-field>
+            <v-text-field label="记录日期*" v-model="consultrecord.recordDate" readonly></v-text-field>
           </v-flex>
           <v-flex xs12 sm1/>
           <v-flex xs12 sm3>
-            <v-text-field label="记录人" value="当前用户" readonly></v-text-field>
+            <v-text-field label="记录人" v-model="consultrecord.recorder" readonly></v-text-field>
           </v-flex>
         </v-layout>
       </v-form>
@@ -110,6 +110,7 @@ export default {
   data() {
     return {
       valid: true,
+      date: new Date().toISOString().substr(0, 10),
       consultrecord: {
         problemDescription: "",
         systemPlatform: "",
@@ -118,10 +119,9 @@ export default {
         Consultant: "",
         consultDate: "",
         processingMethod: "",
-        recordDate: "",
-        recorder: ""
+        recordDate: this.date,
+        recorder: "当前用户"
       },
-      date: new Date().toISOString().substr(0, 10),
       menu: false
 
       //   nameRules: [
@@ -145,21 +145,21 @@ export default {
     oldData: {
       handler: function(val) {
         if (val) {
-        //  this.consultrecord = Object.//Object.deepCopy(val);
-          this.consultrecord = Object.assign(val)
+          //  this.consultrecord = Object.//Object.deepCopy(val);
+          this.consultrecord = Object.assign(val);
           console.log(this.consultrecord);
         } else {
-          this.consultrecord = {
-            problemDescription: "",
-            systemPlatform: "",
-            brandModel: "",
-            consultDepartment: "",
-            Consultant: "",
-            consultDate: "",
-            processingMethod: "",
-            recordDate: this.date,
-            recorder: ""
-          };
+          // this.consultrecord = {
+          //   problemDescription: "",
+          //   systemPlatform: "",
+          //   brandModel: "",
+          //   consultDepartment: "",
+          //   consultant: "",
+          //   consultDate: "",
+          //   processingMethod: "",
+          //   recordDate: this.date,
+          //   recorder: ""
+          // };
         }
       },
       deep: true
@@ -172,15 +172,15 @@ export default {
   },
   methods: {
     initData() {
-      (this.problemDescription = ""),
-        (this.systemPlatform = ""),
-        (this.brandModel = ""),
-        (this.consultDepartment = ""),
-        (this.Consultant = ""),
-        (this.consultDate = ""),
-        (this.processingMethod = ""),
-        (this.recordDate = this.date),
-        (this.recorder = "当前登录用户");
+      (this.consultrecord.problemDescription = ""),
+        (this.consultrecord.systemPlatform = ""),
+        (this.consultrecord.brandModel = ""),
+        (this.consultrecord.consultDepartment = ""),
+        (this.consultrecord.consultant = ""),
+        (this.consultrecord.consultDate = ""),
+        (this.consultrecord.processingMethod = ""),
+        (this.consultrecord.recordDate = this.date),
+        (this.consultrecord.recorder = "当前登录用户");
     },
     handleclose() {
       this.$refs.form.reset;
@@ -198,29 +198,39 @@ export default {
         //params.letter = letter.toUpperCase();
         // 将数据提交到后台
         // this.$http.post('/item/brand', this.$qs.stringify(params))
+        //this.consultrecord.recorder = "0";
         const cr = this.$qs.stringify(this.consultrecord);
-        this.consultrecord.recordDate = this.date;
-        this.consultrecord.recorder = "当前登录用户"
-        console.log("参数CR 为：")
+        //this.consultrecord.recordDate = this.date;
+        
+        console.log("参数CR 为：");
+        console.log(this.consultrecord);
         console.log(cr);
         this.$axios({
           method: this.editMark ? "put" : "post",
           url: "/consult/consult",
           data: cr
+          // {
+          //   consultationRecord : this.consultrecord
+          // }
+
+          //cr
+          //this.consultrecord
+          // {
+          //   consultationRecord : this.consultrecord.data
+          // }
         })
           .then(() => {
             // 关闭窗口
             this.$emit("show");
-           // this.$message.success("保存成功！");
-           console.log("保存成功")
+            // this.$message.success("保存成功！");
+            console.log("保存成功");
           })
           .catch(() => {
-           // this.$message.error("保存失败！");
-           console.log("保存失败")
+            // this.$message.error("保存失败！");
+            console.log("保存失败");
           });
       }
     }
-
   }
 };
 </script>
