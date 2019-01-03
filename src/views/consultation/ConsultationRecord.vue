@@ -27,8 +27,8 @@
            <td class="text-xs-center">{{ props.item.processingMethod }}</td>
         </td>-->
         <tr @click="props.expanded = !props.expanded">
-            <td>{{ props.item.consultDate }}</td>
-          <td>{{ props.item.problemDescription }}</td>
+            <td class="text-xs-center">{{ props.item.consultDate }}</td>
+          <td class="text-xs-center">{{ props.item.problemDescription }}</td>
           <td class="text-xs-center">{{ props.item.consultDepartment }}</td>
           <!-- <td class="text-xs-center">{{ props.item.processingMethod }}</td>
         <td class="text-xs-center">{{ props.item.brandModel }}</td>
@@ -108,7 +108,7 @@ export default {
         //   sortable: false,
         //   value: "processingMethod"
         // },
-        { text: "咨询单位", align: "center", value: "consultDepartment"},
+        { text: "咨询单位", align: "center", value: "consult_department"},
         // {
         //   text: "系统平台",
         //   align: "center",
@@ -179,15 +179,7 @@ export default {
     },
     //删除一个用户
     deleteItem(params) {
-      //Todo 编写后端异步删除一个用户
-      // this.$message.confirm("?").then(() => {
-      //   console.log(params);
-      //   const id = params.id;
-      //   this.$axios
-      //     .delete("consult/consult" + id)
-      //     .then(console.log("删除成功"));
-      // });
-
+      //根据ID删除一条记录
         const id = params.id;
         console.log(id)
         this.$axios
@@ -211,11 +203,9 @@ export default {
         })
         .then(resp => {
           // 成功后获取处理
-          // console.log(resp.data);
-          this.datas = resp.data;
-          //console.log("ddd");
-          // console.log(this.consultationRecords);
-          this.total = resp.data.total;
+         // console.log(resp);
+          this.datas = resp.data.data.list;
+          this.total = resp.data.data.total;
           // 完成赋值后，把加载状态赋值为false
           this.loading = false;
         });

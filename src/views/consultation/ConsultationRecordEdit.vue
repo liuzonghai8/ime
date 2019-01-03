@@ -123,21 +123,6 @@ export default {
         recorder: "当前用户"
       },
       menu: false
-
-      //   nameRules: [
-      //     v => !!v || "用户名不能为空",
-      //     v => v.length <= 20 || "用户名太长"
-      //   ],
-      //   passwordRules: [
-      //     v => !!v || "密码不能为空",
-      //     v => v.length <= 20 || "用户名太长"
-      //   ],
-      //   sexRules: [v => !!v || "必须选择"],
-      //   statusRules: [v => !!v || "必须选择"],
-      //   phoneRules: [
-      //     v => !!v || "手机号码不能为空",
-      //     v => v.length == 11 || "手机号码位数不对"
-      //   ]
     };
   },
   watch: {
@@ -166,9 +151,7 @@ export default {
     }
   },
   computed: {
-    // userItem() {
-    //   return this.user;
-    // }
+    
   },
   methods: {
     initData() {
