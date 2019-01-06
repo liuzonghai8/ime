@@ -3,42 +3,37 @@
     <v-form>
     <!-- <v-layout align-center justify-center> -->
     <v-toolbar dense dark color="primary">
-      <v-toolbar-title>{{editMark ? '修改' : '新增'}}用户</v-toolbar-title>
+      <v-toolbar-title>{{editMark ? '修改' : '新增'}}角色</v-toolbar-title>
     </v-toolbar>
     <v-card-text>
       <!-- <v-form ref="form" v-model="valid" lazy-validation> -->
         <v-layout wrap>
-          <v-flex xs12 sm5>
+          <v-flex xs12>
             <v-text-field
               prepend-icon="person"
-              label="登陆名*"
-              v-model.trim="newData.loginName"
-            
+              label="角色名*"
+              v-model.trim="newData.name"
               required
             ></v-text-field>
           </v-flex>
-          <v-flex xs12 sm2/>
-          <v-flex xs12 sm5>
+          <v-flex xs12>
             <v-text-field
               prepend-icon="person"
-              label="真实名*"
-              v-model.trim="newData.realName"
-           
+              label="角色代码*"
+              v-model.trim="newData.code"
               required
             ></v-text-field>
           </v-flex>
-          <v-flex xs12 sm5>
-            <v-text-field prepend-icon="lock" label="密码*" v-model.trim="newData.password" required></v-text-field>
+          <v-flex xs12>
+             <v-textarea
+              box
+              label="描述"
+              auto-grow
+              v-model="newData.description"
+              rows="1"
+            ></v-textarea>
           </v-flex>
-          <v-flex xs12 sm2/>
-          <v-flex xs12 sm5>
-            <v-text-field prepend-icon="lock" label="确认密码*" v-model.trim="password2" required></v-text-field>
-          </v-flex>
-          <v-flex xs12 sm5>
-            <v-text-field prepend-icon="phone" label="电话号码*" v-model.trim="newData.phone" required></v-text-field>
-          </v-flex>
-          <v-flex xs12 sm2/>
-          <v-flex xs12 sm5>
+          <v-flex xs12>
             <v-radio-group v-model.trim="newData.enableTag" :mandatory="false" row label="是否启用">
               <v-radio label="启用" value="0" color="success"></v-radio>
               <v-radio label="禁用" value="1" color="warning"></v-radio>
@@ -75,14 +70,12 @@ export default {
     return {
       valid: true,
       newData: {
-        loginName: "",
-        realName: "",
-        password: "",
-        phone: "",
-        avatar: "",
-        enableTag: ""
+        name: "",
+        code: "",
+        description: "",
+        enableTag: "",
+        menus:[]
       },
-      password2: "",
       nameRules: [
         v => !!v || "用户名不能为空",
         v => v.length <= 20 || "用户名太长"
@@ -114,14 +107,10 @@ export default {
   computed: {},
   methods: {
     initData() {
-      (this.newData.loginName = ""),
-        (this.newData.realName = ""),
-        (this.newData.brandModel = ""),
-        (this.newData.password = ""),
-        (this.newData.phone = ""),
-        (this.newData.avatar = ""),
-        (this.newData.enableTag = ""),
-        (this.password2 = "");
+      (this.newData.name = ""),
+        (this.newData.code = ""),
+        (this.newData.description = ""),
+        (this.newData.enableTag = "")
     },
     handleclose() {
       //this.$refs.form.reset;
@@ -139,7 +128,7 @@ export default {
       console.log(params);
       this.$axios({
         method: this.editMark ? "put" : "post",
-        url: "/upms/sys/user",
+        url: "/upms/sys/role",
         data: params
       })
         .then(() => {

@@ -11,9 +11,9 @@ const menus = [
       path:"/sys",
       items: [
         { title: "人员管理", path: "/user" },
-        { title: "权限管理", path: "/auth" },
+        { title: "角色管理", path: "/role" },
         { title: "机构管理", path: "/dept" },
-        { title: "角色管理", path: "/role" }
+        { title: "菜单管理", path: "/auth" }
       ]
     },
   {

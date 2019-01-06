@@ -33,10 +33,10 @@
           <td class="text-xs-center"> {{ props.item.enableTag ==0 ? "启用" :"禁用" }}</td>
           <td class="text-xs-center">
             <v-btn icon @click="handleEdit(props.item)">
-              <v-icon color="teal darken-1">edit</v-icon>
+              <v-icon  color="teal darken-1">edit</v-icon>
             </v-btn>
             <v-btn icon @click="deleteItem(props.item)">
-              <v-icon color="deep-orange accent-4">remove</v-icon>
+              <v-icon  color="deep-orange accent-4">delete</v-icon>
             </v-btn>
           </td>
         </tr>
@@ -158,7 +158,8 @@ export default {
     deleteItem(params) {
       //根据ID删除一条记录
         const id = params.id;
-        console.log(id)
+        console.log(id),
+        confirm('Are you sure you want to delete this item?')
         this.$axios
           .delete("upms/sys/user/" + id)
           .then(()=>{

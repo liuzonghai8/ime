@@ -11,6 +11,7 @@
     </v-card-title>
     <v-divider/>
     <!-- 数据表格 -->
+    <v-flex md12>
     <v-data-table
       v-model="selected"
       :headers="headers"
@@ -40,25 +41,36 @@
               <v-icon color="teal darken-1">edit</v-icon>
             </v-btn>
             <v-btn icon @click="deleteItem(props.item)">
-              <v-icon color="deep-orange accent-4">remove</v-icon>
+              <v-icon color="deep-orange accent-4">delete</v-icon>
             </v-btn>
           </td>
         </tr>
       </template>
       <template slot="expand" slot-scope="props">
-        <v-card flat>
-          <tr>
-            <td>处理方法：</td>
-            <td class="text-xs-center">{{ props.item.processingMethod }}</td>
-          </tr>
+        <v-card flat  color="#B3E5FC">
+         <v-flex xs12>
+             <v-textarea label="处理方法：" v-model="props.item.processingMethod"  auto-grow rows="1" readonly></v-textarea>
+          </v-flex>
           <tr>
             <td>机型品牌：</td> <td class="text-xs-center">{{ props.item.brandModel }}</td>
             <td>系统平台：</td> <td class="text-xs-center">{{ props.item.systemPlatform }}</td>
             <td>记录人：</td>  <td class="text-xs-center">{{ props.item.recorder }}</td>
           </tr>
+          <v-flex row>
+          <v-flex xs12 sm4>
+            机型品牌：<v-label v-text="props.item.brandModel"/>
+          </v-flex>
+              <v-flex sm4> 
+            系统平台：<label v-text="props.item.systemPlatform"/>
+          </v-flex>
+              <v-flex sm4>
+            记录人：<v-label v-text="props.item.recorder"/>
+          </v-flex>
+          </v-flex>
         </v-card>
       </template>
     </v-data-table>
+    </v-flex>
     <!-- 新增列表 弹框模式 v-on:addUser="addUserItem(user)" -->
     <v-dialog v-model="dialogShow" max-width="800px" persistent scrollable>
       <ConsultationRecordEdit
