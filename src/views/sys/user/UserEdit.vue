@@ -1,64 +1,63 @@
 <template>
   <v-card>
+    <v-form>
     <!-- <v-layout align-center justify-center> -->
-    <v-toolbar dense dark color="primary" class="text-xs-center">
+    <v-toolbar dense dark color="primary">
       <v-toolbar-title>{{editMark ? '修改' : '新增'}}用户</v-toolbar-title>
     </v-toolbar>
     <v-card-text>
-      <!-- <v-from > -->
-      <v-form ref="form" v-model="valid" lazy-validation>
+      <!-- <v-form ref="form" v-model="valid" lazy-validation> -->
+      
         <v-layout wrap>
-          <v-flex xs12>
-            <v-text-field label="用户名*" v-model="user.name " :rules="nameRules" required></v-text-field>
-          </v-flex>
-          <v-flex xs12 v-if="!editMark">
+          <v-flex xs12 sm5>
             <v-text-field
-              label="密码*"
-              type="password"
-              v-model="user.password"
-              :rules="passwordRules"
+              prepend-icon="person"
+              label="登陆名*"
+              v-model.trim="newData.loginName"
+              :rules="nameRules"
               required
             ></v-text-field>
           </v-flex>
-          <!-- <v-layout row> -->
+          <v-flex xs12 sm2/>
           <v-flex xs12 sm5>
-            <v-select :items="['男', '女']" label="性别*" v-model="user.sex" :rules="sexRules" required></v-select>
+            <v-text-field
+              prepend-icon="person"
+              label="真实名*"
+              v-model.trim="newData.realName"
+              :rules="nameRules"
+              required
+            ></v-text-field>
+          </v-flex>
+          <v-flex xs12 sm5>
+            <v-text-field prepend-icon="lock" label="密码*" v-model.trim="newData.password" required></v-text-field>
           </v-flex>
           <v-flex xs12 sm2/>
           <v-flex xs12 sm5>
-            <v-select
-              :items="['启动', '禁用']"
-              label="状态*"
-              v-model="user.status"
-              :rules="statusRules"
-              required
-            ></v-select>
+            <v-text-field prepend-icon="lock" label="确认密码*" v-model.trim="password2" required></v-text-field>
           </v-flex>
-          <!-- </v-layout> -->
-          <v-flex xs12>
-            <v-text-field label="手机号码*" v-model="user.phone" :rules="phoneRules" required></v-text-field>
+          <v-flex xs12 sm5>
+            <v-text-field prepend-icon="phone" label="电话号码*" v-model.trim="newData.phone" required></v-text-field>
           </v-flex>
-          <v-flex xs12>
-            <v-autocomplete
-              :items="['管理员', '库管员',  'Writing', 'Coding', 'Basejump']"
-              label="分配角色"
-              multiple
-            ></v-autocomplete>
+          <v-flex xs12 sm2/>
+          <v-flex xs12 sm5>
+            <v-radio-group v-model.trim="newData.enableTag" :mandatory="false" row label="是否启用">
+              <v-radio label="启用" value="0" color="success"></v-radio>
+              <v-radio label="禁用" value="1" color="warning"></v-radio>
+            </v-radio-group>
           </v-flex>
         </v-layout>
-      </v-form>
-      <!-- </v-from> -->
+    
     </v-card-text>
     <v-card-actions>
       <v-spacer></v-spacer>
       <v-btn color="teal darken-1" flat @click="handleclose">
         <v-icon>close</v-icon>放弃
       </v-btn>
-      <v-btn color="teal darken-1" flat @click="handleAddUser">
+      <v-btn color="teal darken-1" flat @click="handleAddItem">
         <v-icon>check</v-icon>提交
       </v-btn>
     </v-card-actions>
-
+  </v-form>
     <!-- </v-layout> -->
   </v-card>
 </template>
@@ -69,21 +68,22 @@ export default {
       type: Boolean,
       requied: true
     },
-    oldUser: {
+    oldData: {
       type: Object
     }
   },
   data() {
     return {
       valid: true,
-      user: {
-        name: "",
+      newData: {
+        loginName: "",
+        realName: "",
         password: "",
-        sex: "",
-        status: "",
         phone: "",
-        roles: []
+        avatar: "",
+        enableTag: ""
       },
+      password2: "",
       nameRules: [
         v => !!v || "用户名不能为空",
         v => v.length <= 20 || "用户名太长"
@@ -102,41 +102,59 @@ export default {
   },
   watch: {
     // 深度 watcher模式
-    oldUser: {
-      handler: function (val) {
+    oldData: {
+      handler: function(val) {
         if (val) {
-        console.log(val)
-          console.log(Object.deepCopy(val))
-        } else {
-          this.user = {
-            name: "",
-            password: "",
-            sex: "",
-            status: "",
-            phone: "",
-            roles: []
-          };
+          this.newData = Object.assign(val);
+          console.log(this.newData);
         }
       },
       deep: true
     }
   },
-  computed: {
-    // userItem() {
-    //   return this.user;
-    // }
-  },
+  computed: {},
   methods: {
+    initData() {
+      (this.newData.loginName = ""),
+        (this.newData.realName = ""),
+        (this.newData.brandModel = ""),
+        (this.newData.password = ""),
+        (this.newData.phone = ""),
+        (this.newData.avatar = ""),
+        (this.newData.enableTag = ""),
+        (this.password2 = "");
+    },
     handleclose() {
-      this.$refs.form.reset
+      //this.$refs.form.reset;
+      this.initData();
       this.$emit("show");
     },
-    handleAddUser() {
-      if (this.$refs.form.validate()) {
-        console.log(this.user);
-        this.$emit("addUser", this.user);
-      }
+    handleAddItem() {
+      // if (this.$refs.form.validate()) {
+      // 定义一个请求参数对象，通过解构表达式来获取brand中的属性
+      // const { categories, letter, ...params } = this.brand;
+      // 数据库中只要保存分类的id即可，因此我们对categories的值进行处理,只保留id，并转为字符串
+      //params.cids = categories.map(c => c.id).join(",");
+      // 将数据提交到后台
+      const params = this.$qs.stringify(this.newData);
+      console.log(params);
+      this.$axios({
+        method: this.editMark ? "put" : "post",
+        url: "/upms/sys/user",
+        data: params
+      })
+        .then(() => {
+          // 关闭窗口
+          this.$emit("show");
+          // this.$message.success("保存成功！");
+          console.log("保存成功");
+        })
+        .catch(() => {
+          console.log(params);
+          console.log("保存失败");
+        });
     }
+    //}
   }
 };
 </script>

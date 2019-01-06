@@ -6,8 +6,8 @@ const menus = [
        items: [{ title: "首页", path: "/dashboard" }]
     },
     {
-      action: "settings",
-      title: "系统管理",
+      action: "people",
+      title: "基础管理",
       path:"/sys",
       items: [
         { title: "人员管理", path: "/user" },
@@ -27,8 +27,8 @@ const menus = [
     ]
   },
     {
-      action: "people",
-      title: "会员管理",
+      action: "settings",
+      title: "系统管理",
       path:"/user",
       items: [
         { title: "会员统计", path: "/statistics" },

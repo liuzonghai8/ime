@@ -52,9 +52,9 @@
             <td class="text-xs-center">{{ props.item.processingMethod }}</td>
           </tr>
           <tr>
-            <td class="text-xs-center">{{ props.item.brandModel }}</td>
-            <td class="text-xs-center">{{ props.item.systemPlatform }}</td>
-            <td class="text-xs-center">{{ props.item.recorder }}</td>
+            <td>机型品牌：</td> <td class="text-xs-center">{{ props.item.brandModel }}</td>
+            <td>系统平台：</td> <td class="text-xs-center">{{ props.item.systemPlatform }}</td>
+            <td>记录人：</td>  <td class="text-xs-center">{{ props.item.recorder }}</td>
           </tr>
         </v-card>
       </template>

@@ -17,8 +17,8 @@
                     :rules="nameRules"
                     label="用户名"
                     type="text"
-                    placeholder="admin"
                   ></v-text-field>
+                  <!--  placeholder="admin" -->
                   <v-text-field
                     id="password"
                     prepend-icon="lock"

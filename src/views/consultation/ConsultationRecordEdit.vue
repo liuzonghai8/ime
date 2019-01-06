@@ -74,7 +74,7 @@
           </v-flex>
           <v-flex xs12 sm1/>
           <v-flex xs12 sm3>
-            <v-text-field label="记录日期*" v-model="consultrecord.recordDate" readonly></v-text-field>
+            <v-text-field label="记录日期*" :value=this.date readonly></v-text-field>
           </v-flex>
           <v-flex xs12 sm1/>
           <v-flex xs12 sm3>
@@ -119,7 +119,7 @@ export default {
         Consultant: "",
         consultDate: "",
         processingMethod: "",
-        recordDate: this.date,
+        recordDate: new Date(),
         recorder: "当前用户"
       },
       menu: false
@@ -181,7 +181,8 @@ export default {
         //params.letter = letter.toUpperCase();
         // 将数据提交到后台
         // this.$http.post('/item/brand', this.$qs.stringify(params))
-        //this.consultrecord.recorder = "0";
+        this.consultrecord.recorder = "当前登录用户";
+        //this.consultrecord.recordDate = new Date().toDateString;
         const cr = this.$qs.stringify(this.consultrecord);
         //this.consultrecord.recordDate = this.date;
         
@@ -192,15 +193,6 @@ export default {
           method: this.editMark ? "put" : "post",
           url: "/consult/consult",
           data: cr
-          // {
-          //   consultationRecord : this.consultrecord
-          // }
-
-          //cr
-          //this.consultrecord
-          // {
-          //   consultationRecord : this.consultrecord.data
-          // }
         })
           .then(() => {
             // 关闭窗口
@@ -209,7 +201,7 @@ export default {
             console.log("保存成功");
           })
           .catch(() => {
-            // this.$message.error("保存失败！");
+            console.log(cr);
             console.log("保存失败");
           });
       }
