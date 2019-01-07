@@ -182,11 +182,14 @@ export default {
         .then(resp => {
           // 成功后获取处理
          // console.log(resp);
-          this.datas = resp.data.data.list;
-          this.total = resp.data.data.total;
+          this.datas = resp.data.list;
+          this.total = resp.data.total;
           // 完成赋值后，把加载状态赋值为false
           this.loading = false;
-        });
+        })
+        .catch(
+          console.log("异常了")
+        );
     }
   }
 };
