@@ -6,7 +6,8 @@
     -->
     <v-tooltip bottom>
       <v-btn scoped slot="activator" icon @click.stop="handleChangeDrawer">
-        <v-icon large
+        <v-icon
+          large
           v-text="drawer?'format_indent_decrease':'format_indent_increase'"
           :color="dark ? 'secondary' : 'primary'"
         ></v-icon>
@@ -37,7 +38,8 @@
     <!-- 全屏按钮  compress  expand-->
     <v-tooltip bottom>
       <v-btn slot="activator" icon @click="handleScreen(screen)">
-        <v-icon x-large
+        <v-icon
+          x-large
           v-text="screen?'fullscreen_exit':'fullscreen'"
           :color="dark ? 'secondary' : 'primary'"
         ></v-icon>
@@ -52,6 +54,12 @@
     <v-btn icon @click.stop>
       <v-icon>account_box</v-icon>
     </v-btn>
+    <v-avatar>
+      <v-icon></v-icon>
+    </v-avatar>
+     <v-avatar>
+      <img src="../../assets/tx.jpg" alt="">
+    </v-avatar>
   </v-toolbar>
 </template>
 <script>
@@ -67,8 +75,7 @@ export default {
       menuMap: {}
     };
   },
-  componentes:{
-  },
+  componentes: {},
   computed: {
     subMenu() {
       // const subpatch = this.$route.path.split("/");
