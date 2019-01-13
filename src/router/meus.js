@@ -6,19 +6,29 @@ const menus = [
        items: [{ title: "首页", path: "/dashboard" }]
     },
     {
-      action: "settings",
-      title: "系统管理",
+      action: "people",
+      title: "基础管理",
       path:"/sys",
       items: [
         { title: "人员管理", path: "/user" },
-        { title: "权限管理", path: "/auth" },
+        { title: "角色管理", path: "/role" },
         { title: "机构管理", path: "/dept" },
-        { title: "角色管理", path: "/role" }
+        { title: "菜单管理", path: "/auth" }
       ]
     },
+  {
+    action: "note",
+    title: "咨询管理",
+    path: "/ConsultationManagement",
+    items: [
+      { title: "咨询记录", path: "/consultationRecord" },
+      { title: "问题汇总", path: "/ProblemSummary" },
+      { title: "会员管理", path: "/list" }
+    ]
+  },
     {
-      action: "people",
-      title: "会员管理",
+      action: "settings",
+      title: "系统管理",
       path:"/user",
       items: [
         { title: "会员统计", path: "/statistics" },

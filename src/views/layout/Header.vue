@@ -1,13 +1,8 @@
 <template>
-  <v-toolbar app>
-    <!-- 隐藏左侧菜单的按钮-->
-    <!-- <v-toolbar-side-icon @click.stop="handleChangeDrawer "/> 
-    "drawer?'fas fa-arrow-to-left':'fas fa-angle-double-right'"
-    -->
+  <v-toolbar  app>
     <v-tooltip bottom>
       <v-btn scoped slot="activator" icon @click.stop="handleChangeDrawer">
-        <v-icon
-          large
+        <v-icon 
           v-text="drawer?'format_indent_decrease':'format_indent_increase'"
           :color="dark ? 'secondary' : 'primary'"
         ></v-icon>
@@ -50,6 +45,15 @@
     <v-btn icon @click.stop="handleChangeTheme">
       <v-icon large :color="dark ? 'secondary' : 'primary'">invert_colors</v-icon>
     </v-btn>
+    <!-- 消息按钮 -->
+      <v-badge  overlap>
+      <span slot="badge">10</span>
+      <v-avatar
+        color="purple red--after"
+      >
+        <v-icon dark>notifications</v-icon>
+      </v-avatar>
+    </v-badge>
     <!-- 头像 -->
     <v-btn icon @click.stop>
       <v-icon>account_box</v-icon>
@@ -63,7 +67,7 @@
   </v-toolbar>
 </template>
 <script>
-import { fullscreenToggel } from "@/util/util";
+import { fullscreenToggel } from "@/utils/util";
 export default {
   props: {
     drawer: Boolean,

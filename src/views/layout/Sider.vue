@@ -1,12 +1,12 @@
 <template>
    <!-- 导航栏 fixed  permanent-->
+    <!-- enable-resize-watcher 自动调整是否关闭右侧栏  class="blue lighten-3"-->
     <v-navigation-drawer
       :dark="dark"
       :mini-variant.sync="miniNav"
       v-model="drawer"
-      enable-resize-watcher
       fixed
-      width="200"
+      width="250"
       app
     >
       <v-toolbar flat class="transparent"  :color="dark ? 'secondary' : 'primary'">
@@ -37,6 +37,7 @@
           :key="item.title"
           :prepend-icon="item.action"
           no-action
+         
         >
           <!-- 一级菜单 scoped slot="activator" -->
           <v-list-tile slot="activator">
@@ -73,7 +74,7 @@ export default {
     data(){
         return{
             miniNav: false,// 左侧导航是否收起
-            title: "后台管理系统",
+            title: "Sweet管理系统",
 
         }
     },

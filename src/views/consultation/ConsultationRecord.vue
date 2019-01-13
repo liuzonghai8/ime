@@ -2,7 +2,7 @@
   <v-card>
     <!-- 搜索条 -->
     <v-card-title class="py-1">
-      <v-btn small :color="dark ? 'secondary' : 'primary'" @click="handleadd">新增角色</v-btn>
+      <v-btn small :color="dark ? 'secondary' : 'primary'" @click="handleadd">新增咨询记录</v-btn>
       <!-- <v-btn small color="error" @click="batchDeleteUser">批量删除</v-btn> -->
       <v-spacer/>
       <v-flex xs5>
@@ -11,6 +11,7 @@
     </v-card-title>
     <v-divider/>
     <!-- 数据表格 -->
+    <v-flex md12>
     <v-data-table
       v-model="selected"
       :headers="headers"
@@ -27,37 +28,52 @@
            <td class="text-xs-center">{{ props.item.processingMethod }}</td>
         </td>-->
         <tr @click="props.expanded = !props.expanded">
-            <td class="text-xs-center">{{ props.item.name }}</td>
-          <td class="text-xs-center">{{ props.item.code }}</td>
-          <td class="text-xs-center">{{ props.item.description}}</td>
-          <td class="text-xs-center"> {{ props.item.enableTag ==0 ? "启用" :"禁用" }}</td>
+            <td class="text-xs-center">{{ props.item.consultDate }}</td>
+          <td class="text-xs-center">{{ props.item.problemDescription }}</td>
+          <td class="text-xs-center">{{ props.item.consultDepartment }}</td>
+          <!-- <td class="text-xs-center">{{ props.item.processingMethod }}</td>
+        <td class="text-xs-center">{{ props.item.brandModel }}</td>
+        <td class="text-xs-center">{{ props.item.systemPlatform }}</td>
+        <td class="text-xs-center">{{ props.item.consultDepartment }}</td>
+          <td class="text-xs-center">{{ props.item.recorder }}</td>-->
           <td class="text-xs-center">
             <v-btn icon @click="handleEdit(props.item)">
-              <v-icon  color="teal darken-1">edit</v-icon>
+              <v-icon color="teal darken-1">edit</v-icon>
             </v-btn>
             <v-btn icon @click="deleteItem(props.item)">
-              <v-icon  color="deep-orange accent-4">delete</v-icon>
+              <v-icon color="deep-orange accent-4">delete</v-icon>
             </v-btn>
           </td>
         </tr>
       </template>
-      <!-- <template slot="expand" slot-scope="props">
-        <v-card flat>
-          <tr>
-            <td>处理方法：</td>
-            <td class="text-xs-center">{{ props.item.processingMethod }}</td>
-          </tr>
+      <template slot="expand" slot-scope="props">
+        <v-card flat  color="#B3E5FC">
+         <v-flex xs12>
+             <v-textarea label="处理方法：" v-model="props.item.processingMethod"  auto-grow rows="1" readonly></v-textarea>
+          </v-flex>
           <tr>
             <td>机型品牌：</td> <td class="text-xs-center">{{ props.item.brandModel }}</td>
             <td>系统平台：</td> <td class="text-xs-center">{{ props.item.systemPlatform }}</td>
             <td>记录人：</td>  <td class="text-xs-center">{{ props.item.recorder }}</td>
           </tr>
+          <v-flex row>
+          <v-flex xs12 sm4>
+            机型品牌：<v-label v-text="props.item.brandModel"/>
+          </v-flex>
+              <v-flex sm4> 
+            系统平台：<label v-text="props.item.systemPlatform"/>
+          </v-flex>
+              <v-flex sm4>
+            记录人：<v-label v-text="props.item.recorder"/>
+          </v-flex>
+          </v-flex>
         </v-card>
-      </template> -->
+      </template>
     </v-data-table>
+    </v-flex>
     <!-- 新增列表 弹框模式 v-on:addUser="addUserItem(user)" -->
-    <v-dialog v-model="dialogShow" max-width="400px" persistent scrollable>
-      <RoleEdit
+    <v-dialog v-model="dialogShow" max-width="800px" persistent scrollable>
+      <ConsultationRecordEdit
         :editMark="editMark"
         :oldData="oldData"
         v-on:show="handleCloseDialog"
@@ -66,7 +82,7 @@
   </v-card>
 </template>
 <script>
-import RoleEdit from "./RoleEdit";
+import ConsultationRecordEdit from "./ConsultationRecordEdit";
 export default {
   props: {
     dark: Boolean
@@ -85,24 +101,43 @@ export default {
       //数据表头,
       headers: [
          {
-          text: "角色名称",
+          text: "咨询日期",
           align: "center",
-          value: "name"
-        },
-        {
-          text: "角色代码",
-          align: "center",
-          value: "code"
+          value: "consult_date",
+          sortable: false
           
         },
-        { text: "角色描述", align: "center", value: "description"},
-         { text: "状态", align: "center", value: "enable_tag" ,sortable: false},
+        {
+          text: "故障问题描述",
+          align: "center",
+          value: "problem_description"
+          
+        },
+        // },
+        // {
+        //   text: "处理方法",
+        //   align: "center",
+        //   sortable: false,
+        //   value: "processingMethod"
+        // },
+        { text: "咨询单位", align: "center", value: "consult_department"},
+        // {
+        //   text: "系统平台",
+        //   align: "center",
+        //   value: "systemPlatform"
+        // },
+        // {
+        //   text: "品牌机型",
+        //   align: "center",
+        //   value: "brandModel"
+        // },
+        // { text: "记录人", align: "center", value: "recorder" },
         { text: "操作", align: "center", value: "name", sortable: false }
       ]
     };
   },
   components: {
-    RoleEdit
+    ConsultationRecordEdit
   },
   //计算属性：
   computed: {},
@@ -158,10 +193,9 @@ export default {
     deleteItem(params) {
       //根据ID删除一条记录
         const id = params.id;
-        console.log(id),
-        confirm('Are you sure you want to delete this item?')
+        console.log(id)
         this.$axios
-          .delete("upms/sys/role/" + id)
+          .delete("consult/consult/" + id)
           .then(()=>{
             console.log("删除成功")
             this.getDataFromServer()
@@ -170,7 +204,7 @@ export default {
     //从后台获取数据
     getDataFromServer() {
       this.$axios
-        .get("upms/sys/role/page", {
+        .get("consult/consult/page", {
           params: {
             key: this.search, // 搜索条件
             page: this.pagination.page, // 当前页
@@ -181,14 +215,11 @@ export default {
         })
         .then(resp => {
           // 成功后获取处理
-          console.log(resp);
-          console.log(resp.data.msg),
-         //if(resp.data.code===0){
+         // console.log(resp);
           this.datas = resp.data.data.list;
           this.total = resp.data.data.total;
           // 完成赋值后，把加载状态赋值为false
           this.loading = false;
-         // }
         });
     }
   }

@@ -6,6 +6,7 @@
     <v-btn small @click="handleaddUser2(testuser)">新增用户2</v-btn>
         <v-btn small @click="handleaddUser3">新增用户3</v-btn>
         <v-btn small @click="handleaddUser4">新增用户4</v-btn>
+        
       <!-- 数据表格 -->
     <v-data-table
       v-model="selected"
@@ -70,11 +71,13 @@ export default {
       totalUsers(){
         return this.users.length
       },
-
-    ...mapState({
-      users: state => state.user.users,
-      count: state=> state.user.count
-     })
+      //简单写法
+...mapState("user", ["count", "users"]),
+// 基本写法
+    // ...mapState({
+    //   users: state => state.user.users,
+    //   count: state=> state.user.count
+    //  })
   },
   methods:{
     removeuser1(param){

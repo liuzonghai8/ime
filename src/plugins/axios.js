@@ -7,12 +7,16 @@ import axios from "axios";
 // axios.defaults.baseURL = process.env.baseURL || process.env.apiUrl || '';
 // axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-
+axios.defaults.baseURL = 'http://api.sweet.com/api'
 let config = {
   // baseURL: process.env.baseURL || process.env.apiUrl || ""
   // timeout: 60 * 1000, // Timeout
   // withCredentials: true, // Check cross-site Access-Control
+
+  //baseURL: 'http://api.sweet.com',
+  api: '${baseURL}/api'
 };
+//api: '${baseURL}/api'
 
 const _axios = axios.create(config);
 

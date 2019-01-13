@@ -1,72 +1,10 @@
 <template>
   <v-card>
     <!-- 搜索条 -->
-    <v-card-title class="py-1">
-      <v-btn small :color="dark ? 'secondary' : 'primary'" @click="handleadd">新增角色</v-btn>
-      <!-- <v-btn small color="error" @click="batchDeleteUser">批量删除</v-btn> -->
-      <v-spacer/>
-      <v-flex xs5>
-        <v-text-field v-model.lazy="search" append-icon="search" label="输入关键字搜索" hide-details></v-text-field>
-      </v-flex>
-    </v-card-title>
-    <v-divider/>
-    <!-- 数据表格 -->
-    <v-data-table
-      v-model="selected"
-      :headers="headers"
-      :items="datas"
-      :pagination.sync="pagination"
-      :total-items="total"
-      :loading="loading"
-      class="elevation-1"
-      rows-per-page-text="每页行数："
-    >
-      <template slot="items" slot-scope="props">
-        <!-- <td class="text-xs-center">
-          <v-checkbox v-model="props.selected"></v-checkbox>
-           <td class="text-xs-center">{{ props.item.processingMethod }}</td>
-        </td>-->
-        <tr @click="props.expanded = !props.expanded">
-            <td class="text-xs-center">{{ props.item.name }}</td>
-          <td class="text-xs-center">{{ props.item.code }}</td>
-          <td class="text-xs-center">{{ props.item.description}}</td>
-          <td class="text-xs-center"> {{ props.item.enableTag ==0 ? "启用" :"禁用" }}</td>
-          <td class="text-xs-center">
-            <v-btn icon @click="handleEdit(props.item)">
-              <v-icon  color="teal darken-1">edit</v-icon>
-            </v-btn>
-            <v-btn icon @click="deleteItem(props.item)">
-              <v-icon  color="deep-orange accent-4">delete</v-icon>
-            </v-btn>
-          </td>
-        </tr>
-      </template>
-      <!-- <template slot="expand" slot-scope="props">
-        <v-card flat>
-          <tr>
-            <td>处理方法：</td>
-            <td class="text-xs-center">{{ props.item.processingMethod }}</td>
-          </tr>
-          <tr>
-            <td>机型品牌：</td> <td class="text-xs-center">{{ props.item.brandModel }}</td>
-            <td>系统平台：</td> <td class="text-xs-center">{{ props.item.systemPlatform }}</td>
-            <td>记录人：</td>  <td class="text-xs-center">{{ props.item.recorder }}</td>
-          </tr>
-        </v-card>
-      </template> -->
-    </v-data-table>
-    <!-- 新增列表 弹框模式 v-on:addUser="addUserItem(user)" -->
-    <v-dialog v-model="dialogShow" max-width="400px" persistent scrollable>
-      <RoleEdit
-        :editMark="editMark"
-        :oldData="oldData"
-        v-on:show="handleCloseDialog"
-      />
-    </v-dialog>
+   
   </v-card>
 </template>
 <script>
-import RoleEdit from "./RoleEdit";
 export default {
   props: {
     dark: Boolean
@@ -102,7 +40,6 @@ export default {
     };
   },
   components: {
-    RoleEdit
   },
   //计算属性：
   computed: {},

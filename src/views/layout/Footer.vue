@@ -2,7 +2,7 @@
   <v-footer :color="dark ? 'secondary' : 'primary'">
     <v-flex text-xs-center xs12>
       &copy;{{ new Date().getFullYear() }}
-      <strong>SEA</strong>
+      <strong>Sweet</strong>
     </v-flex>
   </v-footer>
 </template>

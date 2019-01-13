@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuetify from 'vuetify/lib'
 import 'vuetify/src/stylus/app.styl'
-import '../assets/1.css'
+import '@/assets/1.css'
 //import '@fortawesome/fontawesome-free/css/all.css'
 //import colors from 'vuetify/es5/util/colors'
 //import 'vuetify/src/stylus/bootstrap.styl'
