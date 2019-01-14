@@ -27,16 +27,16 @@
            <td class="text-xs-center">{{ props.item.processingMethod }}</td>
         </td>-->
         <tr @click="props.expanded = !props.expanded">
-            <td class="text-xs-center">{{ props.item.loginName }}</td>
+          <td class="text-xs-center">{{ props.item.loginName }}</td>
           <td class="text-xs-center">{{ props.item.realName }}</td>
           <td class="text-xs-center">{{ props.item.phone }}</td>
-          <td class="text-xs-center"> {{ props.item.enableTag ==0 ? "启用" :"禁用" }}</td>
+          <td class="text-xs-center">{{ props.item.enableTag ==0 ? "启用" :"禁用" }}</td>
           <td class="text-xs-center">
             <v-btn icon @click="handleEdit(props.item)">
-              <v-icon  color="teal darken-1">edit</v-icon>
+              <v-icon color="teal darken-1">edit</v-icon>
             </v-btn>
             <v-btn icon @click="deleteItem(props.item)">
-              <v-icon  color="deep-orange accent-4">delete</v-icon>
+              <v-icon color="deep-orange accent-4">delete</v-icon>
             </v-btn>
           </td>
         </tr>
@@ -53,15 +53,11 @@
             <td>记录人：</td>  <td class="text-xs-center">{{ props.item.recorder }}</td>
           </tr>
         </v-card>
-      </template> -->
+      </template>-->
     </v-data-table>
     <!-- 新增列表 弹框模式 v-on:addUser="addUserItem(user)" -->
     <v-dialog v-model="dialogShow" max-width="800px" persistent scrollable>
-      <UserEdit
-        :editMark="editMark"
-        :oldData="oldData"
-        v-on:show="handleCloseDialog"
-      />
+      <UserEdit :editMark="editMark" :oldData="oldData" v-on:show="handleCloseDialog"/>
     </v-dialog>
   </v-card>
 </template>
@@ -84,7 +80,7 @@ export default {
       editMark: false, //编辑标记
       //数据表头,
       headers: [
-         {
+        {
           text: "登陆用户名",
           align: "center",
           value: "login_name"
@@ -93,10 +89,9 @@ export default {
           text: "真名",
           align: "center",
           value: "real_name"
-          
         },
-        { text: "电话", align: "center", value: "phone"},
-         { text: "状态", align: "center", value: "enable_tag" ,sortable: false},
+        { text: "电话", align: "center", value: "phone" },
+        { text: "状态", align: "center", value: "enable_tag", sortable: false },
         { text: "操作", align: "center", value: "name", sortable: false }
       ]
     };
@@ -133,7 +128,7 @@ export default {
     initData() {
       this.dialogShow = false;
       this.editMark = false;
-       this.getDataFromServer()
+      this.getDataFromServer();
     },
     //关闭对话框
     handleCloseDialog() {
@@ -157,15 +152,13 @@ export default {
     //删除一个用户
     deleteItem(params) {
       //根据ID删除一条记录
-        const id = params.id;
-        console.log(id),
-        confirm('Are you sure you want to delete this item?')
-        this.$axios
-          .delete("upms/sys/user/" + id)
-          .then(()=>{
-            console.log("删除成功")
-            this.getDataFromServer()
-          });
+      const id = params.id;
+      console.log(id),
+            this.$axios.delete("upms/sys/user/" + id).then(() => {
+              console.log("删除成功");
+              this.getDataFromServer()
+              }
+            )
     },
     //从后台获取数据
     getDataFromServer() {
@@ -181,15 +174,13 @@ export default {
         })
         .then(resp => {
           // 成功后获取处理
-         // console.log(resp);
+          // console.log(resp);
           this.datas = resp.data.list;
           this.total = resp.data.total;
           // 完成赋值后，把加载状态赋值为false
           this.loading = false;
         })
-        .catch(
-          console.log("异常了")
-        );
+        .catch(console.log("异常了"));
     }
   }
 };
