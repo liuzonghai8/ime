@@ -9,7 +9,7 @@
       width="250"
       app
     >
-      <v-toolbar flat class="transparent"  :color="dark ? 'secondary' : 'primary'">
+      <v-toolbar flat dark class="transparent"  :color="color">
         <v-list class="pa-0" dense>
           <v-list-tile avatar>
             <v-list-tile-avatar>
@@ -37,7 +37,6 @@
           :key="item.title"
           :prepend-icon="item.action"
           no-action
-         
         >
           <!-- 一级菜单 scoped slot="activator" -->
           <v-list-tile slot="activator">
@@ -63,6 +62,7 @@
     </v-navigation-drawer>
 </template>
 <script>
+import {mapState} from "vuex"
 export default {
     props:{
         dark: Boolean,
@@ -79,7 +79,7 @@ export default {
         }
     },
     computed:{
-        
+        ...mapState("app",["color"])
     }
 
 }

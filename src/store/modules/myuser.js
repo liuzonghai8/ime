@@ -1,5 +1,5 @@
 
- const user = {
+ const myuser = {
     state: { 
       count: 0,
         users:[ {
@@ -177,4 +177,4 @@ const usersData = [
       phone: "1388888888",
       status: "启动"
     }]
-export default user
+export default myuser

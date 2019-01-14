@@ -45,15 +45,38 @@
     <v-btn icon @click.stop="handleChangeTheme">
       <v-icon large :color="dark ? 'secondary' : 'primary'">invert_colors</v-icon>
     </v-btn>
+
     <!-- 消息按钮 -->
-      <v-badge  overlap>
-      <span slot="badge">10</span>
-      <v-avatar
-        color="purple red--after"
-      >
-        <v-icon dark>notifications</v-icon>
-      </v-avatar>
+     <v-badge color="error" overlap>
+      <template slot="badge">111</template>
+      <v-icon large color="color">notifications</v-icon>
     </v-badge>
+     <v-menu
+      open-on-hover
+      top
+      offset-y
+    >
+       <v-btn
+        slot="activator"
+        color="primary"
+        dark
+      >
+       
+     
+      <v-icon large color="color">notifications</v-icon>
+   
+      </v-btn> 
+
+      <v-list>
+        <v-list-tile
+          v-for="(item, index) in items"
+          :key="index"
+          @click="cc"
+        >
+          <v-list-tile-title>4444</v-list-tile-title>
+        </v-list-tile>
+      </v-list>
+    </v-menu>
     <!-- 头像 -->
     <v-btn icon @click.stop>
       <v-icon>account_box</v-icon>

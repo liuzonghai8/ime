@@ -11,6 +11,11 @@
     </v-card-title>
     <v-divider/>
     <!-- 数据表格 -->
+     <material-card
+          color="green"
+          title="Simple Table"
+          text="Here is a subtitle for this table"
+        >
     <v-data-table
       v-model="selected"
       :headers="headers"
@@ -55,6 +60,7 @@
         </v-card>
       </template> -->
     </v-data-table>
+     </material-card>
     <!-- 新增列表 弹框模式 v-on:addUser="addUserItem(user)" -->
     <v-dialog v-model="dialogShow" max-width="800px" persistent scrollable>
       <UserEdit

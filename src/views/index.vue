@@ -1,13 +1,31 @@
 <template>
-  <div>
+  <v-container
+    fluid
+    grid-list-xl
+    pl=0
+  >
+   <v-layout
+      justify-center
+      wrap
+    >
+      <v-flex
+        md12
+      >
+      <material-card
+          color="green"
+          title="Simple Table"
+          text="Here is a subtitle for this table"
+        >
     首页count={{count}} <v-btn small @click="handleInrement">+</v-btn><br>
     <!--  :color="dark ? 'secondary' : 'primary'" -->
    <v-btn small @click="handleaddUser">新增用户</v-btn>
     <v-btn small @click="handleaddUser2(testuser)">新增用户2</v-btn>
         <v-btn small @click="handleaddUser3">新增用户3</v-btn>
         <v-btn small @click="handleaddUser4">新增用户4</v-btn>
+         <v-btn small @click="addUser()">新增用户</v-btn>
         
       <!-- 数据表格 -->
+       
     <v-data-table
       v-model="selected"
       :headers="headers"
@@ -18,6 +36,7 @@
       class="elevation-1"
       rows-per-page-text="每页行数："
     >
+        
       <template slot="items" slot-scope="props">
         <td>
           <v-checkbox align="center" v-model="props.selected" primary hide-details></v-checkbox>
@@ -30,16 +49,19 @@
           <v-btn icon @click="handleeditUser(props.item)">
             <v-icon color="teal darken-1">edit</v-icon>
           </v-btn>
-          <v-btn icon @click="removeuser1(props.item)">
+          <v-btn icon @click="removeUser0(props.item)">
             <v-icon color="deep-orange accent-4">close</v-icon>
           </v-btn>
-            <v-btn icon @click="removeUser(props.item)">
+            <v-btn icon @click="addUser0(props.item)">
             <v-icon color="deep-orange accent-4">note_add</v-icon>
           </v-btn>
         </td>
       </template>
     </v-data-table>
-  </div>
+       </material-card>
+      </v-flex>
+   </v-layout>
+  </v-container>
 </template>
 <script>
 import { mapState,mapMutations,mapActions } from "vuex";
@@ -100,6 +122,10 @@ handleInrement(){
       phone: "1388888888",
       status: "禁用"}
       )
+      // this.user/addUser({ name: "周杰伦",
+      //  sex: "男",
+      //  phone: "1388888888",
+      //  status: "禁用"})
     },
     handleaddUser3(){
       console.log("store.action"),
@@ -120,19 +146,22 @@ handleInrement(){
       status: "禁用"}
       )
     },
-    ...mapMutations({
-      handleaddUser2: 'addUser',
-      deleteUser: 'removeUser'
-    }),
-    ...mapMutations([
-      'addUser',
-      'removeUser'
-    ]),
-    ...mapActions([
-      'addUser',
-      'incerement',
-      'addUserPromise'
-      ])
+    // ...mapMutations({
+    //   handleaddUser2: 'addUser',
+    //   deleteUser: 'removeUser'
+    // }),
+...mapMutations("user",['addUser0',"removeUser0"]),
+...mapMutations("app",['color',"drawe"]),
+
+    // ...mapMutations([
+    //   'addUser',
+    //   'removeUser'
+    // ]),
+    // ...mapActions([
+    //   'addUser',
+    //   'incerement',
+    //   'addUserPromise'
+    //   ])
   }
 };
 </script>
