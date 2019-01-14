@@ -4,6 +4,7 @@
     <Header :dark="dark"  :drawer="drawer"  v-on:changeDrawer="changeDrawer" v-on:changeTheme="changeTheme"></Header>
     <Content></Content>
     <Footer :dark="dark" ></Footer>
+    <!-- <Filter/> -->
   </v-app>
 </template>
 <script>
@@ -12,6 +13,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 import Content from "./Content";
 import menus from "@/router/meus.js";
+//import Filter from './Filter'
 export default {
   data() {
     return {
@@ -20,7 +22,7 @@ export default {
     };
   },
   components: {
-    Sider,
+   Sider,
     Header,
     Content,
     Footer

@@ -33,7 +33,8 @@
     <!-- 全屏按钮  compress  expand-->
     <v-tooltip bottom>
       <v-btn slot="activator" icon @click="handleScreen(screen)">
-        <v-icon x-large
+        <v-icon
+          x-large
           v-text="screen?'fullscreen_exit':'fullscreen'"
           :color="dark ? 'secondary' : 'primary'"
         ></v-icon>
@@ -44,28 +45,52 @@
     <v-btn icon @click.stop="handleChangeTheme">
       <v-icon large :color="dark ? 'secondary' : 'primary'">invert_colors</v-icon>
     </v-btn>
-    <!-- 消息按钮 -->
-      <v-badge  overlap>
-      <span slot="badge">10</span>
-      <v-avatar
-        color="purple red--after"
-      >
-        <v-icon dark>notifications</v-icon>
-      </v-avatar>
-    </v-badge>
-    <!-- 头像 -->
-     <v-avatar>
-      <img
-        src="https://cdn.vuetifyjs.com/images/john.jpg"
-        alt="John"
-      >
-    </v-avatar>
 
-  
+    <!-- 消息按钮 -->
+     <v-badge color="error" overlap>
+      <template slot="badge">111</template>
+      <v-icon large color="color">notifications</v-icon>
+    </v-badge>
+     <v-menu
+      open-on-hover
+      top
+      offset-y
+    >
+       <v-btn
+        slot="activator"
+        color="primary"
+        dark
+      >
+       
+     
+      <v-icon large color="color">notifications</v-icon>
+   
+      </v-btn> 
+
+      <v-list>
+        <v-list-tile
+          v-for="(item, index) in items"
+          :key="index"
+          @click="cc"
+        >
+          <v-list-tile-title>4444</v-list-tile-title>
+        </v-list-tile>
+      </v-list>
+    </v-menu>
+    <!-- 头像 -->
+    <v-btn icon @click.stop>
+      <v-icon>account_box</v-icon>
+    </v-btn>
+    <v-avatar>
+      <v-icon></v-icon>
+    </v-avatar>
+     <v-avatar>
+      <img src="../../assets/tx.jpg" alt="">
+    </v-avatar>
   </v-toolbar>
 </template>
 <script>
-import { fullscreenToggel } from "@/util/util";
+import { fullscreenToggel } from "@/utils/util";
 export default {
   props: {
     drawer: Boolean,
@@ -77,8 +102,7 @@ export default {
       menuMap: {}
     };
   },
-  componentes:{
-  },
+  componentes: {},
   computed: {
     subMenu() {
       // const subpatch = this.$route.path.split("/");

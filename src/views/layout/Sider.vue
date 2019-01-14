@@ -1,16 +1,15 @@
 <template>
    <!-- 导航栏 fixed  permanent-->
-    <!-- enable-resize-watcher 自动调整是否关闭右侧栏 -->
+    <!-- enable-resize-watcher 自动调整是否关闭右侧栏  class="blue lighten-3"-->
     <v-navigation-drawer
       :dark="dark"
-      class="blue lighten-3"
       :mini-variant.sync="miniNav"
       v-model="drawer"
       fixed
       width="250"
       app
     >
-      <v-toolbar flat class="transparent"  :color="dark ? 'secondary' : 'primary'">
+      <v-toolbar flat dark class="transparent"  :color="color">
         <v-list class="pa-0" dense>
           <v-list-tile avatar>
             <v-list-tile-avatar>
@@ -63,6 +62,7 @@
     </v-navigation-drawer>
 </template>
 <script>
+import {mapState} from "vuex"
 export default {
     props:{
         dark: Boolean,
@@ -74,12 +74,12 @@ export default {
     data(){
         return{
             miniNav: false,// 左侧导航是否收起
-            title: "后台管理系统",
+            title: "Sweet管理系统",
 
         }
     },
     computed:{
-        
+        ...mapState("app",["color"])
     }
 
 }
