@@ -1,67 +1,67 @@
 <template>
-  <v-card>
-    <v-form>
-    <!-- <v-layout align-center justify-center> -->
-    <v-toolbar dense dark color="primary">
-      <v-toolbar-title>{{editMark ? '修改' : '新增'}}用户</v-toolbar-title>
-    </v-toolbar>
-    <v-card-text>
-      <!-- <v-form ref="form" v-model="valid" lazy-validation> -->
-        <v-layout wrap>
-          <v-flex xs12 sm5>
-            <v-text-field
-              prepend-icon="person"
-              label="登陆名*"
-              v-model.trim="newData.loginName"
-            
-              required
-            ></v-text-field>
-          </v-flex>
-          <v-flex xs12 sm2/>
-          <v-flex xs12 sm5>
-            <v-text-field
-              prepend-icon="person"
-              label="真实名*"
-              v-model.trim="newData.realName"
-           
-              required
-            ></v-text-field>
-          </v-flex>
-          <v-flex xs12 sm5>
-            <v-text-field prepend-icon="lock" label="密码*" v-model.trim="newData.password" required></v-text-field>
-          </v-flex>
-          <v-flex xs12 sm2/>
-          <v-flex xs12 sm5>
-            <v-text-field prepend-icon="lock" label="确认密码*" v-model.trim="password2" required></v-text-field>
-          </v-flex>
-          <v-flex xs12 sm5>
-            <v-text-field prepend-icon="phone" label="电话号码*" v-model.trim="newData.phone" required></v-text-field>
-          </v-flex>
-          <v-flex xs12 sm2/>
-          <v-flex xs12 sm5>
-            <v-radio-group v-model.trim="newData.enableTag" :mandatory="false" row label="是否启用">
-              <v-radio label="启用" value="0" color="success"></v-radio>
-              <v-radio label="禁用" value="1" color="warning"></v-radio>
-            </v-radio-group>
-          </v-flex>
-        </v-layout>
-    
-    </v-card-text>
-    <v-card-actions>
-      <v-spacer></v-spacer>
-      <v-btn color="teal darken-1" flat @click="handleclose">
-        <v-icon>close</v-icon>放弃
-      </v-btn>
-      <v-btn color="teal darken-1" flat @click="handleAddItem">
-        <v-icon>check</v-icon>提交
-      </v-btn>
-    </v-card-actions>
+  <v-form v-model="valid" ref="myForm">
+    <v-text-field
+      prepend-icon="person"
+      label="登陆名*"
+      v-model.trim="newData.loginName"
+      required
+      :rules="nameRules"
+    ></v-text-field>
+    <v-text-field
+      prepend-icon="person"
+      label="真实名*"
+      v-model.trim="newData.realName"
+      required
+      :rules="nameRules"
+    ></v-text-field>
+    <v-text-field
+      prepend-icon="lock"
+      label="密码*"
+      v-model.trim="newData.password"
+      required
+      :rules="passwordRules"
+    ></v-text-field>
+    <v-text-field
+      prepend-icon="lock"
+      label="确认密码*"
+      v-model.trim="password2"
+      required
+      :rules="passwordRules"
+    ></v-text-field>
+    <v-text-field
+      prepend-icon="phone"
+      label="电话号码*"
+      v-model.trim="newData.phone"
+      required
+      :rules="phoneRules"
+    ></v-text-field>
+    <!-- 单选按钮 -->
+    <v-radio-group v-model.trim="newData.enableTag" :mandatory="false" required row label="用户是否启用">
+      <v-radio label="启用" value="0" color="success"></v-radio>
+      <v-radio label="禁用" value="1" color="warning"></v-radio>
+    </v-radio-group>
+    <!-- 多选按钮 -->
+    <v-select
+      v-model="newData.roles"
+      :items="options"
+      label="请点击选择分配角色"
+      item-text="label"
+      item-value="value"
+      multiple
+      small-chips
+      persistent-hint
+      required
+    ></v-select>
+    <v-layout class="my-2" row>
+      <v-btn @click="clear">重置</v-btn>
+      <v-spacer/>
+      <v-btn @click="submit" color="primary">提交</v-btn>
+    </v-layout>
   </v-form>
-    <!-- </v-layout> -->
-  </v-card>
 </template>
 <script>
 export default {
+  name: "user-from",
   props: {
     editMark: {
       type: Boolean,
@@ -73,15 +73,17 @@ export default {
   },
   data() {
     return {
-      valid: true,
+      valid: false, // 表单校验结果标记
       newData: {
         loginName: "",
         realName: "",
         password: "",
         phone: "",
         avatar: "",
-        enableTag: ""
+        enableTag: "",
+        roles: []
       },
+      options: [],
       password2: "",
       nameRules: [
         v => !!v || "用户名不能为空",
@@ -91,8 +93,6 @@ export default {
         v => !!v || "密码不能为空",
         v => v.length <= 20 || "用户名太长"
       ],
-      sexRules: [v => !!v || "必须选择"],
-      statusRules: [v => !!v || "必须选择"],
       phoneRules: [
         v => !!v || "手机号码不能为空",
         v => v.length == 11 || "手机号码位数不对"
@@ -105,14 +105,44 @@ export default {
       handler: function(val) {
         if (val) {
           this.newData = Object.assign(val);
-          console.log(this.newData);
+        } else {
+          this.initData();
         }
       },
       deep: true
     }
   },
+  //页面加载钩子函数
+  mounted() {
+    this.loadData().then(data => {
+      this.options = data;
+    });
+  },
   computed: {},
   methods: {
+    //加载角色选项
+    loadData() {
+      return new Promise(resolve => {
+        this.$axios.get("upms/sys/role/all").then(resp => {
+          console.log(resp.data);
+          const data = [];
+          for (let d of resp.data) {
+            const node = {
+              value: d.id,
+              label: d.name
+            };
+            if (d.enableTag == 0) {
+              data.push(node);
+            }
+          }
+          console.log(data);
+          resolve(data);
+        });
+      });
+    },
+    // remove(param) {
+    //   this.roles = this.roles.filter(o => o.value !== param.value);
+    // },
     initData() {
       (this.newData.loginName = ""),
         (this.newData.realName = ""),
@@ -122,25 +152,40 @@ export default {
         (this.newData.avatar = ""),
         (this.newData.enableTag = ""),
         (this.password2 = "");
+      this.roles = [];
     },
-    handleclose() {
-      //this.$refs.form.reset;
-      this.initData();
-      this.$emit("show");
+    clear() {
+      // 重置表单
+      this.$refs.myForm.reset();
+      this.roles = [];
     },
-    handleAddItem() {
-      // if (this.$refs.form.validate()) {
+    submit() {
+      // if (this.$refs.myform.validate()) {
       // 定义一个请求参数对象，通过解构表达式来获取brand中的属性
       // const { categories, letter, ...params } = this.brand;
       // 数据库中只要保存分类的id即可，因此我们对categories的值进行处理,只保留id，并转为字符串
       //params.cids = categories.map(c => c.id).join(",");
       // 将数据提交到后台
-      const params = this.$qs.stringify(this.newData);
-      console.log(params);
+      const { roles, ...params } = this.newData;
+      //console.log(params2);
+      if (!roles.length) {
+        params.rids = roles.map(r => r.value).join(",");
+      }
+
+      //const params = this.$qs.stringify(params2);
+      // console.log("p");
+      // console.log(params);
+
+      // const user2 = this.$qs.stringify(this.newData);
+      // console.log(user2);
+      //const rids = roles.map(r => r.value).join(",");
+      //rids = this.$qs.stringify(rids);
+      const ps = this.$qs.stringify(params);
+      console.log(ps);
       this.$axios({
         method: this.editMark ? "put" : "post",
         url: "/upms/sys/user",
-        data: params
+        data: ps
       })
         .then(() => {
           // 关闭窗口

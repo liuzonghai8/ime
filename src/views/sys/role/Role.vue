@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card class="px-2">
     <!-- 搜索条 -->
     <v-card-title class="py-1">
       <v-btn small :color="dark ? 'secondary' : 'primary'" @click="handleadd">新增角色</v-btn>
@@ -27,16 +27,16 @@
            <td class="text-xs-center">{{ props.item.processingMethod }}</td>
         </td>-->
         <tr @click="props.expanded = !props.expanded">
-            <td class="text-xs-center">{{ props.item.name }}</td>
+          <td class="text-xs-center">{{ props.item.name }}</td>
           <td class="text-xs-center">{{ props.item.code }}</td>
           <td class="text-xs-center">{{ props.item.description}}</td>
-          <td class="text-xs-center"> {{ props.item.enableTag ==0 ? "启用" :"禁用" }}</td>
+          <td class="text-xs-center">{{ props.item.enableTag ==0 ? "启用" :"禁用" }}</td>
           <td class="text-xs-center">
             <v-btn icon @click="handleEdit(props.item)">
-              <v-icon  color="teal darken-1">edit</v-icon>
+              <v-icon color="teal darken-1">edit</v-icon>
             </v-btn>
             <v-btn icon @click="deleteItem(props.item)">
-              <v-icon  color="deep-orange accent-4">delete</v-icon>
+              <v-icon color="deep-orange accent-4">delete</v-icon>
             </v-btn>
           </td>
         </tr>
@@ -53,15 +53,11 @@
             <td>记录人：</td>  <td class="text-xs-center">{{ props.item.recorder }}</td>
           </tr>
         </v-card>
-      </template> -->
+      </template>-->
     </v-data-table>
     <!-- 新增列表 弹框模式 v-on:addUser="addUserItem(user)" -->
     <v-dialog v-model="dialogShow" max-width="400px" persistent scrollable>
-      <RoleEdit
-        :editMark="editMark"
-        :oldData="oldData"
-        v-on:show="handleCloseDialog"
-      />
+      <RoleEdit :editMark="editMark" :oldData="oldData" v-on:show="handleCloseDialog"/>
     </v-dialog>
   </v-card>
 </template>
@@ -84,7 +80,7 @@ export default {
       editMark: false, //编辑标记
       //数据表头,
       headers: [
-         {
+        {
           text: "角色名称",
           align: "center",
           value: "name"
@@ -93,10 +89,9 @@ export default {
           text: "角色代码",
           align: "center",
           value: "code"
-          
         },
-        { text: "角色描述", align: "center", value: "description"},
-         { text: "状态", align: "center", value: "enable_tag" ,sortable: false},
+        { text: "角色描述", align: "center", value: "description" },
+        { text: "状态", align: "center", value: "enable_tag", sortable: false },
         { text: "操作", align: "center", value: "name", sortable: false }
       ]
     };
@@ -133,7 +128,7 @@ export default {
     initData() {
       this.dialogShow = false;
       this.editMark = false;
-       this.getDataFromServer()
+      this.getDataFromServer();
     },
     //关闭对话框
     handleCloseDialog() {
@@ -157,15 +152,12 @@ export default {
     //删除一个用户
     deleteItem(params) {
       //根据ID删除一条记录
-        const id = params.id;
-        console.log(id),
-        confirm('Are you sure you want to delete this item?')
-        this.$axios
-          .delete("upms/sys/role/" + id)
-          .then(()=>{
-            console.log("删除成功")
-            this.getDataFromServer()
-          });
+      const id = params.id;
+      console.log(id), confirm("Are you sure you want to delete this item?");
+      this.$axios.delete("upms/sys/role/" + id).then(() => {
+        console.log("删除成功");
+        this.getDataFromServer();
+      });
     },
     //从后台获取数据
     getDataFromServer() {
@@ -183,12 +175,12 @@ export default {
           // 成功后获取处理
           console.log(resp);
           console.log(resp.data.msg),
-         //if(resp.data.code===0){
-          this.datas = resp.data.data.list;
+            //if(resp.data.code===0){
+            (this.datas = resp.data.data.list);
           this.total = resp.data.data.total;
           // 完成赋值后，把加载状态赋值为false
           this.loading = false;
-         // }
+          // }
         });
     }
   }

@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card class="px-2">
     <!-- 搜索条 -->
     <v-card-title class="py-1">
       <v-btn small :color="dark ? 'secondary' : 'primary'" @click="handleadd">新增用户</v-btn>
@@ -11,11 +11,6 @@
     </v-card-title>
     <v-divider/>
     <!-- 数据表格 -->
-     <material-card
-          color="green"
-          title="Simple Table"
-          text="Here is a subtitle for this table"
-        >
     <v-data-table
       v-model="selected"
       :headers="headers"
@@ -23,16 +18,19 @@
       :pagination.sync="pagination"
       :total-items="total"
       :loading="loading"
+      item-key="id"
+      select-all
       class="elevation-1"
       rows-per-page-text="每页行数："
+      no-data-text="无数据"
     >
+      <!--  -->
       <template slot="items" slot-scope="props">
-        <!-- <td class="text-xs-center">
-          <v-checkbox v-model="props.selected"></v-checkbox>
-           <td class="text-xs-center">{{ props.item.processingMethod }}</td>
-        </td>-->
         <tr @click="props.expanded = !props.expanded">
-          <td class="text-xs-center">{{ props.item.loginName }}</td>
+          <td>
+            <v-checkbox v-model="props.selected" primary hide-details></v-checkbox>
+          </td>
+          <td>{{ props.item.loginName }}</td>
           <td class="text-xs-center">{{ props.item.realName }}</td>
           <td class="text-xs-center">{{ props.item.phone }}</td>
           <td class="text-xs-center">{{ props.item.enableTag ==0 ? "启用" :"禁用" }}</td>
@@ -46,24 +44,29 @@
           </td>
         </tr>
       </template>
-      <!-- <template slot="expand" slot-scope="props">
+      <template slot="expand" slot-scope="props">
         <v-card flat>
-          <tr>
-            <td>处理方法：</td>
-            <td class="text-xs-center">{{ props.item.processingMethod }}</td>
-          </tr>
-          <tr>
-            <td>机型品牌：</td> <td class="text-xs-center">{{ props.item.brandModel }}</td>
-            <td>系统平台：</td> <td class="text-xs-center">{{ props.item.systemPlatform }}</td>
-            <td>记录人：</td>  <td class="text-xs-center">{{ props.item.recorder }}</td>
-          </tr>
+          <v-card-text>角色 {{props.item.id}}</v-card-text>
         </v-card>
-      </template>-->
+      </template>
     </v-data-table>
-     </material-card>
     <!-- 新增列表 弹框模式 v-on:addUser="addUserItem(user)" -->
-    <v-dialog v-model="dialogShow" max-width="800px" persistent scrollable>
-      <UserEdit :editMark="editMark" :oldData="oldData" v-on:show="handleCloseDialog"/>
+    <v-dialog v-model="dialogShow" max-width="500px" persistent scrollable>
+      <v-card>
+        <!--对话框的标题-->
+        <v-toolbar dense dark color="primary">
+          <v-toolbar-title>{{editMark ? '修改' : '新增'}}用户</v-toolbar-title>
+          <v-spacer/>
+          <!--关闭窗口的按钮-->
+          <v-btn icon @click="closeDialog">
+            <v-icon>close</v-icon>
+          </v-btn>
+        </v-toolbar>
+        <!--对话框的内容，表单-->
+        <v-card-text class="px-2" style="height:600px">
+          <UserEdit :editMark="editMark" :oldData="oldData" v-on:show="closeDialog"/>
+        </v-card-text>
+      </v-card>
     </v-dialog>
   </v-card>
 </template>
@@ -84,11 +87,12 @@ export default {
       pagination: {}, //监听变化
       dialogShow: false, //显示对话框
       editMark: false, //编辑标记
+      roles: [], // 角色集合
+      userId: "",
       //数据表头,
       headers: [
         {
           text: "登陆用户名",
-          align: "center",
           value: "login_name"
         },
         {
@@ -131,13 +135,14 @@ export default {
 
   methods: {
     //数据初始化
+
     initData() {
       this.dialogShow = false;
       this.editMark = false;
       this.getDataFromServer();
     },
     //关闭对话框
-    handleCloseDialog() {
+    closeDialog() {
       this.initData();
     },
     //添加按钮事件
@@ -160,11 +165,10 @@ export default {
       //根据ID删除一条记录
       const id = params.id;
       console.log(id),
-            this.$axios.delete("upms/sys/user/" + id).then(() => {
-              console.log("删除成功");
-              this.getDataFromServer()
-              }
-            )
+        this.$axios.delete("upms/sys/user/" + id).then(() => {
+          console.log("删除成功");
+          this.getDataFromServer();
+        });
     },
     //从后台获取数据
     getDataFromServer() {
@@ -185,10 +189,21 @@ export default {
           this.total = resp.data.total;
           // 完成赋值后，把加载状态赋值为false
           this.loading = false;
-        })
-        .catch(console.log("异常了"));
+        });
     }
   }
+  // getRolesFromServer() {
+  //   this.$axios
+  //     .get("upms/sys/user/page", {
+  //       params: {
+  //         id: userId
+  //       }
+  //     })
+  //     .then(resp => {
+  //       console.log("success");
+  //       console.log(resp);
+  //     });
+  // }
 };
 </script>
 

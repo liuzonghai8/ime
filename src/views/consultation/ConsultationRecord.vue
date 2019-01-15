@@ -12,64 +12,75 @@
     <v-divider/>
     <!-- 数据表格 -->
     <v-flex md12>
-    <v-data-table
-      v-model="selected"
-      :headers="headers"
-      :items="datas"
-      :pagination.sync="pagination"
-      :total-items="total"
-      :loading="loading"
-      class="elevation-1"
-      rows-per-page-text="每页行数："
-    >
-      <template slot="items" slot-scope="props">
-        <!-- <td class="text-xs-center">
+      <v-data-table
+        v-model="selected"
+        :headers="headers"
+        :items="datas"
+        :pagination.sync="pagination"
+        :total-items="total"
+        :loading="loading"
+        class="elevation-1"
+        rows-per-page-text="每页行数："
+        no-data-text="无数据"
+      >
+        <template slot="items" slot-scope="props">
+          <!-- <td class="text-xs-center">
           <v-checkbox v-model="props.selected"></v-checkbox>
            <td class="text-xs-center">{{ props.item.processingMethod }}</td>
-        </td>-->
-        <tr @click="props.expanded = !props.expanded">
+          </td>-->
+          <tr @click="props.expanded = !props.expanded">
             <td class="text-xs-center">{{ props.item.consultDate }}</td>
-          <td class="text-xs-center">{{ props.item.problemDescription }}</td>
-          <td class="text-xs-center">{{ props.item.consultDepartment }}</td>
-          <!-- <td class="text-xs-center">{{ props.item.processingMethod }}</td>
+            <td class="text-xs-center">{{ props.item.problemDescription }}</td>
+            <td class="text-xs-center">{{ props.item.consultDepartment }}</td>
+            <!-- <td class="text-xs-center">{{ props.item.processingMethod }}</td>
         <td class="text-xs-center">{{ props.item.brandModel }}</td>
         <td class="text-xs-center">{{ props.item.systemPlatform }}</td>
         <td class="text-xs-center">{{ props.item.consultDepartment }}</td>
-          <td class="text-xs-center">{{ props.item.recorder }}</td>-->
-          <td class="text-xs-center">
-            <v-btn icon @click="handleEdit(props.item)">
-              <v-icon color="teal darken-1">edit</v-icon>
-            </v-btn>
-            <v-btn icon @click="deleteItem(props.item)">
-              <v-icon color="deep-orange accent-4">delete</v-icon>
-            </v-btn>
-          </td>
-        </tr>
-      </template>
-      <template slot="expand" slot-scope="props">
-        <v-card flat  color="#B3E5FC">
-         <v-flex xs12>
-             <v-textarea label="处理方法：" v-model="props.item.processingMethod"  auto-grow rows="1" readonly></v-textarea>
-          </v-flex>
-          <tr>
-            <td>机型品牌：</td> <td class="text-xs-center">{{ props.item.brandModel }}</td>
-            <td>系统平台：</td> <td class="text-xs-center">{{ props.item.systemPlatform }}</td>
-            <td>记录人：</td>  <td class="text-xs-center">{{ props.item.recorder }}</td>
+            <td class="text-xs-center">{{ props.item.recorder }}</td>-->
+            <td class="text-xs-center">
+              <v-btn icon @click="handleEdit(props.item)">
+                <v-icon color="teal darken-1">edit</v-icon>
+              </v-btn>
+              <v-btn icon @click="deleteItem(props.item)">
+                <v-icon color="deep-orange accent-4">delete</v-icon>
+              </v-btn>
+            </td>
           </tr>
-          <v-flex row>
-          <v-flex xs12 sm4>
-            机型品牌：<v-label v-text="props.item.brandModel"/>
-          </v-flex>
-              <v-flex sm4> 
-            系统平台：<label v-text="props.item.systemPlatform"/>
-          </v-flex>
+        </template>
+        <template slot="expand" slot-scope="props">
+          <v-card flat color="#B3E5FC">
+            <v-flex xs12>
+              <v-textarea
+                label="处理方法："
+                v-model="props.item.processingMethod"
+                auto-grow
+                rows="1"
+                readonly
+              ></v-textarea>
+            </v-flex>
+            <tr>
+              <td>机型品牌：</td>
+              <td class="text-xs-center">{{ props.item.brandModel }}</td>
+              <td>系统平台：</td>
+              <td class="text-xs-center">{{ props.item.systemPlatform }}</td>
+              <td>记录人：</td>
+              <td class="text-xs-center">{{ props.item.recorder }}</td>
+            </tr>
+            <v-flex row>
+              <v-flex xs12 sm4>机型品牌：
+                <v-label v-text="props.item.brandModel"/>
+              </v-flex>
               <v-flex sm4>
-            记录人：<v-label v-text="props.item.recorder"/>
-          </v-flex>
-          </v-flex>
-        </v-card>
-      </template>
-    </v-data-table>
+                系统平台：
+                <label v-text="props.item.systemPlatform"/>
+              </v-flex>
+              <v-flex sm4>记录人：
+                <v-label v-text="props.item.recorder"/>
+              </v-flex>
+            </v-flex>
+          </v-card>
+        </template>
+      </v-data-table>
     </v-flex>
     <!-- 新增列表 弹框模式 v-on:addUser="addUserItem(user)" -->
     <v-dialog v-model="dialogShow" max-width="800px" persistent scrollable>
@@ -100,18 +111,16 @@ export default {
       editMark: false, //编辑标记
       //数据表头,
       headers: [
-         {
+        {
           text: "咨询日期",
           align: "center",
           value: "consult_date",
           sortable: false
-          
         },
         {
           text: "故障问题描述",
           align: "center",
           value: "problem_description"
-          
         },
         // },
         // {
@@ -120,7 +129,7 @@ export default {
         //   sortable: false,
         //   value: "processingMethod"
         // },
-        { text: "咨询单位", align: "center", value: "consult_department"},
+        { text: "咨询单位", align: "center", value: "consult_department" },
         // {
         //   text: "系统平台",
         //   align: "center",
@@ -168,7 +177,7 @@ export default {
     initData() {
       this.dialogShow = false;
       this.editMark = false;
-       this.getDataFromServer()
+      this.getDataFromServer();
     },
     //关闭对话框
     handleCloseDialog() {
@@ -192,14 +201,12 @@ export default {
     //删除一个用户
     deleteItem(params) {
       //根据ID删除一条记录
-        const id = params.id;
-        console.log(id)
-        this.$axios
-          .delete("consult/consult/" + id)
-          .then(()=>{
-            console.log("删除成功")
-            this.getDataFromServer()
-          });
+      const id = params.id;
+      console.log(id);
+      this.$axios.delete("consult/consult/" + id).then(() => {
+        console.log("删除成功");
+        this.getDataFromServer();
+      });
     },
     //从后台获取数据
     getDataFromServer() {
@@ -215,7 +222,7 @@ export default {
         })
         .then(resp => {
           // 成功后获取处理
-         // console.log(resp);
+          // console.log(resp);
           this.datas = resp.data.data.list;
           this.total = resp.data.data.total;
           // 完成赋值后，把加载状态赋值为false
