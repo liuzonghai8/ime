@@ -45,8 +45,8 @@
       v-model="newData.roles"
       :items="options"
       label="请点击选择分配角色"
-      item-text="label"
-      item-value="value"
+      item-text="name"
+      item-value="id"
       multiple
       small-chips
       persistent-hint
@@ -127,12 +127,12 @@ export default {
           console.log(resp.data);
           const data = [];
           for (let d of resp.data) {
-            const node = {
-              value: d.id,
-              label: d.name
-            };
+            // const node = {
+            //   value: d.id,
+            //   label: d.name
+            // };
             if (d.enableTag == 0) {
-              data.push(node);
+              data.push(d);
             }
           }
           console.log(data);
@@ -167,19 +167,9 @@ export default {
       //params.cids = categories.map(c => c.id).join(",");
       // 将数据提交到后台
       const { roles, ...params } = this.newData;
-      //console.log(params2);
-      if (!roles.length) {
-        params.rids = roles.map(r => r.value).join(",");
+      if (roles.length) {
+        params.rids = roles.map(r => r).join(","); //将数组转换成对象
       }
-
-      //const params = this.$qs.stringify(params2);
-      // console.log("p");
-      // console.log(params);
-
-      // const user2 = this.$qs.stringify(this.newData);
-      // console.log(user2);
-      //const rids = roles.map(r => r.value).join(",");
-      //rids = this.$qs.stringify(rids);
       const ps = this.$qs.stringify(params);
       console.log(ps);
       this.$axios({
