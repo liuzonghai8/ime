@@ -6,8 +6,10 @@ import router from './router'
 import store from '@/store'
 import Axios from 'axios';
 import qs from 'qs'
+import MyComponent from '@/components/MyComponent'
 //import '@fortawesome/fontawesome-free/css/all.css'
 Vue.prototype.$qs = qs;
+Vue.use(MyComponent)
 
 Vue.config.productionTip = false
 Vue.prototype.$axios2 = Axios;

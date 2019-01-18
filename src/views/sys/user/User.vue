@@ -22,6 +22,7 @@
       select-all
       class="elevation-1"
       rows-per-page-text="每页行数："
+      :rows-per-page-items="pagesnum"
       no-data-text="无数据"
     >
       <!--  -->
@@ -89,6 +90,13 @@ export default {
       editMark: false, //编辑标记
       roles: [], // 角色集合
       userId: "",
+      pagesnum: [
+        10,
+        20,
+        50,
+        100,
+        { text: "$vuetify.dataIterator.rowsPerPageAll", value: -1 }
+      ],
       //数据表头,
       headers: [
         {
@@ -165,10 +173,11 @@ export default {
       //根据ID删除一条记录
       const id = params.id;
       console.log(id),
-        this.$axios.delete("upms/sys/user/" + id).then(() => {
-          console.log("删除成功");
-          this.getDataFromServer();
-        });
+        confirm("是否确定删除用户") &&
+          this.$axios.delete("upms/sys/user/" + id).then(() => {
+            console.log("删除成功");
+            this.getDataFromServer();
+          });
     },
     //从后台获取数据
     getDataFromServer() {

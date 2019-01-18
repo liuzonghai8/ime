@@ -153,11 +153,12 @@ export default {
     deleteItem(params) {
       //根据ID删除一条记录
       const id = params.id;
-      console.log(id), confirm("Are you sure you want to delete this item?");
-      this.$axios.delete("upms/sys/role/" + id).then(() => {
-        console.log("删除成功");
-        this.getDataFromServer();
-      });
+      console.log(id),
+        confirm("删除角色同时也删除拥有该角色用户?") &&
+          this.$axios.delete("upms/sys/role/" + id).then(() => {
+            console.log("删除成功");
+            this.getDataFromServer();
+          });
     },
     //从后台获取数据
     getDataFromServer() {

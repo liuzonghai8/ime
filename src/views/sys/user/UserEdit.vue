@@ -5,14 +5,20 @@
       label="登陆名*"
       v-model.trim="newData.loginName"
       required
+      clearable
       :rules="nameRules"
+      validate-on-blur
+      counter
     ></v-text-field>
+    <!--           :rules="passwordRules"   -->
     <v-text-field
       prepend-icon="person"
       label="真实名*"
       v-model.trim="newData.realName"
       required
       :rules="nameRules"
+      validate-on-blur
+      clearable
     ></v-text-field>
     <v-text-field
       prepend-icon="lock"
@@ -20,12 +26,16 @@
       v-model.trim="newData.password"
       required
       :rules="passwordRules"
+      validate-on-blur
+      clearable
     ></v-text-field>
     <v-text-field
       prepend-icon="lock"
       label="确认密码*"
       v-model.trim="password2"
       required
+      clearable
+      validate-on-blur
       :rules="passwordRules"
     ></v-text-field>
     <v-text-field
@@ -33,7 +43,10 @@
       label="电话号码*"
       v-model.trim="newData.phone"
       required
+      clearable
       :rules="phoneRules"
+      validate-on-blur
+      counter="11"
     ></v-text-field>
     <!-- 单选按钮 -->
     <v-radio-group v-model.trim="newData.enableTag" :mandatory="false" required row label="用户是否启用">
@@ -167,7 +180,7 @@ export default {
       //params.cids = categories.map(c => c.id).join(",");
       // 将数据提交到后台
       const { roles, ...params } = this.newData;
-      if (roles.length) {
+      if (roles) {
         params.rids = roles.map(r => r).join(","); //将数组转换成对象
       }
       const ps = this.$qs.stringify(params);
@@ -180,11 +193,12 @@ export default {
         .then(() => {
           // 关闭窗口
           this.$emit("show");
-          // this.$message.success("保存成功！");
+          this.$message.success("保存成功！");
           console.log("保存成功");
         })
         .catch(() => {
           console.log(params);
+          this.$message("保存失败");
           console.log("保存失败");
         });
     }
