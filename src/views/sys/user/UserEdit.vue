@@ -2,7 +2,7 @@
   <v-form v-model="valid" ref="myForm">
     <v-text-field
       prepend-icon="person"
-      label="登陆名*"
+      label="请输入登陆名*"
       v-model.trim="newData.loginName"
       required
       clearable
@@ -13,7 +13,7 @@
     <!--           :rules="passwordRules"   -->
     <v-text-field
       prepend-icon="person"
-      label="真实名*"
+      label="请输入真实名*"
       v-model.trim="newData.realName"
       required
       :rules="nameRules"
@@ -22,7 +22,7 @@
     ></v-text-field>
     <v-text-field
       prepend-icon="lock"
-      label="密码*"
+      label="请输入密码*"
       v-model.trim="newData.password"
       required
       :rules="passwordRules"
@@ -31,7 +31,7 @@
     ></v-text-field>
     <v-text-field
       prepend-icon="lock"
-      label="确认密码*"
+      label="请再次输入密码*"
       v-model.trim="password2"
       required
       clearable
@@ -40,7 +40,7 @@
     ></v-text-field>
     <v-text-field
       prepend-icon="phone"
-      label="电话号码*"
+      label="请输入11位手机号码*"
       v-model.trim="newData.phone"
       required
       clearable
@@ -49,12 +49,12 @@
       counter="11"
     ></v-text-field>
     <!-- 单选按钮 -->
-    <v-radio-group v-model.trim="newData.enableTag" :mandatory="false" required row label="用户是否启用">
+    <v-radio-group v-model.trim="newData.enableTag" :mandatory="false" required row label="请选择是否启用">
       <v-radio label="启用" value="0" color="success"></v-radio>
       <v-radio label="禁用" value="1" color="warning"></v-radio>
     </v-radio-group>
     <!-- 多选按钮 -->
-    <v-select
+    <!-- <v-select
       v-model="newData.roles"
       :items="options"
       label="请点击选择分配角色"
@@ -64,7 +64,7 @@
       small-chips
       persistent-hint
       required
-    ></v-select>
+    ></v-select>-->
     <v-layout class="my-2" row>
       <v-btn @click="clear">重置</v-btn>
       <v-spacer/>
@@ -93,8 +93,8 @@ export default {
         password: "",
         phone: "",
         avatar: "",
-        enableTag: "",
-        roles: []
+        enableTag: ""
+        //roles: []
       },
       options: [],
       password2: "",
@@ -165,12 +165,11 @@ export default {
         (this.newData.avatar = ""),
         (this.newData.enableTag = ""),
         (this.password2 = "");
-      this.roles = [];
+      //this.roles = [];
     },
     clear() {
       // 重置表单
       this.$refs.myForm.reset();
-      this.roles = [];
     },
     submit() {
       // if (this.$refs.myform.validate()) {
@@ -179,16 +178,16 @@ export default {
       // 数据库中只要保存分类的id即可，因此我们对categories的值进行处理,只保留id，并转为字符串
       //params.cids = categories.map(c => c.id).join(",");
       // 将数据提交到后台
-      const { roles, ...params } = this.newData;
-      if (roles) {
-        params.rids = roles.map(r => r).join(","); //将数组转换成对象
-      }
-      const ps = this.$qs.stringify(params);
-      console.log(ps);
+      // const { roles, ...params } = this.newData;
+      // if (roles) {
+      //   params.rids = roles.map(r => r).join(","); //将数组转换成对象
+      // }
+      // const ps = this.$qs.stringify(params);
+      // console.log(ps);
       this.$axios({
         method: this.editMark ? "put" : "post",
         url: "/upms/sys/user",
-        data: ps
+        data: this.$qs.stringify(this.newData)
       })
         .then(() => {
           // 关闭窗口
@@ -197,7 +196,6 @@ export default {
           console.log("保存成功");
         })
         .catch(() => {
-          console.log(params);
           this.$message("保存失败");
           console.log("保存失败");
         });

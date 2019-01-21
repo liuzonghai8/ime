@@ -38,31 +38,39 @@
             <v-btn icon @click="deleteItem(props.item)">
               <v-icon color="deep-orange accent-4">delete</v-icon>
             </v-btn>
+            <v-btn fab dark small color="teal" @click="handleAssignUsers(props.item)">用户</v-btn>
+            <v-btn fab dark small color="purple">权限</v-btn>
           </td>
         </tr>
       </template>
-      <!-- <template slot="expand" slot-scope="props">
-        <v-card flat>
-          <tr>
-            <td>处理方法：</td>
-            <td class="text-xs-center">{{ props.item.processingMethod }}</td>
-          </tr>
-          <tr>
-            <td>机型品牌：</td> <td class="text-xs-center">{{ props.item.brandModel }}</td>
-            <td>系统平台：</td> <td class="text-xs-center">{{ props.item.systemPlatform }}</td>
-            <td>记录人：</td>  <td class="text-xs-center">{{ props.item.recorder }}</td>
-          </tr>
-        </v-card>
-      </template>-->
     </v-data-table>
     <!-- 新增列表 弹框模式 v-on:addUser="addUserItem(user)" -->
-    <v-dialog v-model="dialogShow" max-width="400px" persistent scrollable>
-      <RoleEdit :editMark="editMark" :oldData="oldData" v-on:show="handleCloseDialog"/>
+    <v-dialog v-model="dialogShow" max-width="500px" persistent scrollable>
+      <v-card>
+        <!--对话框的标题-->
+        <v-toolbar dense dark color="primary">
+          <v-toolbar-title v-if="roleMark">{{editMark ? '修改' : '新增'}}角色</v-toolbar-title>
+          <v-toolbar-title v-if="userMark">角色选择用户</v-toolbar-title>
+          <v-spacer/>
+          <!--关闭窗口的按钮-->
+          <v-btn icon @click="closeDialog">
+            <v-icon>close</v-icon>
+          </v-btn>
+        </v-toolbar>
+        <!--对话框的内容，表单-->
+        <v-card-text class="px-2" style="height:400px" v-if="roleMark">
+          <RoleEdit :editMark="editMark" :oldData="oldData" v-on:show="closeDialog"/>
+        </v-card-text>
+        <v-card-text class="px-2" style="height:600px" v-if="userMark">
+          <UserRoleEdit :user="user"></UserRoleEdit>
+        </v-card-text>
+      </v-card>
     </v-dialog>
   </v-card>
 </template>
 <script>
 import RoleEdit from "./RoleEdit";
+import UserRoleEdit from "./UserRoleEdit";
 export default {
   props: {
     dark: Boolean
@@ -78,6 +86,9 @@ export default {
       pagination: {}, //监听变化
       dialogShow: false, //显示对话框
       editMark: false, //编辑标记
+      roleMark: false, //角色标记
+      userMark: false, //分配用户标记
+      user: {},
       //数据表头,
       headers: [
         {
@@ -97,7 +108,8 @@ export default {
     };
   },
   components: {
-    RoleEdit
+    RoleEdit,
+    UserRoleEdit
   },
   //计算属性：
   computed: {},
@@ -131,18 +143,29 @@ export default {
       this.getDataFromServer();
     },
     //关闭对话框
-    handleCloseDialog() {
+    closeDialog() {
       this.initData();
     },
     //添加按钮事件
     handleadd() {
+      this.userMark = false;
+      this.roleMark = true;
       (this.oldData = {}), (this.dialogShow = true);
     },
-    //编辑用户按钮事件
+    //编辑按钮事件
     handleEdit(params) {
+      this.userMark = false;
+      this.roleMark = true;
       this.oldData = params;
       this.editMark = true;
       this.dialogShow = true;
+    },
+    //给角色分配用户按钮
+    handleAssignUsers(params) {
+      this.roleMark = false;
+      this.userMark = true;
+      this.dialogShow = true;
+      this.user = params;
     },
 
     //批量删除用户

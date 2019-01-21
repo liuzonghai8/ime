@@ -83,12 +83,23 @@
       </v-data-table>
     </v-flex>
     <!-- 新增列表 弹框模式 v-on:addUser="addUserItem(user)" -->
-    <v-dialog v-model="dialogShow" max-width="800px" persistent scrollable>
-      <ConsultationRecordEdit
-        :editMark="editMark"
-        :oldData="oldData"
-        v-on:show="handleCloseDialog"
-      />
+    <v-dialog v-model="dialogShow" max-width="500px" persistent scrollable>
+      <v-card>
+        <!--对话框的标题-->
+        <v-toolbar dense dark color="primary">
+          <v-toolbar-title>{{editMark ? '修改' : '新增'}}故障咨询记录</v-toolbar-title>
+          <v-spacer/>
+          <!--关闭窗口的按钮-->
+          <v-btn icon @click="closeDialog">
+            <v-icon>close</v-icon>
+          </v-btn>
+        </v-toolbar>
+        <!--对话框的内容，表单-->
+        <v-card-text class="px-2" style="height:600px">
+          <UserEdit :editMark="editMark" :oldData="oldData" v-on:show="closeDialog"/>
+          <ConsultationRecordEdit :editMark="editMark" :oldData="oldData" v-on:show="closeDialog"/>
+        </v-card-text>
+      </v-card>
     </v-dialog>
   </v-card>
 </template>
@@ -180,7 +191,7 @@ export default {
       this.getDataFromServer();
     },
     //关闭对话框
-    handleCloseDialog() {
+    closeDialog() {
       this.initData();
     },
     //添加按钮事件

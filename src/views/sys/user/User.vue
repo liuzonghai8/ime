@@ -27,29 +27,29 @@
     >
       <!--  -->
       <template slot="items" slot-scope="props">
-        <tr @click="props.expanded = !props.expanded">
-          <td>
-            <v-checkbox v-model="props.selected" primary hide-details></v-checkbox>
-          </td>
-          <td>{{ props.item.loginName }}</td>
-          <td class="text-xs-center">{{ props.item.realName }}</td>
-          <td class="text-xs-center">{{ props.item.phone }}</td>
-          <td class="text-xs-center">{{ props.item.enableTag ==0 ? "启用" :"禁用" }}</td>
-          <td class="text-xs-center">
-            <v-btn icon @click="handleEdit(props.item)">
-              <v-icon color="teal darken-1">edit</v-icon>
-            </v-btn>
-            <v-btn icon @click="deleteItem(props.item)">
-              <v-icon color="deep-orange accent-4">delete</v-icon>
-            </v-btn>
-          </td>
-        </tr>
+        <!-- <tr @click="props.expanded = !props.expanded"> -->
+        <td>
+          <v-checkbox v-model="props.selected" primary hide-details></v-checkbox>
+        </td>
+        <td>{{ props.item.loginName }}</td>
+        <td class="text-xs-center">{{ props.item.realName }}</td>
+        <td class="text-xs-center">{{ props.item.phone }}</td>
+        <td class="text-xs-center">{{ props.item.enableTag ==0 ? "启用" :"禁用" }}</td>
+        <td class="text-xs-center">
+          <v-btn icon @click="handleEdit(props.item)">
+            <v-icon color="teal darken-1">edit</v-icon>
+          </v-btn>
+          <v-btn icon @click="deleteItem(props.item)">
+            <v-icon color="deep-orange accent-4">delete</v-icon>
+          </v-btn>
+        </td>
+        <!-- </tr> -->
       </template>
-      <template slot="expand" slot-scope="props">
+      <!-- <template slot="expand" slot-scope="props">
         <v-card flat>
           <v-card-text>角色 {{props.item.id}}</v-card-text>
         </v-card>
-      </template>
+      </template>-->
     </v-data-table>
     <!-- 新增列表 弹框模式 v-on:addUser="addUserItem(user)" -->
     <v-dialog v-model="dialogShow" max-width="500px" persistent scrollable>

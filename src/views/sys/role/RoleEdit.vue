@@ -1,42 +1,31 @@
 <template>
-  <v-card>
-    <v-form>
-      <!-- <v-layout align-center justify-center> -->
-      <v-toolbar dense dark color="primary">
-        <v-toolbar-title>{{editMark ? '修改' : '新增'}}角色</v-toolbar-title>
-      </v-toolbar>
-      <v-card-text>
-        <!-- <v-form ref="form" v-model="valid" lazy-validation> -->
-        <v-layout wrap>
-          <v-flex xs12>
-            <v-text-field prepend-icon="person" label="角色名*" v-model.trim="newData.name" required></v-text-field>
-          </v-flex>
-          <v-flex xs12>
-            <v-text-field prepend-icon="person" label="角色代码*" v-model.trim="newData.code" required></v-text-field>
-          </v-flex>
-          <v-flex xs12>
-            <v-textarea box label="描述" auto-grow v-model="newData.description" rows="1"></v-textarea>
-          </v-flex>
-          <v-flex xs12>
-            <v-radio-group v-model.trim="newData.enableTag" :mandatory="false" row label="是否启用">
-              <v-radio label="启用" value="0" color="success"></v-radio>
-              <v-radio label="禁用" value="1" color="warning"></v-radio>
-            </v-radio-group>
-          </v-flex>
-        </v-layout>
-      </v-card-text>
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn color="teal darken-1" flat @click="handleclose">
-          <v-icon>close</v-icon>放弃
-        </v-btn>
-        <v-btn color="teal darken-1" flat @click="handleAddItem">
-          <v-icon>check</v-icon>提交
-        </v-btn>
-      </v-card-actions>
-    </v-form>
-    <!-- </v-layout> -->
-  </v-card>
+  <v-form v-model="valid" ref="myForm">
+    <v-text-field prepend-icon="person" label="请输入角色名*" v-model.trim="newData.name" required></v-text-field>
+    <v-text-field prepend-icon="person" label="请输入角色代码*" v-model.trim="newData.code" required></v-text-field>
+    <v-textarea
+      prepend-icon="person"
+      box
+      label="请输入该角色的描述"
+      auto-grow
+      v-model="newData.description"
+      rows="1"
+    ></v-textarea>
+    <v-radio-group
+      prepend-icon="person"
+      v-model.trim="newData.enableTag"
+      :mandatory="false"
+      row
+      label="请选择是否启用"
+    >
+      <v-radio label="启用" value="0" color="success"></v-radio>
+      <v-radio label="禁用" value="1" color="warning"></v-radio>
+    </v-radio-group>
+    <v-layout class="my-2" row>
+      <v-btn @click="clear">重置</v-btn>
+      <v-spacer/>
+      <v-btn @click="submit" color="primary">提交</v-btn>
+    </v-layout>
+  </v-form>
 </template>
 <script>
 export default {
@@ -57,7 +46,7 @@ export default {
         code: "",
         description: "",
         enableTag: ""
-       // menus:[]
+        // menus:[]
       },
       nameRules: [
         v => !!v || "用户名不能为空",
@@ -82,8 +71,8 @@ export default {
         if (val) {
           this.newData = Object.assign(val);
           console.log(this.newData);
-        }else{
-          this.initData()
+        } else {
+          this.initData();
         }
       },
       deep: true
@@ -95,15 +84,14 @@ export default {
       (this.newData.name = ""),
         (this.newData.code = ""),
         (this.newData.description = ""),
-        (this.newData.enableTag = "")
-        //this.menus = []
+        (this.newData.enableTag = "");
+      //this.menus = []
     },
-    handleclose() {
-      //this.$refs.form.reset;
-      this.initData();
-      this.$emit("show");
+    clear() {
+      // 重置表单
+      this.$refs.myForm.reset();
     },
-    handleAddItem() {
+    submit() {
       // if (this.$refs.form.validate()) {
       // 定义一个请求参数对象，通过解构表达式来获取brand中的属性
       // const { categories, letter, ...params } = this.brand;

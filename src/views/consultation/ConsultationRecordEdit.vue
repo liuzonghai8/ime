@@ -1,100 +1,74 @@
 <template>
-  <v-card>
-    <!-- <v-layout align-center justify-center> -->
-    <v-toolbar dense dark color="primary" class="text-xs-center">
-      <v-toolbar-title>{{editMark ? '修改' : '新增'}}故障咨询记录</v-toolbar-title>
-    </v-toolbar>
-    <v-card-text>
-      <v-form ref="form" v-model="valid" lazy-validation>
-        <v-layout wrap>
-          <v-flex xs12>
-            <v-textarea
-              box
-              label="问题描述"
-              auto-grow
-              v-model="consultrecord.problemDescription"
-              rows="1"
-            ></v-textarea>
-          </v-flex>
-          <v-flex xs12 sm5>
-            <v-text-field label="咨询单位*" v-model="consultrecord.consultDepartment" required></v-text-field>
-          </v-flex>
-          <v-flex xs12 sm2/>
-          <v-flex xs12 sm5>
-            <v-text-field label="咨询人*" v-model="consultrecord.Consultant" required></v-text-field>
-          </v-flex>
-          <v-flex xs12 sm5>
-            <v-select
-              :items="['怡化','日立','NDT3020','NDT3260','NCR25','NCR35']"
-              label="品牌机型*"
-              v-model="consultrecord.brandModel"
-              required
-            ></v-select>
-            <!-- <v-text-field label="品牌机型*" v-model="consultrecord.brandModel" required></v-text-field> -->
-          </v-flex>
-          <v-flex xs12 sm2/>
-          <v-flex xs12 sm5>
-            <v-select
-              :items="['Linux', 'Windows跨平台', 'Windows非跨平台']"
-              label="系统平台*"
-              v-model="consultrecord.systemPlatform"
-              required
-            ></v-select>
-          </v-flex>
-          <v-flex xs12>
-            <v-textarea
-              box
-              label="处理方法"
-              auto-grow
-              v-model="consultrecord.processingMethod"
-              rows="1"
-            ></v-textarea>
-          </v-flex>
-          <!-- 日期选择 -->
-          <v-flex xs12 sm3>
-            <v-menu
-              :close-on-content-click="false"
-              v-model="menu"
-              :nudge-right="40"
-              lazy
-              transition="scale-transition"
-              offset-y
-              full-width
-              min-width="290px"
-            >
-              <v-text-field
-                slot="activator"
-                v-model="consultrecord.consultDate"
-                label="咨询日期"
-                prepend-icon="event"
-                readonly
-              ></v-text-field>
-              <v-date-picker v-model="consultrecord.consultDate" @input="menu = false"></v-date-picker>
-            </v-menu>
-          </v-flex>
-          <v-flex xs12 sm1/>
-          <v-flex xs12 sm3>
-            <v-text-field label="记录日期*" :value=this.date readonly></v-text-field>
-          </v-flex>
-          <v-flex xs12 sm1/>
-          <v-flex xs12 sm3>
-            <v-text-field label="记录人" v-model="consultrecord.recorder" readonly></v-text-field>
-          </v-flex>
-        </v-layout>
-      </v-form>
-    </v-card-text>
-    <v-card-actions>
-      <v-spacer></v-spacer>
-      <v-btn color="teal darken-1" flat @click="handleclose">
-        <v-icon>close</v-icon>放弃
-      </v-btn>
-      <v-btn color="teal darken-1" flat @click="handleAddItem">
-        <v-icon>check</v-icon>提交
-      </v-btn>
-    </v-card-actions>
-
-    <!-- </v-layout> -->
-  </v-card>
+  <v-form ref="form" v-model="valid" lazy-validation>
+    <v-layout wrap>
+      <v-flex xs12>
+        <v-textarea box label="问题描述" auto-grow v-model="consultrecord.problemDescription" rows="1"></v-textarea>
+      </v-flex>
+      <v-flex xs12 sm5>
+        <v-text-field label="咨询单位*" v-model="consultrecord.consultDepartment" required></v-text-field>
+      </v-flex>
+      <v-flex xs12 sm2/>
+      <v-flex xs12 sm5>
+        <v-text-field label="咨询人*" v-model="consultrecord.Consultant" required></v-text-field>
+      </v-flex>
+      <v-flex xs12 sm5>
+        <v-select
+          :items="['怡化','日立','NDT3020','NDT3260','NCR25','NCR35']"
+          label="品牌机型*"
+          v-model="consultrecord.brandModel"
+          required
+        ></v-select>
+        <!-- <v-text-field label="品牌机型*" v-model="consultrecord.brandModel" required></v-text-field> -->
+      </v-flex>
+      <v-flex xs12 sm2/>
+      <v-flex xs12 sm5>
+        <v-select
+          :items="['Linux', 'Windows跨平台', 'Windows非跨平台']"
+          label="系统平台*"
+          v-model="consultrecord.systemPlatform"
+          required
+        ></v-select>
+      </v-flex>
+      <v-flex xs12>
+        <v-textarea box label="处理方法" auto-grow v-model="consultrecord.processingMethod" rows="1"></v-textarea>
+      </v-flex>
+      <!-- 日期选择 -->
+      <v-flex xs12 sm3>
+        <v-menu
+          :close-on-content-click="false"
+          v-model="menu"
+          :nudge-right="40"
+          lazy
+          transition="scale-transition"
+          offset-y
+          full-width
+          min-width="290px"
+        >
+          <v-text-field
+            slot="activator"
+            v-model="consultrecord.consultDate"
+            label="咨询日期"
+            prepend-icon="event"
+            readonly
+          ></v-text-field>
+          <v-date-picker v-model="consultrecord.consultDate" @input="menu = false"></v-date-picker>
+        </v-menu>
+      </v-flex>
+      <v-flex xs12 sm1/>
+      <v-flex xs12 sm3>
+        <v-text-field label="记录日期*" :value="this.date" readonly></v-text-field>
+      </v-flex>
+      <v-flex xs12 sm1/>
+      <v-flex xs12 sm3>
+        <v-text-field label="记录人" v-model="consultrecord.recorder" readonly></v-text-field>
+      </v-flex>
+    </v-layout>
+    <v-layout class="my-2" row>
+      <v-btn @click="clear">重置</v-btn>
+      <v-spacer/>
+      <v-btn @click="submit" color="primary">提交</v-btn>
+    </v-layout>
+  </v-form>
 </template>
 <script>
 export default {
@@ -150,9 +124,7 @@ export default {
       deep: true
     }
   },
-  computed: {
-    
-  },
+  computed: {},
   methods: {
     initData() {
       (this.consultrecord.problemDescription = ""),
@@ -185,7 +157,7 @@ export default {
         //this.consultrecord.recordDate = new Date().toDateString;
         const cr = this.$qs.stringify(this.consultrecord);
         //this.consultrecord.recordDate = this.date;
-        
+
         console.log("参数CR 为：");
         console.log(this.consultrecord);
         console.log(cr);
