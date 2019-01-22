@@ -42,6 +42,7 @@
           <v-btn icon @click="deleteItem(props.item)">
             <v-icon color="deep-orange accent-4">delete</v-icon>
           </v-btn>
+          <v-btn fab dark small color="teal" @click="handleRole(props.item)">用户</v-btn>
         </td>
         <!-- </tr> -->
       </template>
@@ -56,7 +57,8 @@
       <v-card>
         <!--对话框的标题-->
         <v-toolbar dense dark color="primary">
-          <v-toolbar-title>{{editMark ? '修改' : '新增'}}用户</v-toolbar-title>
+          <v-toolbar-title v-if="userMark">{{editMark ? '修改' : '新增'}}用户</v-toolbar-title>
+          <v-toolbar-title v-if="roleMark">给{{this.user.loginName}} 用户分配角色</v-toolbar-title>
           <v-spacer/>
           <!--关闭窗口的按钮-->
           <v-btn icon @click="closeDialog">
@@ -64,8 +66,11 @@
           </v-btn>
         </v-toolbar>
         <!--对话框的内容，表单-->
-        <v-card-text class="px-2" style="height:600px">
+        <v-card-text class="px-2" style="height:600px" v-if="userMark">
           <UserEdit :editMark="editMark" :oldData="oldData" v-on:show="closeDialog"/>
+        </v-card-text>
+        <v-card-text class="px-2" style="height:600px" v-if="roleMark">
+          <UserRoleEdit :user="user" v-on:show="closeDialog"/>
         </v-card-text>
       </v-card>
     </v-dialog>
@@ -73,6 +78,7 @@
 </template>
 <script>
 import UserEdit from "./UserEdit";
+import UserRoleEdit from "./UserRoleEdit";
 export default {
   props: {
     dark: Boolean
@@ -88,8 +94,11 @@ export default {
       pagination: {}, //监听变化
       dialogShow: false, //显示对话框
       editMark: false, //编辑标记
+      roleMark: false, //角色标记
+      userMark: false, //用户标记
       roles: [], // 角色集合
       userId: "",
+      user: {},
       pagesnum: [
         10,
         20,
@@ -115,7 +124,8 @@ export default {
     };
   },
   components: {
-    UserEdit
+    UserEdit,
+    UserRoleEdit
   },
   //计算属性：
   computed: {},
@@ -147,6 +157,8 @@ export default {
     initData() {
       this.dialogShow = false;
       this.editMark = false;
+      this.roleMark = false;
+      this.userMark = false;
       this.getDataFromServer();
     },
     //关闭对话框
@@ -155,13 +167,25 @@ export default {
     },
     //添加按钮事件
     handleadd() {
+      this.roleMark = false;
+      this.userMark = true;
       (this.oldData = {}), (this.dialogShow = true);
     },
     //编辑用户按钮事件
     handleEdit(params) {
       this.oldData = params;
+      this.roleMark = false;
+      this.userMark = true;
       this.editMark = true;
       this.dialogShow = true;
+    },
+    //分配角色按钮
+    handleRole(params) {
+      this.roleMark = true;
+      this.userMark = false;
+      this.editMark = false;
+      this.dialogShow = true;
+      this.user = params;
     },
 
     //批量删除用户
@@ -201,18 +225,6 @@ export default {
         });
     }
   }
-  // getRolesFromServer() {
-  //   this.$axios
-  //     .get("upms/sys/user/page", {
-  //       params: {
-  //         id: userId
-  //       }
-  //     })
-  //     .then(resp => {
-  //       console.log("success");
-  //       console.log(resp);
-  //     });
-  // }
 };
 </script>
 

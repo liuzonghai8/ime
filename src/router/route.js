@@ -1,45 +1,45 @@
 import Login from '@/views/login/Login'
 import Index from '@/views/index'
 
- const routes = [
-    {
-        path: '/login',
-        name: 'login',
-        component: Login
+const routes = [
+  {
+    path: '/login',
+    name: 'login',
+    component: Login
+  },
+  {
+    path: '/',
+    component: () => import('@/views/layout'),
+    //component: ()=>import('../views/Layout1'),
+    redirect: "/index/dashboard",
+    children: [
+      {
+        path: '/index/dashboard', component: Index
       },
-    {
-        path: '/',
-        component: ()=>import('@/views/layout'),
-        //component: ()=>import('../views/Layout1'),
-        redirect: "/index/dashboard",
-        children: [
-          {
-            path: '/index/dashboard',component: Index
-          },
-          {
-            path: '/sys/user',component: ()=>import('../views/sys/user/User')
-          },
-          {
-            path: '/sys/auth',component: ()=>import('../views/sys/auth/Auth')
-          },
-          {
-            path: '/sys/role',component: ()=>import('../views/sys/role/Role')
-          },
-          {
-            path: '/sys/dept',component: ()=>import('../views/sys/dept/Dept')
-          },
-          {
-            path: '/knowledge/problem', component: () => import('../views/book/problem/Problem')
-          },
-          {
-            path: '/ConsultationManagement/consultationRecord', component: () => import('../views/consultation/ConsultationRecord')
-          },
-          {
-            path: '/trade/test',component: ()=>import('../views/test')
-          },
-        ]
-       
-      }
+      {
+        path: '/sys/user', component: () => import('../views/sys/user/User')
+      },
+      {
+        path: '/sys/menu', component: () => import('../views/sys/menu/Menu')
+      },
+      {
+        path: '/sys/role', component: () => import('../views/sys/role/Role')
+      },
+      {
+        path: '/sys/dept', component: () => import('../views/sys/dept/Dept')
+      },
+      {
+        path: '/knowledge/problem', component: () => import('../views/book/problem/Problem')
+      },
+      {
+        path: '/ConsultationManagement/consultationRecord', component: () => import('../views/consultation/ConsultationRecord')
+      },
+      {
+        path: '/trade/test', component: () => import('../views/test')
+      },
+    ]
+
+  }
 ]
 
 export default routes;

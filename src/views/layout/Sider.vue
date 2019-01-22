@@ -74,7 +74,7 @@ export default {
   data() {
     return {
       miniNav: false, // 左侧导航是否收起
-      title: "Sweet管理系统"
+      title: "SweetUI后台系统"
     };
   },
   computed: {
