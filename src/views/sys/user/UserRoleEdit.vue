@@ -9,7 +9,7 @@
           <template v-for="(item, index) in possessRoles">
             <v-list-tile :key="index">
               <v-chip color="success" text-color="white">{{item.name}}</v-chip>
-              <v-btn icon @click="deletedItem(item)">
+              <v-btn icon @click="deletedItem(item.id)">
                 <v-icon color="deep-orange accent-4">close</v-icon>
               </v-btn>
             </v-list-tile>
@@ -21,12 +21,11 @@
         <v-card-title>
           <span class="title font-weight-light">待选角色</span>
         </v-card-title>
-
         <v-list>
-          <template v-for="(item, index) in allRoles">
+          <template v-for="(item, index) in unPossessRoles">
             <v-list-tile :key="index">
               <v-list-tile-content>
-                <v-checkbox v-model="roles" :label="item.name" :value="item"></v-checkbox>
+                <v-checkbox v-model="selectedRoles" :label="item.name" :value="item"></v-checkbox>
               </v-list-tile-content>
             </v-list-tile>
           </template>
@@ -51,60 +50,55 @@ export default {
     return {
       allRoles: [],
       possessRoles: [],
-      roles: [],
-      sware: 0
+      selectedRoles: []
     };
   },
-  watch: {
-    sware: {
-      deep: true,
-      handler() {
-        this.initData();
-      }
-    }
-    // user: {
-    //   deep: true,
-    //   handler() {
-    //     this.initData();
-    //   }
-    // }
-  },
+  watch: {},
   computed: {
-    unselected() {
-      return this.allRoles.filter(r => !this.possessRoles.includes(r));
+    //计算已拥有角色ID数组
+    possessRolesArray() {
+      return this.possessRoles.map(r => r.id).join(",");
+    },
+    unPossessRoles() {
+      return this.allRoles.filter(r => !this.possessRolesArray.includes(r.id));
     }
   },
   mounted() {
-    this.initData();
+    this.loadAllRoles();
+    this.loadRole();
+    this.selected = [];
   },
   methods: {
-    initData() {
-      this.loadData();
-      this.loadRole();
-    },
     // 删除用户和角色关联 .delete("upms/sys/user/role/" + param.id) this.$qs.stringify(pams)
     deletedItem(param) {
-      console.log(param.id);
-      console.log(this.user.id);
-      const { ...pams } = null;
-      pams.uid = this.user.id;
-      pams.rid = param.id;
       confirm("是否确定删除用户") &&
         this.$axios({
           method: "delete",
           url: "upms/sys/user/role",
-          params: this.$qs.stringify(pams)
-        }).then(() => {
-          //sware = sware - 1;
-          console.log("删除成功");
-          this.initData();
-        });
+          // params: {
+          //   uid: pams.uid,
+          //   rid: pams.rid
+          // }
+          params: {
+            uid: this.user.id,
+            rid: param
+          }
+        })
+          .then(() => {
+            console.log("删除成功");
+            this.loadRole();
+          })
+          .catch(() => {
+            console.log("删除失败");
+          });
     },
     //给用户分配角色
     submit() {
       const { ...params } = null;
-      params.rids = this.roles.map(r => r.id).join(",");
+      params.rids = this.selectedRoles.map(r => r.id).join(","); //将数组转换成对象
       params.uid = this.user.id;
+      // this.selectedRoles = []; //清空选择的
+      console.log(params.rids);
       this.$axios({
         method: "post",
         url: "/upms/sys/user/role",
@@ -112,16 +106,18 @@ export default {
       })
         .then(resp => {
           console.log("保存成功");
-          this.initData();
+          this.loadRole(); // 重新加载已经拥有的角色
+          this.selectedRoles = []; //清空选择的
         })
         .catch(() => {
           console.log("保存失败");
         });
     },
     //加载角色选项
-    loadData() {
+    loadAllRoles() {
       this.$axios.get("upms/sys/role/all").then(resp => {
         const data = [];
+        //先过滤掉禁用的角色
         for (let d of resp.data) {
           if (d.enableTag == 0) {
             data.push(d);

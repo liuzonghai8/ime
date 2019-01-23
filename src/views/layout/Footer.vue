@@ -1,5 +1,5 @@
 <template>
-  <v-footer :color="color">
+  <v-footer :color="color" text-color="white">
     <v-flex text-xs-center xs12>
       &copy;{{ new Date().getFullYear() }}
       <strong>Sweet</strong>

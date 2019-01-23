@@ -26,22 +26,22 @@
           <v-checkbox v-model="props.selected"></v-checkbox>
            <td class="text-xs-center">{{ props.item.processingMethod }}</td>
         </td>-->
-        <tr @click="props.expanded = !props.expanded">
-          <td class="text-xs-center">{{ props.item.name }}</td>
-          <td class="text-xs-center">{{ props.item.code }}</td>
-          <td class="text-xs-center">{{ props.item.description}}</td>
-          <td class="text-xs-center">{{ props.item.enableTag ==0 ? "启用" :"禁用" }}</td>
-          <td class="text-xs-center">
-            <v-btn icon @click="handleEdit(props.item)">
-              <v-icon color="teal darken-1">edit</v-icon>
-            </v-btn>
-            <v-btn icon @click="deleteItem(props.item)">
-              <v-icon color="deep-orange accent-4">delete</v-icon>
-            </v-btn>
-            <v-btn fab dark small color="teal" @click="handleAssignUsers(props.item)">用户</v-btn>
-            <v-btn fab dark small color="purple">权限</v-btn>
-          </td>
-        </tr>
+        <!-- <tr @click="props.expanded = !props.expanded"> -->
+        <td class="text-xs-center">{{ props.item.name }}</td>
+        <td class="text-xs-center">{{ props.item.code }}</td>
+        <td class="text-xs-center">{{ props.item.description}}</td>
+        <td class="text-xs-center">{{ props.item.enableTag ==0 ? "启用" :"禁用" }}</td>
+        <td class="text-xs-center">
+          <v-btn icon @click="handleEdit(props.item)">
+            <v-icon color="teal darken-1">edit</v-icon>
+          </v-btn>
+          <v-btn icon @click="deleteItem(props.item)">
+            <v-icon color="deep-orange accent-4">delete</v-icon>
+          </v-btn>
+          <v-btn fab dark small color="teal" @click="handleAssignUsers(props.item)">用户</v-btn>
+          <v-btn fab dark small color="purple">权限</v-btn>
+        </td>
+        <!-- </tr> -->
       </template>
     </v-data-table>
     <!-- 新增列表 弹框模式 v-on:addUser="addUserItem(user)" -->
@@ -138,6 +138,8 @@ export default {
     initData() {
       this.dialogShow = false;
       this.editMark = false;
+      this.roleMark = false;
+      this.userMark = false;
       this.getDataFromServer();
     },
     //关闭对话框
@@ -148,7 +150,9 @@ export default {
     handleadd() {
       this.userMark = false;
       this.roleMark = true;
-      (this.oldData = {}), (this.dialogShow = true);
+      this.editMark = false;
+      this.oldData = {};
+      this.dialogShow = true;
     },
     //编辑按钮事件
     handleEdit(params) {
@@ -157,6 +161,7 @@ export default {
       this.oldData = params;
       this.editMark = true;
       this.dialogShow = true;
+      console.log(this.oldData);
     },
     //给角色分配用户按钮
     handleAssignUsers(params) {
@@ -195,10 +200,10 @@ export default {
         })
         .then(resp => {
           // 成功后获取处理
-          console.log(resp);
-          console.log(resp.data.msg),
-            //if(resp.data.code===0){
-            (this.datas = resp.data.data.list);
+          // console.log(resp);
+          // console.log(resp.data.msg),
+          //if(resp.data.code===0){
+          this.datas = resp.data.data.list;
           this.total = resp.data.data.total;
           // 完成赋值后，把加载状态赋值为false
           this.loading = false;

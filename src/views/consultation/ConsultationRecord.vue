@@ -96,7 +96,6 @@
         </v-toolbar>
         <!--对话框的内容，表单-->
         <v-card-text class="px-2" style="height:600px">
-          <UserEdit :editMark="editMark" :oldData="oldData" v-on:show="closeDialog"/>
           <ConsultationRecordEdit :editMark="editMark" :oldData="oldData" v-on:show="closeDialog"/>
         </v-card-text>
       </v-card>

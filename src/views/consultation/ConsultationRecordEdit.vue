@@ -1,5 +1,5 @@
 <template>
-  <v-form ref="form" v-model="valid" lazy-validation>
+  <v-form ref="recordform" v-model="valid" lazy-validation>
     <v-layout wrap>
       <v-flex xs12>
         <v-textarea box label="问题描述" auto-grow v-model="consultrecord.problemDescription" rows="1"></v-textarea>
@@ -125,6 +125,7 @@ export default {
     }
   },
   computed: {},
+  
   methods: {
     initData() {
       (this.consultrecord.problemDescription = ""),
@@ -142,7 +143,11 @@ export default {
       this.initData();
       this.$emit("show");
     },
-    handleAddItem() {
+    clear() {
+    // 重置表单
+    this.$refs.recordform.reset();
+  },
+    submit() {
       if (this.$refs.form.validate()) {
         //this.$emit("addItem", this.consultrecord);
         // 定义一个请求参数对象，通过解构表达式来获取brand中的属性

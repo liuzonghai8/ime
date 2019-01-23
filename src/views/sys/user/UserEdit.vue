@@ -117,7 +117,9 @@ export default {
     oldData: {
       handler: function(val) {
         if (val) {
+          // console.log(val);
           this.newData = Object.assign(val);
+          // console.log(this.newData);
         } else {
           this.initData();
         }
@@ -127,9 +129,9 @@ export default {
   },
   //页面加载钩子函数
   mounted() {
-    this.loadData().then(data => {
-      this.options = data;
-    });
+    // this.loadData().then(data => {
+    //   this.options = data;
+    // });
   },
   computed: {},
   methods: {
@@ -137,7 +139,7 @@ export default {
     loadData() {
       return new Promise(resolve => {
         this.$axios.get("upms/sys/role/all").then(resp => {
-          console.log(resp.data);
+          //console.log(resp.data);
           const data = [];
           for (let d of resp.data) {
             // const node = {
@@ -148,7 +150,7 @@ export default {
               data.push(d);
             }
           }
-          console.log(data);
+          //console.log(data);
           resolve(data);
         });
       });
@@ -178,12 +180,6 @@ export default {
       // 数据库中只要保存分类的id即可，因此我们对categories的值进行处理,只保留id，并转为字符串
       //params.cids = categories.map(c => c.id).join(",");
       // 将数据提交到后台
-      // const { roles, ...params } = this.newData;
-      // if (roles) {
-      //   params.rids = roles.map(r => r).join(","); //将数组转换成对象
-      // }
-      // const ps = this.$qs.stringify(params);
-      // console.log(ps);
       this.$axios({
         method: this.editMark ? "put" : "post",
         url: "/upms/sys/user",

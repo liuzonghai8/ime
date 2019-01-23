@@ -1,13 +1,13 @@
 <template>
   <v-form v-model="valid" ref="myForm">
-    <v-text-field prepend-icon="person" label="请输入角色名*" v-model.trim="newData.name" required></v-text-field>
+    <v-text-field prepend-icon="person" label="请输入角色名*" v-model="newData.name" required></v-text-field>
     <v-text-field prepend-icon="person" label="请输入角色代码*" v-model.trim="newData.code" required></v-text-field>
     <v-textarea
       prepend-icon="person"
       box
       label="请输入该角色的描述"
       auto-grow
-      v-model="newData.description"
+      v-model.trim="newData.description"
       rows="1"
     ></v-textarea>
     <v-radio-group
@@ -46,7 +46,6 @@ export default {
         code: "",
         description: "",
         enableTag: ""
-        // menus:[]
       },
       nameRules: [
         v => !!v || "用户名不能为空",
@@ -67,16 +66,21 @@ export default {
   watch: {
     // 深度 watcher模式
     oldData: {
+      deep: true,
       handler: function(val) {
+        console.log(val);
         if (val) {
+          console.log(val);
           this.newData = Object.assign(val);
           console.log(this.newData);
         } else {
           this.initData();
         }
-      },
-      deep: true
+      }
     }
+  },
+  mounted() {
+    console.log(this.oldData);
   },
   computed: {},
   methods: {
@@ -94,10 +98,7 @@ export default {
     submit() {
       // if (this.$refs.form.validate()) {
       // 定义一个请求参数对象，通过解构表达式来获取brand中的属性
-      // const { categories, letter, ...params } = this.brand;
-      // 数据库中只要保存分类的id即可，因此我们对categories的值进行处理,只保留id，并转为字符串
-      //params.cids = categories.map(c => c.id).join(",");
-      // 将数据提交到后台
+      console.log(this.newData);
       const params = this.$qs.stringify(this.newData);
       console.log(params);
       this.$axios({

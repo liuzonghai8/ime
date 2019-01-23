@@ -70,7 +70,7 @@
           <UserEdit :editMark="editMark" :oldData="oldData" v-on:show="closeDialog"/>
         </v-card-text>
         <v-card-text class="px-2" style="height:600px" v-if="roleMark">
-          <UserRoleEdit :user="user" v-on:show="closeDialog"/>
+          <UserRoleEdit :user="user"/>
         </v-card-text>
       </v-card>
     </v-dialog>
@@ -96,7 +96,6 @@ export default {
       editMark: false, //编辑标记
       roleMark: false, //角色标记
       userMark: false, //用户标记
-      roles: [], // 角色集合
       userId: "",
       user: {},
       pagesnum: [
@@ -178,6 +177,7 @@ export default {
       this.userMark = true;
       this.editMark = true;
       this.dialogShow = true;
+      //console.log(params);
     },
     //分配角色按钮
     handleRole(params) {
