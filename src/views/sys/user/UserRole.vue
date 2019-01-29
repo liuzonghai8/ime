@@ -21,15 +21,12 @@
         <v-card-title>
           <span class="title font-weight-light">待选角色</span>
         </v-card-title>
-        <v-list>
-          <template v-for="(item, index) in unPossessRoles">
-            <v-list-tile :key="index">
-              <v-list-tile-content>
-                <v-checkbox v-model="selectedRoles" :label="item.name" :value="item"></v-checkbox>
-              </v-list-tile-content>
-            </v-list-tile>
-          </template>
-        </v-list>
+        <v-treeview
+          v-model="selectedRoles"
+          :items="unPossessRoles"
+          selectable
+          selected-color="indigo"
+        ></v-treeview>
         <v-layout class="my-2" row>
           <v-spacer/>
           <v-btn @click="submit" color="primary">添加</v-btn>
@@ -48,12 +45,19 @@ export default {
   },
   data() {
     return {
-      allRoles: [],
-      possessRoles: [],
-      selectedRoles: []
+      allRoles: [], //所有角色
+      possessRoles: [], // 拥有角色
+      selectedRoles: [] //选择的角色
     };
   },
-  watch: {},
+  watch: {
+    // user: {
+    //   handle: function(val) {
+    //     console.log("user Watch");
+    //     //this.loadRole();
+    //   }
+    // }
+  },
   computed: {
     //计算已拥有角色ID数组
     possessRolesArray() {
@@ -65,20 +69,20 @@ export default {
   },
   mounted() {
     this.loadAllRoles();
-    this.loadRole();
-    this.selected = [];
+    // this.loadRole();
+    //this.selected = [];
+    // this.loadRole().then(data => {
+    //   // this.possessRoles = data;
+    //   console.log(data);
+    // });
   },
   methods: {
     // 删除用户和角色关联 .delete("upms/sys/user/role/" + param.id) this.$qs.stringify(pams)
     deletedItem(param) {
-      confirm("是否确定删除用户") &&
+      confirm("是否确定删除角色") &&
         this.$axios({
           method: "delete",
           url: "upms/sys/user/role",
-          // params: {
-          //   uid: pams.uid,
-          //   rid: pams.rid
-          // }
           params: {
             uid: this.user.id,
             rid: param
@@ -94,10 +98,12 @@ export default {
     },
     //给用户分配角色
     submit() {
+      console.log(this.selectedRoles);
       const { ...params } = null;
-      params.rids = this.selectedRoles.map(r => r.id).join(","); //将数组转换成对象
+      params.rids = this.selectedRoles.map(r => r).join(","); //将数组转换成对象
       params.uid = this.user.id;
       // this.selectedRoles = []; //清空选择的
+      console.log(this.user.id);
       console.log(params.rids);
       this.$axios({
         method: "post",
@@ -126,11 +132,32 @@ export default {
         this.allRoles = data;
       });
     },
+    loadData() {
+      return new Promise(resolve => {
+        this.$axios.get("upms/sys/role/all").then(resp => {
+          const data = [];
+          resolve(data);
+        });
+      });
+    },
     //加载已有角色
     loadRole() {
-      this.$axios.get("upms/sys/role/user/" + this.user.id).then(resp => {
-        this.possessRoles = resp.data;
+      return new Promise(resolve => {
+        this.$axios.get("upms/sys/role/user/" + this.user.id).then(resp => {
+          console.log(resp);
+          resolve(resp.data);
+        });
       });
+
+      //   this.$axios.get("upms/sys/role/user/" + this.user.id);
+      // }).then(resp => {
+      //   console.log(resp.data);
+      //   resolve(resp.data);
+      // });
+      // this.$axios.get("upms/sys/role/user/" + this.user.id).then(resp => {
+      //   this.possessRoles = resp.data;
+      //   console.log(this.possessRoles);
+      // });
     }
   }
 };

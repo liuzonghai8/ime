@@ -62,7 +62,7 @@
           <RoleEdit :editMark="editMark" :oldData="oldData" v-on:show="closeDialog"/>
         </v-card-text>
         <v-card-text class="px-2" style="height:600px" v-if="userMark">
-          <!-- <UserRoleEdit :user="user"></UserRoleEdit> -->
+          <RoleUser></RoleUser>
         </v-card-text>
       </v-card>
     </v-dialog>
@@ -70,6 +70,7 @@
 </template>
 <script>
 import RoleEdit from "./RoleEdit";
+import RoleUser from "./RoleUser";
 export default {
   props: {
     dark: Boolean
@@ -107,7 +108,8 @@ export default {
     };
   },
   components: {
-    RoleEdit
+    RoleEdit,
+    RoleUser
   },
   //计算属性：
   computed: {},

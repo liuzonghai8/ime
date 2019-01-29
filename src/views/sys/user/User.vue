@@ -42,7 +42,7 @@
           <v-btn icon @click="deleteItem(props.item)">
             <v-icon color="deep-orange accent-4">delete</v-icon>
           </v-btn>
-          <v-btn fab dark small color="teal" @click="handleRole(props.item)">用户</v-btn>
+          <v-btn fab dark small color="teal" @click="handleRole(props.item)">角色</v-btn>
         </td>
         <!-- </tr> -->
       </template>
@@ -57,8 +57,7 @@
       <v-card>
         <!--对话框的标题-->
         <v-toolbar dense dark color="primary">
-          <v-toolbar-title v-if="userMark">{{editMark ? '修改' : '新增'}}用户</v-toolbar-title>
-          <v-toolbar-title v-if="roleMark">给{{this.user.loginName}} 用户分配角色</v-toolbar-title>
+          <v-toolbar-title>{{editMark ? '修改' : '新增'}}用户</v-toolbar-title>
           <v-spacer/>
           <!--关闭窗口的按钮-->
           <v-btn icon @click="closeDialog">
@@ -66,11 +65,26 @@
           </v-btn>
         </v-toolbar>
         <!--对话框的内容，表单-->
-        <v-card-text class="px-2" style="height:600px" v-if="userMark">
+        <v-card-text class="px-2" style="height:600px">
           <UserEdit :editMark="editMark" :oldData="oldData" v-on:show="closeDialog"/>
         </v-card-text>
-        <v-card-text class="px-2" style="height:600px" v-if="roleMark">
-          <UserRoleEdit :user="user"/>
+      </v-card>
+    </v-dialog>
+    <!-- 分配角色对话框 -->
+    <v-dialog v-model="dialogShow2" max-width="800px" persistent scrollable>
+      <v-card>
+        <!--对话框的标题-->
+        <v-toolbar dense dark color="primary">
+          <v-toolbar-title>给{{this.user.loginName}} 用户分配角色</v-toolbar-title>
+          <v-spacer/>
+          <!--关闭窗口的按钮-->
+          <v-btn icon @click="closeDialog">
+            <v-icon>close</v-icon>
+          </v-btn>
+        </v-toolbar>
+        <!--对话框的内容，表单-->
+        <v-card-text class="px-2" style="height:600px">
+          <UserRole :user="user"/>
         </v-card-text>
       </v-card>
     </v-dialog>
@@ -78,7 +92,7 @@
 </template>
 <script>
 import UserEdit from "./UserEdit";
-import UserRoleEdit from "./UserRoleEdit";
+import UserRole from "./UserRole";
 export default {
   props: {
     dark: Boolean
@@ -92,10 +106,9 @@ export default {
       oldData: {}, //旧的数据
       loading: true, //加载进度条
       pagination: {}, //监听变化
-      dialogShow: false, //显示对话框
+      dialogShow: false, //显示new 对话框
+      dialogShow2: false, //显示 add role对话框
       editMark: false, //编辑标记
-      roleMark: false, //角色标记
-      userMark: false, //用户标记
       userId: "",
       user: {},
       pagesnum: [
@@ -124,7 +137,7 @@ export default {
   },
   components: {
     UserEdit,
-    UserRoleEdit
+    UserRole
   },
   //计算属性：
   computed: {},
@@ -155,36 +168,36 @@ export default {
 
     initData() {
       this.dialogShow = false;
+      this.dialogShow2 = false;
       this.editMark = false;
-      this.roleMark = false;
-      this.userMark = false;
+      // this.roleMark = false;
+      // this.userMark = false;
+      this.oldData = {};
       this.getDataFromServer();
     },
     //关闭对话框
     closeDialog() {
       this.initData();
     },
-    //添加按钮事件
+    //user添加按钮事件
     handleadd() {
-      this.roleMark = false;
-      this.userMark = true;
-      (this.oldData = {}), (this.dialogShow = true);
+      this.editMark = false;
+      this.dialogShow = true;
+      this.dialogShow2 = false;
     },
     //编辑用户按钮事件
     handleEdit(params) {
       this.oldData = params;
-      this.roleMark = false;
-      this.userMark = true;
       this.editMark = true;
       this.dialogShow = true;
+      this.dialogShow2 = false;
       //console.log(params);
     },
     //分配角色按钮
     handleRole(params) {
-      this.roleMark = true;
-      this.userMark = false;
       this.editMark = false;
-      this.dialogShow = true;
+      this.dialogShow2 = true;
+      this.dialogShow = false;
       this.user = params;
     },
 
