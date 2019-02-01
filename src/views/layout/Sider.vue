@@ -4,7 +4,7 @@
   <v-navigation-drawer
     :dark="dark"
     :mini-variant.sync="miniNav"
-    v-model="drawer"
+    v-model="drawerMark"
     fixed
     width="250"
     app
@@ -13,8 +13,8 @@
       <v-list class="pa-0" dense>
         <v-list-tile avatar>
           <v-list-tile-avatar>
-            <!-- 公司LOGO -->
-            <img src="../../assets/1.jpeg">
+            <!-- 公司LOGO  :src="logo"-->
+            <img src="@/assets/1.jpeg">
           </v-list-tile-avatar>
           <v-list-tile-content>
             <v-list-tile-title>{{title}}</v-list-tile-title>
@@ -50,9 +50,9 @@
           :key="subItem.title"
           :to="item.path + subItem.path"
         >
-          <v-list-tile-action>
+          <!-- <v-list-tile-action>
             <v-icon>{{ subItem.action }}</v-icon>
-          </v-list-tile-action>
+          </v-list-tile-action>-->
           <v-list-tile-content>
             <v-list-tile-title>{{ subItem.title }}</v-list-tile-title>
           </v-list-tile-content>
@@ -62,24 +62,33 @@
   </v-navigation-drawer>
 </template>
 <script>
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
+import menus from "@/router/meus.js";
 export default {
-  props: {
-    dark: Boolean,
-    drawer: Boolean,
-    navMenus: {
-      teyp: Object
-    }
-  },
-  data() {
+
+  data () {
     return {
       miniNav: false, // 左侧导航是否收起
-      title: "SweetUI后台系统"
+      title: 'SweetUI后台系统',
     };
   },
   computed: {
-    ...mapState("app", ["color"])
+    ...mapState('app', ['color', 'drawer', 'dark']),
+    drawerMark: {
+      get () {
+        return this.$store.state.app.drawer;
+      },
+      set (val) {
+        this.setDrawer(val);
+      }
+    },
+    navMenus () {
+      return menus;
+    }
+  },
+  methods: {
+    ...mapMutations('app', ['setDrawer'])
   }
-};
+}
 </script>
 

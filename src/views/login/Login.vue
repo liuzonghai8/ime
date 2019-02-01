@@ -6,8 +6,7 @@
           <v-flex xs12 sm8 md4>
             <v-card class="elevation-12">
               <v-toolbar color="primary">
-                <span/>
-                <v-toolbar-title>系统登录</v-toolbar-title>
+                <v-toolbar-title class="text-center">系统登录</v-toolbar-title>
               </v-toolbar>
               <v-card-text>
                 <v-form>
@@ -38,6 +37,11 @@
                 <v-btn style="width:100%;" color="primary" @click="handleLogin">登录</v-btn>
                 <!-- <v-spacer/> -->
               </v-card-actions>
+              <v-card-text>
+                <span>请使用火狐、360、google、edge、IE11浏览器</span>
+                <br>
+                <span>不支持IE9、IE10等老版本的浏览器</span>
+              </v-card-text>
             </v-card>
           </v-flex>
         </v-layout>
@@ -73,7 +77,7 @@ export default {
   methods: {
     handleLogin() {
       this.$store
-        .dispatch("LoginByUsername", this.username,this.password)
+        .dispatch("LoginByUsername", this.username, this.password)
         .then(() => {
           this.$router.push({ path: "/" }); //登录成功之后重定向到首页
         })

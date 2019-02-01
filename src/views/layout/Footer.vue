@@ -1,5 +1,5 @@
 <template>
-  <v-footer :color="color" text-color="white">
+  <v-footer dark :color="color" text-color="white">
     <v-flex text-xs-center xs12>
       &copy;{{ new Date().getFullYear() }}
       <strong>Sweet</strong>
@@ -9,12 +9,12 @@
 <script>
 import { mapState } from "vuex";
 export default {
-  props: {
-    dark: Boolean
-  },
+  // props: {
+  //   dark: Boolean
+  // },
   computed: {
-    ...mapState("app", ["color"])
+    ...mapState('app', ['color', 'dark'])
   }
-};
+}
 </script>
 

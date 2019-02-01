@@ -2,8 +2,8 @@
   <v-toolbar app>
     <!-- 显示菜单按钮 -->
     <v-tooltip bottom>
-      <v-btn scoped slot="activator" icon @click.stop="handleChangeDrawer">
-        <v-icon v-text="drawer?'format_indent_decrease':'format_indent_increase'" color="color"></v-icon>
+      <v-btn scoped slot="activator" icon @click.stop="toggleDrawer">
+        <v-icon v-text="drawer?'format_indent_decrease':'format_indent_increase'" :color="color"></v-icon>
       </v-btn>
       <span v-text="drawer?'隐藏菜单':'显示菜单'"></span>
     </v-tooltip>
@@ -31,50 +31,46 @@
     <!-- 全屏按钮  compress  expand-->
     <v-tooltip bottom>
       <v-btn slot="activator" icon @click="handleScreen(screen)">
-        <v-icon x-large v-text="screen?'fullscreen_exit':'fullscreen'" :color="color"></v-icon>
+        <v-icon large v-text="screen?'fullscreen_exit':'fullscreen'" :color="color"></v-icon>
       </v-btn>
       <span v-text="screen?'退出全屏':'全屏'"></span>
     </v-tooltip>
     <!-- 切换黑暗主题 -->
-    <v-btn icon @click.stop="handleChangeTheme">
-      <v-icon large :color="color">invert_colors</v-icon>
+    <v-btn icon @click.stop="toggleDark">
+      <v-icon medium :color="color">invert_colors</v-icon>
     </v-btn>
 
     <!-- 消息按钮 -->
-    <v-badge color="color" overlap>
+    <v-badge overlap>
       <template slot="badge">111</template>
-      <v-icon large color="color">notifications</v-icon>
+      <v-icon medium :color="color">notifications</v-icon>
     </v-badge>
 
-    <v-menu open-on-hover top offset-y>
+    <!-- <v-menu open-on-hover top offset-y>
       <v-btn slot="activator" dark icon>
-        <v-icon large>notifications</v-icon>
+        <v-icon medium>notifications</v-icon>
       </v-btn>
-      <!-- <v-dadge>ddd</v-dadge> -->
+      <v-dadge>ddd</v-dadge> 
       <v-list>
         <v-list-tile>
           <v-list-tile-title>4444</v-list-tile-title>
         </v-list-tile>
       </v-list>
-    </v-menu>
+    </v-menu>-->
     <!-- 头像 -->
     <v-btn icon @click.stop>
       <v-icon>account_box</v-icon>
     </v-btn>
     <v-avatar>
-      <img src="../../assets/1.jpeg" alt>
+      <img src="@/assets/1.jpeg" alt>
     </v-avatar>
   </v-toolbar>
 </template>
 <script>
 import { fullscreenToggel } from "@/utils/util";
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
 export default {
-  props: {
-    drawer: Boolean,
-    dark: Boolean
-  },
-  data() {
+  data () {
     return {
       screen: false, // 是否全屏
       menuMap: {}
@@ -82,27 +78,31 @@ export default {
   },
   componentes: {},
   computed: {
-    ...mapState("app", ["color"]),
-    subMenu() {
+    ...mapState('app', ['color', 'drawer', 'dark']),
+    subMenu () {
       // const subpatch = this.$route.path.split("/");
       //如何根据路劲 获取菜单名称
       return this.$route.path.split("/");
     },
-    subpatch() {
+    subpatch () {
       return this.$route.path.split("/");
     }
   },
   methods: {
-    handleScreen(param) {
+    ...mapMutations('app', [
+      'toggleDrawer',
+      'toggleDark'
+    ]),
+    handleScreen (param) {
       this.screen = !this.screen;
       fullscreenToggel(param);
     },
-    handleChangeTheme() {
-      this.$emit("changeTheme");
-    },
-    handleChangeDrawer() {
-      this.$emit("changeDrawer");
-    }
+    // handleChangeTheme () {
+    //   this.$emit("changeTheme");
+    // },
+    // handleChangeDrawer () {
+    //   this.$emit("changeDrawer");
+    // }
   }
 };
 </script>

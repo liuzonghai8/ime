@@ -71,10 +71,10 @@ export default {
     this.loadAllRoles();
     // this.loadRole();
     //this.selected = [];
-    // this.loadRole().then(data => {
-    //   // this.possessRoles = data;
-    //   console.log(data);
-    // });
+    this.loadRole().then(data => {
+      this.possessRoles = data;
+      console.log(data);
+    });
   },
   methods: {
     // 删除用户和角色关联 .delete("upms/sys/user/role/" + param.id) this.$qs.stringify(pams)
@@ -132,14 +132,14 @@ export default {
         this.allRoles = data;
       });
     },
-    loadData() {
-      return new Promise(resolve => {
-        this.$axios.get("upms/sys/role/all").then(resp => {
-          const data = [];
-          resolve(data);
-        });
-      });
-    },
+    // loadData() {
+    //   return new Promise(resolve => {
+    //     this.$axios.get("upms/sys/role/all").then(resp => {
+    //       const data = [];
+    //       resolve(data);
+    //     });
+    //   });
+    // },
     //加载已有角色
     loadRole() {
       return new Promise(resolve => {
