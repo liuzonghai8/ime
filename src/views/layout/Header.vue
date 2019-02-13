@@ -8,21 +8,17 @@
       <span v-text="drawer?'隐藏菜单':'显示菜单'"></span>
     </v-tooltip>
     <!-- 面包肖 -->
-    <v-breadcrumbs>
-      <v-icon slot="divider">chevron_right</v-icon>
+    <!-- <v-breadcrumbs :items="subMenu">
+      <v-icon scoped slot="divider">chevron_right</v-icon>
       <v-breadcrumbs-item>{{subMenu[1]}}</v-breadcrumbs-item>
 
       <v-breadcrumbs-item small>{{subMenu[2]}}</v-breadcrumbs-item>
-    </v-breadcrumbs>
-
-    <!-- <v-breadcrumbs :items="items">
-        <template slot="item" slot-scope="props">
-          <a
-            :href="props.item.path"
-            :class="[props.item.disabled && 'disabled']"
-          >{{ props.item.title }}</a>
-        </template>
     </v-breadcrumbs>-->
+    <v-breadcrumbs :items="subMenu">
+      <template slot="item" slot-scope="props">
+        <a :href="props.item.path" :class="[props.item.disabled && 'disabled']">{{ props }}</a>
+      </template>
+    </v-breadcrumbs>
     <v-spacer/>
     <!-- 搜索 -->
     <!-- <v-btn icon>
@@ -30,7 +26,7 @@
     </v-btn>-->
     <!-- 全屏按钮  compress  expand-->
     <v-tooltip bottom>
-      <v-btn slot="activator" icon @click="handleScreen(screen)">
+      <v-btn scoped slot="activator" icon @click="handleScreen(screen)">
         <v-icon large v-text="screen?'fullscreen_exit':'fullscreen'" :color="color"></v-icon>
       </v-btn>
       <span v-text="screen?'退出全屏':'全屏'"></span>
@@ -42,7 +38,7 @@
 
     <!-- 消息按钮 -->
     <v-badge overlap>
-      <template slot="badge">111</template>
+      <template scoped slot="badge">111</template>
       <v-icon medium :color="color">notifications</v-icon>
     </v-badge>
 

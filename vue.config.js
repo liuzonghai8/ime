@@ -7,23 +7,8 @@ module.exports = {
             warnings: false,
             errors: false
         },
-        // proxy: {
-        //     '/api': {
-        //         target: 'http://127.0.0.1:8082',
-        //         ws: true,
-        //         changeOrigin: false,
-        //         pathRewrite: {
-        //             '^api': ''
-        //         }
-        //     }
-        // }
-        
     }
-
-
 }
-
-
 // module.exports = {
 //     devServer: {
 //         // 设置主机地址

@@ -20,7 +20,7 @@
       :loading="loading"
       item-key="id"
       select-all
-      class="elevation-1"
+      class="elevation-2"
       rows-per-page-text="每页行数："
       :rows-per-page-items="pagesnum"
       no-data-text="无数据"
@@ -97,7 +97,7 @@ export default {
   props: {
     dark: Boolean
   },
-  data() {
+  data () {
     return {
       search: "", //搜索关键字
       selected: [], //选择的条目
@@ -146,27 +146,27 @@ export default {
     //监听数据的变化，数据有变化时刷新列表 // 监视pagination属性的变化
     pagination: {
       deep: true, // deep为true，会监视pagination的属性及属性中的对象属性变化
-      handler() {
+      handler () {
         // 变化后的回调函数，这里我们再次调用getDataFromServer即可
         this.getDataFromServer();
       }
     },
     // 监视搜索字段
     search: {
-      handler() {
+      handler () {
         this.getDataFromServer();
       }
     }
   },
   //页面加载是钩子函数
-  mounted() {
+  mounted () {
     this.getDataFromServer();
   },
 
   methods: {
     //数据初始化
 
-    initData() {
+    initData () {
       this.dialogShow = false;
       this.dialogShow2 = false;
       this.editMark = false;
@@ -176,17 +176,17 @@ export default {
       this.getDataFromServer();
     },
     //关闭对话框
-    closeDialog() {
+    closeDialog () {
       this.initData();
     },
     //user添加按钮事件
-    handleadd() {
+    handleadd () {
       this.editMark = false;
       this.dialogShow = true;
       this.dialogShow2 = false;
     },
     //编辑用户按钮事件
-    handleEdit(params) {
+    handleEdit (params) {
       this.oldData = params;
       this.editMark = true;
       this.dialogShow = true;
@@ -194,7 +194,7 @@ export default {
       //console.log(params);
     },
     //分配角色按钮
-    handleRole(params) {
+    handleRole (params) {
       this.editMark = false;
       this.dialogShow2 = true;
       this.dialogShow = false;
@@ -202,22 +202,22 @@ export default {
     },
 
     //批量删除用户
-    deleteItems() {
+    deleteItems () {
       //this.getTest();
     },
     //删除一个用户
-    deleteItem(params) {
+    deleteItem (params) {
       //根据ID删除一条记录
       const id = params.id;
       console.log(id),
         confirm("是否确定删除用户") &&
-          this.$axios.delete("upms/sys/user/" + id).then(() => {
-            console.log("删除成功");
-            this.getDataFromServer();
-          });
+        this.$axios.delete("upms/sys/user/" + id).then(() => {
+          console.log("删除成功");
+          this.getDataFromServer();
+        });
     },
     //从后台获取数据
-    getDataFromServer() {
+    getDataFromServer () {
       this.$axios
         .get("upms/sys/user/page", {
           params: {
@@ -238,7 +238,7 @@ export default {
         });
     }
   }
-};
+}
 </script>
 
 

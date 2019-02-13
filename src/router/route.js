@@ -17,7 +17,7 @@ const routes = [
         path: '/index/dashboard', component: Index
       },
       {
-        path: '/sys/user', component: () => import('../views/sys/user/User')
+        path: '/sys/user', component: () => import('@/views/sys/user/User')
       },
       {
         path: '/sys/menu', component: () => import('../views/sys/menu/Menu')
@@ -34,9 +34,7 @@ const routes = [
       {
         path: '/ConsultationManagement/consultationRecord', component: () => import('../views/consultation/ConsultationRecord')
       },
-      {
-        path: '/trade/test', component: () => import('../views/test')
-      },
+
     ]
 
   }

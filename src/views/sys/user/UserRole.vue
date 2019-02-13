@@ -43,7 +43,7 @@ export default {
       requied: true
     }
   },
-  data() {
+  data () {
     return {
       allRoles: [], //所有角色
       possessRoles: [], // 拥有角色
@@ -51,23 +51,23 @@ export default {
     };
   },
   watch: {
-    // user: {
-    //   handle: function(val) {
-    //     console.log("user Watch");
-    //     //this.loadRole();
-    //   }
-    // }
+    user: {
+      handle: function (val) {
+        console.log("user Watch");
+        //this.loadRole();
+      }
+    }
   },
   computed: {
     //计算已拥有角色ID数组
-    possessRolesArray() {
+    possessRolesArray () {
       return this.possessRoles.map(r => r.id).join(",");
     },
-    unPossessRoles() {
+    unPossessRoles () {
       return this.allRoles.filter(r => !this.possessRolesArray.includes(r.id));
     }
   },
-  mounted() {
+  mounted () {
     this.loadAllRoles();
     // this.loadRole();
     //this.selected = [];
@@ -78,7 +78,7 @@ export default {
   },
   methods: {
     // 删除用户和角色关联 .delete("upms/sys/user/role/" + param.id) this.$qs.stringify(pams)
-    deletedItem(param) {
+    deletedItem (param) {
       confirm("是否确定删除角色") &&
         this.$axios({
           method: "delete",
@@ -97,7 +97,7 @@ export default {
           });
     },
     //给用户分配角色
-    submit() {
+    submit () {
       console.log(this.selectedRoles);
       const { ...params } = null;
       params.rids = this.selectedRoles.map(r => r).join(","); //将数组转换成对象
@@ -120,7 +120,7 @@ export default {
         });
     },
     //加载角色选项
-    loadAllRoles() {
+    loadAllRoles () {
       this.$axios.get("upms/sys/role/all").then(resp => {
         const data = [];
         //先过滤掉禁用的角色
@@ -141,7 +141,7 @@ export default {
     //   });
     // },
     //加载已有角色
-    loadRole() {
+    loadRole () {
       return new Promise(resolve => {
         this.$axios.get("upms/sys/role/user/" + this.user.id).then(resp => {
           console.log(resp);
