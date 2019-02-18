@@ -51,12 +51,7 @@ export default {
     };
   },
   watch: {
-    user: {
-      handle: function (val) {
-        console.log("user Watch");
-        //this.loadRole();
-      }
-    }
+
   },
   computed: {
     //计算已拥有角色ID数组
@@ -69,12 +64,7 @@ export default {
   },
   mounted () {
     this.loadAllRoles();
-    // this.loadRole();
-    //this.selected = [];
-    this.loadRole().then(data => {
-      this.possessRoles = data;
-      console.log(data);
-    });
+    this.loadRole();
   },
   methods: {
     // 删除用户和角色关联 .delete("upms/sys/user/role/" + param.id) this.$qs.stringify(pams)
@@ -110,7 +100,7 @@ export default {
         url: "/upms/sys/user/role",
         data: this.$qs.stringify(params)
       })
-        .then(resp => {
+        .then(() => {
           console.log("保存成功");
           this.loadRole(); // 重新加载已经拥有的角色
           this.selectedRoles = []; //清空选择的
@@ -132,32 +122,13 @@ export default {
         this.allRoles = data;
       });
     },
-    // loadData() {
-    //   return new Promise(resolve => {
-    //     this.$axios.get("upms/sys/role/all").then(resp => {
-    //       const data = [];
-    //       resolve(data);
-    //     });
-    //   });
-    // },
-    //加载已有角色
-    loadRole () {
-      return new Promise(resolve => {
-        this.$axios.get("upms/sys/role/user/" + this.user.id).then(resp => {
-          console.log(resp);
-          resolve(resp.data);
-        });
-      });
 
-      //   this.$axios.get("upms/sys/role/user/" + this.user.id);
-      // }).then(resp => {
-      //   console.log(resp.data);
-      //   resolve(resp.data);
-      // });
-      // this.$axios.get("upms/sys/role/user/" + this.user.id).then(resp => {
-      //   this.possessRoles = resp.data;
-      //   console.log(this.possessRoles);
-      // });
+    loadRole () {
+      this.$axios.get("upms/sys/role/user/" + this.user.id)
+        .then(resp => {
+          this.possessRoles = resp.data;
+          console.log(resp.data);
+        });
     }
   }
 };

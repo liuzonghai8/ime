@@ -78,11 +78,11 @@ export default {
       type: Boolean,
       requied: true
     },
-    oldData: {
-      type: Object
+    userId: {
+      type: Number
     }
   },
-  data() {
+  data () {
     return {
       valid: true, // 表单校验结果标记
       newData: {
@@ -111,10 +111,11 @@ export default {
   },
   watch: {
     // 深度 watcher模式
-    oldData: {
-      handler: function(val) {
+    userId: {
+      handler: function (val) {
+        console.log(val)
         if (val) {
-          this.newData = Object.assign(val);
+          this.loadUser()
         } else {
           this.initData();
         }
@@ -123,10 +124,10 @@ export default {
     }
   },
   //页面加载钩子函数
-  mounted() {},
+  mounted () { },
   computed: {},
   methods: {
-    initData() {
+    initData () {
       (this.newData.loginName = ""),
         (this.newData.realName = ""),
         (this.newData.brandModel = ""),
@@ -136,11 +137,13 @@ export default {
         (this.newData.enableTag = ""),
         (this.password2 = "");
     },
-    clear() {
+    clear () {
       // 重置表单
       this.$refs.myForm.reset();
     },
-    submit() {
+
+    //提交按钮事件
+    submit () {
       if (this.$refs.myForm.validate()) {
         // 将数据提交到后台 通过editMark 判断是添加还是修改
         this.$axios({
@@ -151,15 +154,25 @@ export default {
           .then(() => {
             // 关闭窗口
             this.$emit("show");
-            this.$message.success("保存成功！");
+            // this.$message.success("保存成功！");
             console.log("保存成功");
           })
           .catch(() => {
-            this.$message("保存失败");
+            //this.$message("保存失败");
             console.log("保存失败");
           });
       }
+    },
+
+    //根据用户id 加载用户信息
+    loadUser () {
+      this.$axios.get("upms/sys/user/" + this.userId)
+        .then(resp => {
+          console.log(resp.data);
+          this.newData = resp.data;
+        });
     }
+
   }
 };
 </script>

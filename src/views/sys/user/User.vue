@@ -36,7 +36,7 @@
         <td class="text-xs-center">{{ props.item.phone }}</td>
         <td class="text-xs-center">{{ props.item.enableTag ==0 ? "启用" :"禁用" }}</td>
         <td class="text-xs-center">
-          <v-btn icon @click="handleEdit(props.item)">
+          <v-btn icon @click="handleEdit(props.item.id)">
             <v-icon color="teal darken-1">edit</v-icon>
           </v-btn>
           <v-btn icon @click="deleteItem(props.item)">
@@ -52,7 +52,7 @@
         </v-card>
       </template>-->
     </v-data-table>
-    <!-- 新增列表 弹框模式 v-on:addUser="addUserItem(user)" -->
+    <!-- 新增列表 弹框模式 v-on:addUser="addUserItem(user)"  v-if="dialogShow"-->
     <v-dialog v-model="dialogShow" max-width="500px" persistent scrollable>
       <v-card>
         <!--对话框的标题-->
@@ -66,12 +66,12 @@
         </v-toolbar>
         <!--对话框的内容，表单-->
         <v-card-text class="px-2" style="height:600px">
-          <UserEdit :editMark="editMark" :oldData="oldData" v-on:show="closeDialog"/>
+          <UserEdit :editMark="editMark" :userId="userId" v-on:show="closeDialog"/>
         </v-card-text>
       </v-card>
     </v-dialog>
     <!-- 分配角色对话框 -->
-    <v-dialog v-model="dialogShow2" max-width="800px" persistent scrollable>
+    <v-dialog v-model="dialogShow2" max-width="600px" persistent scrollable v-if="dialogShow2">
       <v-card>
         <!--对话框的标题-->
         <v-toolbar dense dark color="primary">
@@ -83,7 +83,7 @@
           </v-btn>
         </v-toolbar>
         <!--对话框的内容，表单-->
-        <v-card-text class="px-2" style="height:600px">
+        <v-card-text class="px-2">
           <UserRole :user="user"/>
         </v-card-text>
       </v-card>
@@ -103,13 +103,13 @@ export default {
       selected: [], //选择的条目
       total: 20, //总条数
       datas: [], //数据集合
-      oldData: {}, //旧的数据
+      // oldData: {}, //旧的数据
       loading: true, //加载进度条
       pagination: {}, //监听变化
       dialogShow: false, //显示new 对话框
       dialogShow2: false, //显示 add role对话框
       editMark: false, //编辑标记
-      userId: "",
+      userId: 0,
       user: {},
       pagesnum: [
         10,
@@ -172,7 +172,8 @@ export default {
       this.editMark = false;
       // this.roleMark = false;
       // this.userMark = false;
-      this.oldData = {};
+      //this.oldData = {};
+      this.userId = 0;
       this.getDataFromServer();
     },
     //关闭对话框
@@ -187,7 +188,8 @@ export default {
     },
     //编辑用户按钮事件
     handleEdit (params) {
-      this.oldData = params;
+      //this.oldData = params;
+      this.userId = params;
       this.editMark = true;
       this.dialogShow = true;
       this.dialogShow2 = false;
