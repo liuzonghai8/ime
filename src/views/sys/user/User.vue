@@ -83,7 +83,7 @@
           </v-btn>
         </v-toolbar>
         <!--对话框的内容，表单-->
-        <v-card-text class="px-2">
+        <v-card-text class="px-2" style="height:600px">
           <UserRole :user="user"/>
         </v-card-text>
       </v-card>

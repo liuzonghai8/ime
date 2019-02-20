@@ -58,7 +58,7 @@
       v-model.trim="newData.enableTag"
       :mandatory="false"
       required
-      :rules="[v => !!v || 'Item is required']"
+      :rules="[v => !!v || '必须选择一个']"
     >
       <v-radio label="启用" value="0" color="success"></v-radio>
       <v-radio label="禁用" value="1" color="warning"></v-radio>
@@ -152,6 +152,8 @@ export default {
           data: this.$qs.stringify(this.newData)
         })
           .then(() => {
+            //新清空表单
+            this.initData();
             // 关闭窗口
             this.$emit("show");
             // this.$message.success("保存成功！");
@@ -168,7 +170,6 @@ export default {
     loadUser () {
       this.$axios.get("upms/sys/user/" + this.userId)
         .then(resp => {
-          console.log(resp.data);
           this.newData = resp.data;
         });
     }

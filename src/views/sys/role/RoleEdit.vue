@@ -1,14 +1,32 @@
 <template>
-  <v-form v-model="valid" ref="myForm">
-    <v-text-field prepend-icon="person" label="请输入角色名*" v-model="newData.name" required></v-text-field>
-    <v-text-field prepend-icon="person" label="请输入角色代码*" v-model.trim="newData.code" required></v-text-field>
+  <v-form v-model="valid" ref="roleFrom">
+    <v-text-field
+      prepend-icon="person"
+      label="请输入角色名*"
+      v-model.trim="newData.name"
+      required
+      clearable
+      validate-on-blur
+      :rules="nameRules"
+      counter
+    ></v-text-field>
+    <v-text-field
+      prepend-icon="person"
+      label="请输入角色代码*"
+      v-model.trim="newData.code"
+      required
+      validate-on-blur
+      :rules="nameRules"
+    ></v-text-field>
     <v-textarea
       prepend-icon="person"
       box
       label="请输入该角色的描述"
       auto-grow
       v-model.trim="newData.description"
+      validate-on-blur
       rows="1"
+      :rules="nameRules"
     ></v-textarea>
     <v-radio-group
       prepend-icon="person"
@@ -16,6 +34,7 @@
       :mandatory="false"
       row
       label="请选择是否启用"
+      :rules="statusRules"
     >
       <v-radio label="启用" value="0" color="success"></v-radio>
       <v-radio label="禁用" value="1" color="warning"></v-radio>
@@ -29,18 +48,19 @@
 </template>
 <script>
 export default {
+  name: "role-from",
   props: {
     editMark: {
       type: Boolean,
       requied: true
     },
-    oldData: {
-      type: Object
+    roleId: {
+      type: Number
     }
   },
-  data() {
+  data () {
     return {
-      valid: true,
+      valid: true,// 表单校验结果标记
       newData: {
         name: "",
         code: "",
@@ -51,73 +71,66 @@ export default {
         v => !!v || "用户名不能为空",
         v => v.length <= 20 || "用户名太长"
       ],
-      passwordRules: [
-        v => !!v || "密码不能为空",
-        v => v.length <= 20 || "用户名太长"
-      ],
-      sexRules: [v => !!v || "必须选择"],
       statusRules: [v => !!v || "必须选择"],
-      phoneRules: [
-        v => !!v || "手机号码不能为空",
-        v => v.length == 11 || "手机号码位数不对"
-      ]
     };
   },
   watch: {
     // 深度 watcher模式
-    oldData: {
-      deep: true,
-      handler: function(val) {
-        console.log(val);
+    roleId: {
+      handler: function (val) {
         if (val) {
-          console.log(val);
-          this.newData = Object.assign(val);
-          console.log(this.newData);
+          //console.log(val)
+          //根据Id从服务器查询角色
+          this.loadRole()
         } else {
           this.initData();
+          // console.log("ddd")
         }
-      }
+      },
+      deep: true,
     }
   },
-  mounted() {
-    console.log(this.oldData);
+  mounted () {
   },
   computed: {},
   methods: {
-    initData() {
+    initData () {
       (this.newData.name = ""),
         (this.newData.code = ""),
         (this.newData.description = ""),
         (this.newData.enableTag = "");
-      //this.menus = []
     },
-    clear() {
+    clear () {
       // 重置表单
-      this.$refs.myForm.reset();
+      this.$refs.roleFrom.reset();
     },
-    submit() {
-      // if (this.$refs.form.validate()) {
-      // 定义一个请求参数对象，通过解构表达式来获取brand中的属性
-      console.log(this.newData);
-      const params = this.$qs.stringify(this.newData);
-      console.log(params);
-      this.$axios({
-        method: this.editMark ? "put" : "post",
-        url: "/upms/sys/role",
-        data: params
-      })
-        .then(() => {
-          // 关闭窗口
-          this.$emit("show");
-          // this.$message.success("保存成功！");
-          console.log("保存成功");
+    submit () {
+      if (this.$refs.roleFrom.validate()) {
+        this.$axios({
+          method: this.editMark ? "put" : "post",
+          url: "/upms/sys/role",
+          data: this.$qs.stringify(this.newData)
         })
-        .catch(() => {
-          console.log(params);
-          console.log("保存失败");
-        });
+          .then(() => {
+            //新清空表单
+            this.initData();
+            // 关闭窗口
+            this.$emit("show");
+            // this.$message.success("保存成功！");
+            console.log("保存成功");
+          })
+          .catch(() => {
+            console.log("保存失败");
+          });
+      }
+    },
+    //从服务器查询角色
+    loadRole () {
+      this.$axios("/upms/sys/role/" + this.roleId)
+        .then((resp) => {
+          this.newData = resp.data
+        })
     }
-    //}
   }
 };
 </script>

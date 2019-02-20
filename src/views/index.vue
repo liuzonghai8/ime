@@ -57,7 +57,7 @@
 import { mapState, mapMutations, mapActions } from "vuex";
 import Tree from "@/components/tree/Tree";
 export default {
-  data() {
+  data () {
     return {
       pagination: {}, //监听变化
       loading: false, //加载进度条
@@ -79,10 +79,10 @@ export default {
     };
   },
   components: {
-    Tree
+    // Tree
   },
   computed: {
-    totalUsers() {
+    totalUsers () {
       return this.users.length;
     },
     //简单写法
@@ -94,18 +94,18 @@ export default {
     //  })
   },
   methods: {
-    removeuser1(param) {
+    removeuser1 (param) {
       console.log(param);
       this.deleteUser(this.param);
     },
-    removeuser2(param) {
+    removeuser2 (param) {
       console.log(param);
       this.removeUser(this.param);
     },
-    handleInrement() {
+    handleInrement () {
       this.$store.dispatch("incerement", 15);
     },
-    handleaddUser() {
+    handleaddUser () {
       console.log("adduser"),
         this.$store.commit("addUser", {
           name: "周杰伦",
@@ -118,7 +118,7 @@ export default {
       //  phone: "1388888888",
       //  status: "禁用"})
     },
-    handleaddUser3() {
+    handleaddUser3 () {
       console.log("store.action"),
         this.$store.dispatch("addUser", {
           name: "周杰伦",
@@ -127,7 +127,7 @@ export default {
           status: "禁用"
         });
     },
-    handleaddUser4() {
+    handleaddUser4 () {
       this.$store.dispatch("addUserPromise", {
         name: "周杰伦000",
         sex: "男",
