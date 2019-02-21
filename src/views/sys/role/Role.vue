@@ -38,8 +38,7 @@
           <v-btn icon @click="deleteItem(props.item.id)">
             <v-icon color="deep-orange accent-4">delete</v-icon>
           </v-btn>
-          <v-btn fab dark small color="teal" @click="handleAssignUsers(props.item)">用户</v-btn>
-          <v-btn fab dark small color="purple">权限</v-btn>
+          <v-btn fab dark small color="purple" @click="handleAddPermissions(props.item.id)">+权限</v-btn>
         </td>
         <!-- </tr> -->
       </template>
@@ -62,13 +61,13 @@
         </v-card-text>
       </v-card>
     </v-dialog>
-    <!-- 给角色分配用户的对话框 -->
+    <!-- +权限对话框 -->
     <v-dialog
-      v-model="dialogShowRoleUser"
+      v-model="dialogShowRoleMenu"
       max-width="800px"
       persistent
       scrollable
-      v-if="dialogShowRoleUser"
+      v-if="dialogShowRoleMenu"
     >
       <v-card>
         <!--对话框的标题-->
@@ -82,7 +81,7 @@
         </v-toolbar>
         <!--对话框的内容，表单-->
         <v-card-text class="px-2">
-          <RoleUser></RoleUser>
+          <RoleMenu/>
         </v-card-text>
       </v-card>
     </v-dialog>
@@ -90,7 +89,7 @@
 </template>
 <script>
 import RoleEdit from "./RoleEdit";
-import RoleUser from "./RoleUser";
+import RoleMenu from "./RoleMenu";
 export default {
   props: {
     dark: Boolean
@@ -105,9 +104,8 @@ export default {
       loading: true, //加载进度条
       pagination: {}, //监听变化
       dialogShowRoleEdit: false, //显示新增/修改角色对话框
-      dialogShowRoleUser: false, //显示角色用户对话框
+      dialogShowRoleMenu: false, //显示角色用户对话框
       editMark: false, //编辑标记
-      user: {},
       //数据表头,
       headers: [
         {
@@ -128,7 +126,7 @@ export default {
   },
   components: {
     RoleEdit,
-    RoleUser
+    RoleMenu
   },
   //计算属性：
   computed: {},
@@ -158,7 +156,7 @@ export default {
     //数据初始化
     initData () {
       this.dialogShowRoleEdit = false;
-      this.dialogShowRoleUser = false;
+      this.dialogShowRoleMenu = false;
       this.editMark = false;
       this.roleId = 0;
       this.getDataFromServer();
@@ -171,20 +169,20 @@ export default {
     handleadd () {
       this.editMark = false;
       this.dialogShowRoleEdit = true;
-      this.dialogShowRoleUser = false;
+      this.dialogShowRoleMenu = false;
     },
     //编辑按钮事件
     handleEdit (params) {
       this.roleId = params;
       this.editMark = true;
       this.dialogShowRoleEdit = true;
-      this.dialogShowRoleUser = false;
+      this.dialogShowRoleMenu = false;
     },
-    //给角色分配用户按钮
-    handleAssignUsers (params) {
+    //给角色添加权限
+    handleAddPermissions (params) {
       this.dialogShowRoleEdit = false;
-      this.dialogShowRoleUser = true;
-      this.user = params;
+      this.dialogShowRoleMenu = true;
+      this.roleId = params;
     },
 
     //批量删除用户

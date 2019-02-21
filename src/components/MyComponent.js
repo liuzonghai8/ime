@@ -4,6 +4,7 @@ const MyComponent = {};
 
 MyComponent.install = function (Vue) {
   Vue.component("vTree", () => import('./tree/Tree'));
+  Vue.component("vTree2", () => import('./tree2/Tree2'));
   Vue.component("vCascader", () => import('./cascader/Cascader'));
   // Vue.component("vUpload", () => import('./form/Upload'));
   // Vue.component("vEditor", () => import('./form/Editor'));

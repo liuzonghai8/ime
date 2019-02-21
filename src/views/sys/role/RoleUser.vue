@@ -5,7 +5,9 @@
         <v-toolbar card py="0" my="0">
           <v-toolbar-title>拥有该角色的用户</v-toolbar-title>
         </v-toolbar>
-        <v-text-field v-model.lazy="search" append-icon="search" label="输入用户名搜索" hide-details></v-text-field>
+        <v-flex xs10>
+          <v-text-field v-model.lazy="search" append-icon="search" label="输入用户名搜索" hide-details></v-text-field>
+        </v-flex>
         <v-card-text>左边</v-card-text>
         <v-data-table
           v-model="selected"
@@ -34,7 +36,9 @@
         <v-toolbar card color="grey lighten-3">
           <v-toolbar-title>未拥有该角色的用户</v-toolbar-title>
         </v-toolbar>
-        <v-text-field v-model.lazy="search" append-icon="search" label="输入用户名搜索" hide-details></v-text-field>
+        <v-flex xs10>
+          <v-text-field v-model.lazy="search" append-icon="search" label="输入用户名搜索" hide-details></v-text-field>
+        </v-flex>
         <v-card-text>右边</v-card-text>
       </v-flex>
     </v-layout>
@@ -61,14 +65,14 @@ export default {
     pagination: {}, //监听变化
     headers: [
       {
-        text: "角色名称",
+        text: "用户名",
         align: "center",
         value: "name"
       },
       {
-        text: "角色代码",
+        text: "操作",
         align: "center",
-        value: "code"
+        value: "name"
       }]
   }),
 

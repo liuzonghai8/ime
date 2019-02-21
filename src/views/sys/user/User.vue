@@ -42,7 +42,7 @@
           <v-btn icon @click="deleteItem(props.item)">
             <v-icon color="deep-orange accent-4">delete</v-icon>
           </v-btn>
-          <v-btn fab dark small color="teal" @click="handleRole(props.item)">角色</v-btn>
+          <v-btn fab dark small color="teal" @click="handleRole(props.item)">+角色</v-btn>
         </td>
         <!-- </tr> -->
       </template>

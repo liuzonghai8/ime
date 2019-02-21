@@ -20,19 +20,19 @@ const routes = [
         path: '/sys/user', component: () => import('@/views/sys/user/User')
       },
       {
-        path: '/sys/menu', component: () => import('../views/sys/menu/Menu')
+        path: '/sys/menu', component: () => import('@/views/sys/menu/Menu')
       },
       {
-        path: '/sys/role', component: () => import('../views/sys/role/Role')
+        path: '/sys/role', component: () => import('@/views/sys/role/Role')
       },
       {
-        path: '/sys/dept', component: () => import('../views/sys/dept/Dept')
+        path: '/sys/dept', component: () => import('@/views/sys/dept/Dept')
       },
       {
-        path: '/knowledge/problem', component: () => import('../views/book/problem/Problem')
+        path: '/knowledge/problem', component: () => import('@/views/book/problem/Problem')
       },
       {
-        path: '/ConsultationManagement/consultationRecord', component: () => import('../views/consultation/ConsultationRecord')
+        path: '/ConsultationManagement/consultationRecord', component: () => import('@/views/consultation/ConsultationRecord')
       },
 
     ]
