@@ -1,7 +1,7 @@
 module.exports = {
     //默认 @ 指向src目录
     devServer: {
-        host: 'localhost',
+        host: '192.168.1.106',
         port: '3030',
         overlay: {
             warnings: false,
