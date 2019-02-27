@@ -97,7 +97,8 @@ export default {
     items: [], //数据集合，
     selects: ['菜单', '按钮'],
     menu: null,  //选择的数据
-    edit: true
+    edit: true,
+    editMark: false
     //selected: false
   }),
   mounted () {
@@ -139,16 +140,17 @@ export default {
     handleadd () {
       if (this.active[0]) {
         this.menu = {
-          parentId: this.menu.parentId
+          parentId: this.menu.id
         }
       } else {
         this.menu = {}
       }
-      //this.active = []
-      this.edit = false
+      this.edit = false,
+        this.editMark = false
     },
     handleedit () {
-      this.edit = false
+      this.edit = false,
+        this.editMark = true
     },
     handledelete () {
       if (!this.active[0]) {
@@ -169,17 +171,18 @@ export default {
     },
     submit () {
       console.log(this.menu),
-        this.$axios({
-          method: this.edit ? "put" : "post",
-          url: "/upms/sys/menu",
-          data: this.$qs.stringify(this.menu)
+        console.log(this.edit)
+      this.$axios({
+        method: this.editMark ? "put" : "post",
+        url: "/upms/sys/menu",
+        data: this.$qs.stringify(this.menu)
+      })
+        .then(() => {
+          console.log("添加成功")
         })
-          .then(() => {
-            console.log("添加成功")
-          })
-          .catch(() => {
-            console.log("添加失败")
-          })
+        .catch(() => {
+          console.log("添加失败")
+        })
 
     }
 
