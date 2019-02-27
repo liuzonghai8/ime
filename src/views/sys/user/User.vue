@@ -213,10 +213,15 @@ export default {
       const id = params.id;
       console.log(id),
         confirm("是否确定删除用户") &&
-        this.$axios.delete("upms/sys/user/" + id).then(() => {
-          console.log("删除成功");
-          this.getDataFromServer();
-        });
+        this.$axios.delete("upms/sys/user/" + id)
+          .then(() => {
+            console.log("删除成功");
+            this.getDataFromServer();
+          })
+          .catch((err) => {
+            console.log("删除失败")
+            console.log(err)
+          })
     },
     //从后台获取数据
     getDataFromServer () {
