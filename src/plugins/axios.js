@@ -4,7 +4,7 @@ import Vue from 'vue';
 import axios from "axios";
 import qs from 'qs'
 
-Vue.prototype.$axios = axios
+//Vue.prototype.$axios = axios
 Vue.prototype.$qs = qs;
 
 // Full config:  https://github.com/axios/axios#request-config
@@ -21,12 +21,14 @@ let config = {
   api: '${baseURL}/api'
 };
 //api: '${baseURL}/api'
-
+//自定义配置新建一个 axios 实例 为_axios
 const _axios = axios.create(config);
 
+// 添加请求拦截器  
 _axios.interceptors.request.use(
   function (config) {
     // Do something before request is sent
+    // 在发送请求之前做些什么
     return config;
   },
   function (error) {
@@ -35,6 +37,7 @@ _axios.interceptors.request.use(
   }
 );
 
+// 添加响应拦截器
 // Add a response interceptor
 _axios.interceptors.response.use(
   function (response) {

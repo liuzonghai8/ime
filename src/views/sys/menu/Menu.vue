@@ -86,7 +86,9 @@
   </v-card>
 </template>
 <script>
-
+import { fetchObj, getMenuTree, deleteObj, addObj, putObj } from '@/api/menu'
+//import request from '@/plugins/axios'
+//import '@/plugins/axios'
 export default {
   name: 'sys-menu',
   props: {
@@ -104,13 +106,16 @@ export default {
   mounted () {
     this.getDataFromServer();
     //this.getObject("upms/sys/menu/tree").then(resp => this.items = resp.data.data)
+    //this.getDataAll()
   },
   watch: {
     //监听选中是否有变化
     active: {
       handler () {
         if (!this.active.length) { return null }
-        this.fetchObj("upms/sys/menu/" + this.active[0]).then(resp => this.menu = resp.data)
+        //this.fetchObj("upms/sys/menu/" + this.active[0]).then(resp => this.menu = resp.data)
+        this.getMenu(this.active[0])
+        //this.getTree(this.active[0]),
         this.edit = true
       }
     }
@@ -118,23 +123,24 @@ export default {
   },
   computed: {},
   methods: {
-    //获取全部数据
+    //异步获取全部数据
     getDataFromServer () {
-      this.$axios.get("upms/sys/menu/tree").then((resp) => {
-        if (resp.data.code === 0) {
-          console.log("查询到数据"),
-            this.items = resp.data.data
-        }
-        else {
-          console.log("未查询到数据"),
-            console.log(resp.data.msg)
-        }
-      })
+      getMenuTree().then((resp) => this.items = resp.data.data)
     },
 
-    //异步获取数据
-    async fetchObj (url) {
-      return await this.$axios.get(url).then((resp) => resp.data);
+    //根据Id异步获取单个数据
+    getMenu (id) {
+      fetchObj(id).then((resp) => this.menu = resp.data.data)
+    },
+    //添加或更新单个数据
+    submit () {
+      if (this.editMark) {
+        putObj(this.menu)
+      }
+      else {
+        addObj(this.menu)
+      }
+
     },
 
     handleadd () {
@@ -145,20 +151,21 @@ export default {
       } else {
         this.menu = {}
       }
-      this.edit = false,
-        this.editMark = false
+      this.edit = false
+      this.editMark = false
     },
     handleedit () {
       this.edit = false,
         this.editMark = true
     },
     handledelete () {
-      if (!this.active[0]) {
+      const id = this.active[0]
+      if (!id) {
         console.log("选择删除")
       }
       else {
         confirm("是否确定删除用户") &&
-          this.$axios.delete("upms/sys/menu/" + this.active[0])
+          deleteObj(id)
             .then(() => {
               console.log("删除成功")
             })
@@ -169,22 +176,23 @@ export default {
       }
 
     },
-    submit () {
-      console.log(this.menu),
-        console.log(this.edit)
-      this.$axios({
-        method: this.editMark ? "put" : "post",
-        url: "/upms/sys/menu",
-        data: this.$qs.stringify(this.menu)
-      })
-        .then(() => {
-          console.log("添加成功")
-        })
-        .catch(() => {
-          console.log("添加失败")
-        })
+    // submit () {
+    //   console.log(this.menu),
+    //     console.log(this.edit)
+    //   this.$axios({
+    //     method: this.editMark ? "put" : "post",
+    //     url: "/upms/sys/menu",
+    //     data: this.$qs.stringify(this.menu)
+    //   })
+    //     .then(() => {
+    //       console.log("添加成功")
+    //     })
+    //     .catch(() => {
+    //       console.log("添加失败")
+    //     })
 
-    }
+    // },
+
 
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <v-container grid-list-md>
-    <v-layout wrap>
-      <v-flex xs12 md5>
+    <v-layout justify-space-between wrap>
+      <v-flex>
         <v-card-title>
           <span class="title font-weight-light">已有角色</span>
         </v-card-title>
@@ -16,8 +16,8 @@
           </template>
         </v-list>
       </v-flex>
-      <v-spacer/>
-      <v-flex xs12 md5>
+      <!-- <v-spacer/> -->
+      <v-flex>
         <v-card-title>
           <span class="title font-weight-light">待选角色</span>
         </v-card-title>
