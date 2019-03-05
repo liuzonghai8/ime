@@ -34,7 +34,7 @@
     <v-text-field
       prepend-icon="lock"
       label="请再次输入密码*"
-      v-model.trim="password2"
+      v-model.trim="newData.password2"
       required
       clearable
       counter
@@ -71,6 +71,7 @@
   </v-form>
 </template>
 <script>
+import { addObj, putObj, getObj } from '@/api/sys/user'
 export default {
   name: "user-from",
   props: {
@@ -85,16 +86,9 @@ export default {
   data () {
     return {
       valid: true, // 表单校验结果标记
-      newData: {
-        loginName: "",
-        realName: "",
-        password: "",
-        phone: "",
-        avatar: "",
-        enableTag: ""
-      },
+      newData: {},
       options: [],
-      password2: "",
+      // password2: "",
       nameRules: [
         v => !!v || "用户名不能为空",
         v => (v && v.length <= 20) || "用户名太长"
@@ -114,11 +108,7 @@ export default {
     userId: {
       handler: function (val) {
         console.log(val)
-        if (val) {
-          this.loadUser()
-        } else {
-          this.initData();
-        }
+        val ? this.loadUser() : this.initData()
       },
       deep: true
     }
@@ -128,14 +118,7 @@ export default {
   computed: {},
   methods: {
     initData () {
-      (this.newData.loginName = ""),
-        (this.newData.realName = ""),
-        (this.newData.brandModel = ""),
-        (this.newData.password = ""),
-        (this.newData.phone = ""),
-        (this.newData.avatar = ""),
-        (this.newData.enableTag = ""),
-        (this.password2 = "");
+      this.newData = {}
     },
     clear () {
       // 重置表单
@@ -146,32 +129,17 @@ export default {
     submit () {
       if (this.$refs.myForm.validate()) {
         // 将数据提交到后台 通过editMark 判断是添加还是修改
-        this.$axios({
-          method: this.editMark ? "put" : "post",
-          url: "/upms/sys/user",
-          data: this.$qs.stringify(this.newData)
-        })
+        (this.editMark ? putObj(this.newData) : addObj(this.newData))
           .then(() => {
-            //新清空表单
-            this.initData();
-            // 关闭窗口
-            this.$emit("show");
-            // this.$message.success("保存成功！");
-            console.log("保存成功");
+            this.initData(), this.$emit('show'),
+              console.log("保存成功")
           })
-          .catch(() => {
-            //this.$message("保存失败");
-            console.log("保存失败");
-          });
       }
     },
 
     //根据用户id 加载用户信息
     loadUser () {
-      this.$axios.get("upms/sys/user/" + this.userId)
-        .then(resp => {
-          this.newData = resp.data;
-        });
+      getObj(this.userId).then(resp => { this.newData = resp.data })
     }
 
   }

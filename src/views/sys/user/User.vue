@@ -46,11 +46,6 @@
         </td>
         <!-- </tr> -->
       </template>
-      <!-- <template slot="expand" slot-scope="props">
-        <v-card flat>
-          <v-card-text>角色 {{props.item.id}}</v-card-text>
-        </v-card>
-      </template>-->
     </v-data-table>
     <!-- 新增列表 弹框模式 v-on:addUser="addUserItem(user)"  v-if="dialogShow"-->
     <v-dialog v-model="dialogShow" max-width="500px" persistent scrollable>
@@ -93,6 +88,7 @@
 <script>
 import UserEdit from "./UserEdit";
 import UserRole from "./UserRole";
+import { fetchObjs, deleteObj } from '@/api/sys/user'
 export default {
   props: {
     dark: Boolean
@@ -103,7 +99,6 @@ export default {
       selected: [], //选择的条目
       total: 20, //总条数
       datas: [], //数据集合
-      // oldData: {}, //旧的数据
       loading: true, //加载进度条
       pagination: {}, //监听变化
       dialogShow: false, //显示new 对话框
@@ -148,6 +143,7 @@ export default {
       deep: true, // deep为true，会监视pagination的属性及属性中的对象属性变化
       handler () {
         // 变化后的回调函数，这里我们再次调用getDataFromServer即可
+        console.log("有变化")
         this.getDataFromServer();
       }
     },
@@ -160,7 +156,8 @@ export default {
   },
   //页面加载是钩子函数
   mounted () {
-    this.getDataFromServer();
+    //根据监听pagination 的变化重复执行
+    // this.getDataFromServer();
   },
 
   methods: {
@@ -170,9 +167,6 @@ export default {
       this.dialogShow = false;
       this.dialogShow2 = false;
       this.editMark = false;
-      // this.roleMark = false;
-      // this.userMark = false;
-      //this.oldData = {};
       this.userId = 0;
       this.getDataFromServer();
     },
@@ -188,7 +182,6 @@ export default {
     },
     //编辑用户按钮事件
     handleEdit (params) {
-      //this.oldData = params;
       this.userId = params;
       this.editMark = true;
       this.dialogShow = true;
@@ -205,7 +198,7 @@ export default {
 
     //批量删除用户
     deleteItems () {
-      //this.getTest();
+      //todo
     },
     //删除一个用户
     deleteItem (params) {
@@ -213,7 +206,7 @@ export default {
       const id = params.id;
       console.log(id),
         confirm("是否确定删除用户") &&
-        this.$axios.delete("upms/sys/user/" + id)
+        deleteObj(id)
           .then(() => {
             console.log("删除成功");
             this.getDataFromServer();
@@ -225,21 +218,29 @@ export default {
     },
     //从后台获取数据
     getDataFromServer () {
-      this.$axios
-        .get("upms/sys/user/page", {
-          params: {
-            key: this.search, // 搜索条件
-            page: this.pagination.page, // 当前页
-            rows: this.pagination.rowsPerPage, // 每页大小
-            sortBy: this.pagination.sortBy, // 排序字段
-            desc: this.pagination.descending // 是否降序
-          }
-        })
+      fetchObjs({
+        key: this.search, // 搜索条件
+        page: this.pagination.page, // 当前页
+        rows: this.pagination.rowsPerPage, // 每页大小
+        sortBy: this.pagination.sortBy, // 排序字段
+        desc: this.pagination.descending // 是否降序
+      })
+        // this.$axios
+        //   .get("upms/sys/user/page", {
+        //     params: {
+        //       key: this.search, // 搜索条件
+        //       page: this.pagination.page, // 当前页
+        //       rows: this.pagination.rowsPerPage, // 每页大小
+        //       sortBy: this.pagination.sortBy, // 排序字段
+        //       desc: this.pagination.descending // 是否降序
+        //     }
+        //   })
         .then(resp => {
           // 成功后获取处理
-          // console.log(resp);
+          console.log(resp.data);
           this.datas = resp.data.list;
           this.total = resp.data.total;
+          console.log("更新数据");
           // 完成赋值后，把加载状态赋值为false
           this.loading = false;
         });

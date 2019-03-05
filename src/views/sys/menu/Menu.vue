@@ -86,9 +86,7 @@
   </v-card>
 </template>
 <script>
-import { fetchObj, getMenuTree, deleteObj, addObj, putObj } from '@/api/menu'
-//import request from '@/plugins/axios'
-//import '@/plugins/axios'
+import { fetchObj, getMenuTree, deleteObj, addObj, putObj } from '@/api/sys/menu'
 export default {
   name: 'sys-menu',
   props: {
@@ -101,21 +99,17 @@ export default {
     menu: null,  //选择的数据
     edit: true,
     editMark: false
-    //selected: false
   }),
   mounted () {
     this.getDataFromServer();
-    //this.getObject("upms/sys/menu/tree").then(resp => this.items = resp.data.data)
-    //this.getDataAll()
   },
   watch: {
     //监听选中是否有变化
     active: {
       handler () {
         if (!this.active.length) { return null }
-        //this.fetchObj("upms/sys/menu/" + this.active[0]).then(resp => this.menu = resp.data)
+        //更新单个menu
         this.getMenu(this.active[0])
-        //this.getTree(this.active[0]),
         this.edit = true
       }
     }
@@ -135,10 +129,13 @@ export default {
     //添加或更新单个数据
     submit () {
       if (this.editMark) {
-        putObj(this.menu)
+        putObj(this.menu).then(() => {
+          this.getDataFromServer(),
+            console.log("menu更新成功")
+        })
       }
       else {
-        addObj(this.menu)
+        addObj(this.menu).then((resp) => { console.log("menu添加成功"), this.getDataFromServer() })
       }
 
     },
@@ -168,31 +165,16 @@ export default {
           deleteObj(id)
             .then(() => {
               console.log("删除成功")
+              //删除成功后更新菜单树
+              this.getDataFromServer()
+              this.menu = {}
             })
             .catch((err) => {
               console.log("删除失败")
               console.log(err)
             })
       }
-
-    },
-    // submit () {
-    //   console.log(this.menu),
-    //     console.log(this.edit)
-    //   this.$axios({
-    //     method: this.editMark ? "put" : "post",
-    //     url: "/upms/sys/menu",
-    //     data: this.$qs.stringify(this.menu)
-    //   })
-    //     .then(() => {
-    //       console.log("添加成功")
-    //     })
-    //     .catch(() => {
-    //       console.log("添加失败")
-    //     })
-
-    // },
-
+    }
 
   }
 }
